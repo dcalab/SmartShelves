@@ -13,15 +13,6 @@
 var https = require('https');
 var firebase = require("firebase");
 
-var config = {
-  apiKey: "AIzaSyBDyLmrfxWslhiHkSikyjUCs6XMGOLmzPE",
-  authDomain: "smartshelves-5ab7e.firebaseapp.com",
-  databaseURL: "https:smartshelves-5ab7e.firebaseio.com",
-  storageBucket: "smartshelves-5ab7e.appspot.com",
-};
-firebase.initializeApp(config);
-
-
 var endpoint = "https://smartshelves-5ab7e.firebaseio.com/";
 
 function makeFirebaseGetReq(item) {
@@ -44,9 +35,6 @@ function makeFirebaseGetReq(item) {
     });
 }
 
-function makeFirebasePostReq() {
-    https.post()
-}
 
 // --------------- Helpers that build all of the responses -----------------------
 
@@ -127,7 +115,7 @@ function getItemLocation(intent, session, callback) {
     if (requested_item) {
         const selected_item_val = requested_item.value;
         sessionAttributes = createFavoriteColorAttributes(selected_item_val);
-        makeFirebaseGetReq();
+        //makeFirebaseGetReq();
         speechOutput = "Your requested item is ";
         repromptText = "You can ask me your favorite color by saying, what's my favorite color?";
     } else {
@@ -227,12 +215,29 @@ function onSessionEnded(sessionEndedRequest, session) {
 exports.handler = (event, context, callback) => {
     try {
 
-        firebase.database().ref('/kitchen/').once('value').then(function(snapshot) {
+        console.log("pre-config");
+        var config = {
+            apiKey: "AIzaSyBDyLmrfxWslhiHkSikyjUCs6XMGOLmzPE",
+            authDomain: "smartshelves-5ab7e.firebaseapp.com",
+            databaseURL: "https://smartshelves-5ab7e.firebaseio.com",
+            storageBucket: "smartshelves-5ab7e.appspot.com",
+        };
+        firebase.initializeApp(config);
+        console.log("post-config");
+        /*firebase.database().ref('/kitchen').then(function(snapshot) {
             var items = snapshot.val();
             console.log(items);
-        });
-
-
+        });*/
+        //console.log("hey111");
+        var database = firebase.database();
+var ref = database.ref("kitchen/bottom_shelf");
+ref.once('value').then(function(snapshot) {
+  // The Promise was "fulfilled" (it succeeded).
+  console.log("found it "+snapshot.val());
+}, function(error) {
+  // The Promise was rejected.
+  console.error(error);
+});
         /**
          * Uncomment this if statement and populate with your skill's application ID to
          * prevent someone else from configuring a skill that sends requests to this function.
