@@ -23,18 +23,20 @@ firebase.initializeApp(config);
 
 // --------------- Helpers that build all of the responses -----------------------
 function makeFirebaseGetReq(item) {
-    //setTimeout(function() {console.log("finished");}, 3000);
+    item = "paper towel";
     var database = firebase.database();
-    database.ref("kitchen/bottom shelf/paper towel").once('value').then(function(snapshot) {
+    database.ref().endAt(item).once('value').then(function(snapshot) {
       // The Promise was "fulfilled" (it succeeded).
       console.log("found it ");
       console.log(snapshot.val());
       database.goOffline();
+      return snapshot.val();
     }, function(error) {
       // The Promise was rejected.
       console.log("error");
       console.error(error);
       database.goOffline();
+      return -1;
     });
 
 }
@@ -113,12 +115,26 @@ function getItemLocation(intent, session, callback) {
     let sessionAttributes = {};
     const shouldEndSession = false;
     let speechOutput = '';
-    //let finished = 0;
-    makeFirebaseGetReq(null);
-    console.log("out of getReq");
     if (requestedItemSlot) {
         const item = requestedItemSlot.value;
-        sessionAttributes = createFavoriteColorAttributes(item);
+        var firebase_data = new Promise(function(resolve, reject) {
+            var database = firebase.database();
+            database.ref().endAt(item).once('value').then(function(snapshot) {
+              // The Promise was "fulfilled" (it succeeded).
+              console.log("found it ");
+              console.log(snapshot.val());
+              database.goOffline();
+              resolve(snapshot.val());
+            }, function(error) {
+              // The Promise was rejected.
+              console.log("error");
+              console.error(error);
+              database.goOffline();
+              reject(-1);
+            });
+        });
+        firebase_data.then(function(result) {console.log(result);});
+        //sessionAttributes = createFavoriteColorAttributes(item);
         speechOutput = "I now know your requested item was ${item}.";
         repromptText = "You can ask me your favorite color by saying, what's my favorite color?";
     } else {
