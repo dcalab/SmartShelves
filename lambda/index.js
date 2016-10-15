@@ -9,34 +9,36 @@
  * http://amzn.to/1LGWsLG
  */
 
-
 var https = require('https');
 var firebase = require("firebase");
 
-var endpoint = "https://smartshelves-5ab7e.firebaseio.com/";
 
-function makeFirebaseGetReq(item) {
-    endpoint += ".json";
-    console.log("inside makeCommandReq endpoint =" + endpoint);
-
-    https.get(endpoint, function (res){
-        var ourResponseString = '';
-        console.log('Status Code: ' + res.statusCode);
-
-        if (res.statusCode != 200) {
-            console.log("NON 200 status code");
-            //commandReqCallback(new Error("Non 200 Response"));
-        }
-
-        res.on('data', function (data) {
-            ourResponseString += data;
-            console.log("CHECK RESPONSE: " + ourResponseString);
-        });
-    });
-}
-
+var config = {
+    apiKey: "AIzaSyBDyLmrfxWslhiHkSikyjUCs6XMGOLmzPE",
+    authDomain: "smartshelves-5ab7e.firebaseapp.com",
+    databaseURL: "https://smartshelves-5ab7e.firebaseio.com",
+    storageBucket: "smartshelves-5ab7e.appspot.com",
+};
+firebase.initializeApp(config);
 
 // --------------- Helpers that build all of the responses -----------------------
+function makeFirebaseGetReq(item) {
+    //setTimeout(function() {console.log("finished");}, 3000);
+    var database = firebase.database();
+    database.ref("kitchen/bottom shelf/paper towel").once('value').then(function(snapshot) {
+      // The Promise was "fulfilled" (it succeeded).
+      console.log("found it ");
+      console.log(snapshot.val());
+      database.goOffline();
+    }, function(error) {
+      // The Promise was rejected.
+      console.log("error");
+      console.error(error);
+      database.goOffline();
+    });
+
+}
+
 
 function buildSpeechletResponse(title, output, repromptText, shouldEndSession) {
     return {
@@ -74,12 +76,12 @@ function getWelcomeResponse(callback) {
     // If we wanted to initialize the session to have some attributes we could add those here.
     const sessionAttributes = {};
     const cardTitle = 'Welcome';
-    const speechOutput = 'Welcome to Smart Shelves. ' +
-        'You can ask me questions about where items are located';
+    const speechOutput = 'Welcome to the Alexa Skills Kit sample. ' +
+        'Please tell me your favorite color by saying, my favorite color is red';
     // If the user either does not reply to the welcome message or says something that is not
     // understood, they will be prompted again with this text.
-    const repromptText = 'Please ask where an item is location by saying, ' +
-        'where is the paper towel';
+    const repromptText = 'Please tell me your favorite color by saying, ' +
+        'my favorite color is red';
     const shouldEndSession = false;
 
     callback(sessionAttributes,
@@ -106,21 +108,23 @@ function createFavoriteColorAttributes(favoriteColor) {
  */
 function getItemLocation(intent, session, callback) {
     const cardTitle = intent.name;
-    const requested_item = intent.slots.Item;
+    const requestedItemSlot = intent.slots.Item;
     let repromptText = '';
     let sessionAttributes = {};
     const shouldEndSession = false;
     let speechOutput = '';
-
-    if (requested_item) {
-        const selected_item_val = requested_item.value;
-        sessionAttributes = createFavoriteColorAttributes(selected_item_val);
-        //makeFirebaseGetReq();
-        speechOutput = "Your requested item is ";
+    //let finished = 0;
+    makeFirebaseGetReq(null);
+    console.log("out of getReq");
+    if (requestedItemSlot) {
+        const item = requestedItemSlot.value;
+        sessionAttributes = createFavoriteColorAttributes(item);
+        speechOutput = "I now know your requested item was ${item}.";
         repromptText = "You can ask me your favorite color by saying, what's my favorite color?";
     } else {
-        speechOutput = "I didn't catch your reqeusted item, please ask again.";
-        repromptText = "";
+        speechOutput = "I'm not sure what your favorite color is. Please try again.";
+        repromptText = "I'm not sure what your favorite color is. You can tell me your " +
+            'favorite color by saying, my favorite color is red';
     }
 
     callback(sessionAttributes,
@@ -214,30 +218,8 @@ function onSessionEnded(sessionEndedRequest, session) {
 // etc.) The JSON body of the request is provided in the event parameter.
 exports.handler = (event, context, callback) => {
     try {
+        console.log(`event.session.application.applicationId=${event.session.application.applicationId}`);
 
-        console.log("pre-config");
-        var config = {
-            apiKey: "AIzaSyBDyLmrfxWslhiHkSikyjUCs6XMGOLmzPE",
-            authDomain: "smartshelves-5ab7e.firebaseapp.com",
-            databaseURL: "https://smartshelves-5ab7e.firebaseio.com",
-            storageBucket: "smartshelves-5ab7e.appspot.com",
-        };
-        firebase.initializeApp(config);
-        console.log("post-config");
-        /*firebase.database().ref('/kitchen').then(function(snapshot) {
-            var items = snapshot.val();
-            console.log(items);
-        });*/
-        //console.log("hey111");
-        var database = firebase.database();
-var ref = database.ref("kitchen/bottom_shelf");
-ref.once('value').then(function(snapshot) {
-  // The Promise was "fulfilled" (it succeeded).
-  console.log("found it "+snapshot.val());
-}, function(error) {
-  // The Promise was rejected.
-  console.error(error);
-});
         /**
          * Uncomment this if statement and populate with your skill's application ID to
          * prevent someone else from configuring a skill that sends requests to this function.
