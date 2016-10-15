@@ -119,10 +119,10 @@ function getItemLocation(intent, session, callback) {
         const item = requestedItemSlot.value;
         var firebase_data = new Promise(function(resolve, reject) {
             var database = firebase.database();
-            database.ref().endAt(item).once('value').then(function(snapshot) {
+            database.ref("/"+item).once('value').then(function(snapshot) {
               // The Promise was "fulfilled" (it succeeded).
-              console.log("found it ");
-              console.log(snapshot.val());
+              console.log("item request: "+ item);
+              console.log("db found: "+ snapshot.val());
               database.goOffline();
               resolve(snapshot.val());
             }, function(error) {
@@ -133,18 +133,26 @@ function getItemLocation(intent, session, callback) {
               reject(-1);
             });
         });
-        firebase_data.then(function(result) {console.log(result);});
-        //sessionAttributes = createFavoriteColorAttributes(item);
-        speechOutput = "I now know your requested item was ${item}.";
-        repromptText = "You can ask me your favorite color by saying, what's my favorite color?";
+        firebase_data.then(function(result) {
+            if (result["is_there"] == 1) {
+                speechOutput = "The " + item + " is on the " + result["item_location"] + ".";
+                repromptText = "The " + item + " is on the " + result["item_location"] + ".";
+            } else {
+                speechOutput = "I couldn't find " + item + ".";
+                repromptText = "Try again.";
+            }
+            callback(sessionAttributes,
+                buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
+        });
     } else {
         speechOutput = "I'm not sure what your favorite color is. Please try again.";
         repromptText = "I'm not sure what your favorite color is. You can tell me your " +
             'favorite color by saying, my favorite color is red';
+        callback(sessionAttributes,
+            buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
     }
 
-    callback(sessionAttributes,
-         buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
+
 }
 
 function getColorFromSession(intent, session, callback) {
