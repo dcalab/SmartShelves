@@ -149,9 +149,9 @@ function getItemLocation(intent, session, callback) {
                 buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
         });
     } else {
-        speechOutput = "I'm not sure what your favorite color is. Please try again.";
-        repromptText = "I'm not sure what your favorite color is. You can tell me your " +
-            'favorite color by saying, my favorite color is red';
+        speechOutput = "I'm not sure what item you asked for. Please try again.";
+        repromptText = "I'm not sure what item you asked. You can ask me where an item is " +
+            'by asking, where is the paper towel';
         callback(sessionAttributes,
             buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
     }
