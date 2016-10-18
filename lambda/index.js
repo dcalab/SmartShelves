@@ -1,3 +1,4 @@
+
 'use strict';
 
 /**
@@ -20,6 +21,8 @@ var config = {
     storageBucket: "smartshelves-5ab7e.appspot.com",
 };
 firebase.initializeApp(config);
+
+var database = firebase.database();
 
 // --------------- Helpers that build all of the responses -----------------------
 function makeFirebaseGetReq(item) {
@@ -118,7 +121,8 @@ function getItemLocation(intent, session, callback) {
     if (requestedItemSlot) {
         const item = requestedItemSlot.value;
         var firebase_data = new Promise(function(resolve, reject) {
-            var database = firebase.database();
+            database.goOnline();
+
             database.ref("/"+item).once('value').then(function(snapshot) {
               // The Promise was "fulfilled" (it succeeded).
               console.log("item request: "+ item);
@@ -243,7 +247,7 @@ function onSessionEnded(sessionEndedRequest, session) {
 exports.handler = (event, context, callback) => {
     try {
         console.log(`event.session.application.applicationId=${event.session.application.applicationId}`);
-
+        database.goOffline();
         /**
          * Uncomment this if statement and populate with your skill's application ID to
          * prevent someone else from configuring a skill that sends requests to this function.
