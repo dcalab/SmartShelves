@@ -172,7 +172,7 @@ function setItemLocation(intent, session, callback) {
     let speechOutput = '';
     //if item already here
     if (requestedItemSlot && requestedItemSlotToBe) {
-        item = requestedItemSlot.value;
+        var item = requestedItemSlot.value;
         database.goOnline();
         database.ref("/"+item+"/").set({
                                        is_there : 1,
@@ -250,7 +250,7 @@ function onIntent(intentRequest, session, callback) {
     if (intentName === 'GetItemLocation') {
         getItemLocation(intent, session, callback);
     } else if (intentName === 'SetItemLocation') {
-        getColorFromSession(intent, session, callback);
+        setItemLocation(intent, session, callback);
     } else if (intentName === 'MoveItemLocation') {
         getColorFromSession(intent, session, callback);
     } else if (intentName === 'AMAZON.HelpIntent') {
