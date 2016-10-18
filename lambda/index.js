@@ -159,6 +159,38 @@ function getItemLocation(intent, session, callback) {
 
 }
 
+/**
+ * Sets the color in the session and prepares the speech to reply to the user.
+ */
+function setItemLocation(intent, session, callback) {
+    const cardTitle = intent.name;
+    const requestedItemSlotToBe = intent.slots.Location;
+    const requestedItemSlot = intent.slots.Item;
+    let repromptText = '';
+    let sessionAttributes = {};
+    const shouldEndSession = true;
+    let speechOutput = '';
+    //if item already here
+    if (requestedItemSlot && requestedItemSlotToBe) {
+        item = requestedItemSlot.value;
+        database.goOnline();
+        database.ref("/"+item+"/").set({
+                                       is_there : 1,
+                                       item_location: requestedItemSlotToBe.value
+                                       })
+        database.goOffline();
+    }
+    else {
+        console.log("invalid request");
+    }
+    speechOutput = "I've place " + requestedItemSlot.value + " at " + requestedItemSlotToBe.value;
+    
+    callback(sessionAttributes,
+             buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
+    
+    
+}
+
 function getColorFromSession(intent, session, callback) {
     let favoriteColor;
     const repromptText = null;
