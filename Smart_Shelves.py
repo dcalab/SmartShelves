@@ -45,7 +45,7 @@ def get_item(item):
     card_title = render_template('card_title')
     #query database for item, store item in variable called location
     cur.execute("SELECT location, led FROM Items where name=%s", (item,))
-    
+    db.commit()
     result= cur.fetchone()
     location = result[0]
     led = result[1]
@@ -53,7 +53,7 @@ def get_item(item):
     print (url)
     print (location)
     print (item)
-    urllib2.urlopen(url)
+    urllib2.urlopen("http://smartshelves.ddns.net/api/locate/" + str(led))
     speech_text = render_template('get_response', item=item, location=location)
     return statement(speech_text).simple_card(card_title, speech_text)
 
@@ -61,14 +61,15 @@ def get_item(item):
 def get_item(item, location):
     card_title = render_template('card_title')
     #write to database with new item location
-    led = 20
-    if location == "top shelf":
-        led=80
-    elif location == "middle shelf":
-        led = 50
-    elif location == "bottom shelf":
-        led = 80
-    cur.execute("UPDATE Items SET location=%s, led=%s WHERE name=%s", (location, led, item))
+    # led = 20
+    # if location == "top shelf":
+    #     led=80
+    # elif location == "middle shelf":
+    #     led = 50
+    # elif location == "bottom shelf":
+    #     led = 80
+    cur.execute("UPDATE Items SET location=%s WHERE name=%s", (location, item))
+    #db.commit()
     speech_text = render_template('move_response', item=item, location=location)
     return statement(speech_text).simple_card(card_title, speech_text)
 
