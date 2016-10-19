@@ -14,7 +14,11 @@ db = MySQLdb.connect(host="localhost",
                      passwd="",
                      db="SmartShelves")
 
-cur = db.cursor
+cur = db.cursor()
+cur.execute("INSERT INTO Items VALUES (%s, %s, %s)", ("paper towel", "bottom shelf", 28))
+cur.execute("SELECT * FROM Items")
+print cur.fetchone()
+db.commit()
 
 @ask.launch
 def launch():
