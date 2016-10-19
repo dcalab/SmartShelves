@@ -1,0 +1,11 @@
+launch: Welcome to Smart Shelves, you can ask where an item is or you can set or move an item
+
+get_response: Your {{ item }} is on the {{ location }}
+
+set_repsonse: Alright, you have placed your {{ item }} on the {{ location }}
+
+move_response: Alright, you have moved your {{ item }} to the {{ location }}
+
+goodbye: Thanks for using SmartShelves!
+
+card_title: SmartShelves
