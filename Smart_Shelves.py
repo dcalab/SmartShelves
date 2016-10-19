@@ -20,6 +20,8 @@ db = MySQLdb.connect(host="localhost",
 
 cur = db.cursor()
 
+PI_ENDPOINT = "http://smartshelves.ddns.net/api/locate/"
+
 @ask.launch
 def launch():
     card_title = render_template('card_title')
@@ -47,7 +49,7 @@ def get_item(item):
     result= cur.fetchone()
     location = result[0]
     led = result[1]
-    #urllib2.urlopen("http://smartshelves.ddns.net/api/locate/"+str(led))
+    urllib2.urlopen(PI_ENDPOINT+str(led))
     speech_text = render_template('get_response', item=item, location=location)
     return statement(speech_text).simple_card(card_title, speech_text)
 
