@@ -49,7 +49,9 @@ def get_item(item):
     result= cur.fetchone()
     location = result[0]
     led = result[1]
-    urllib2.urlopen(PI_ENDPOINT+str(led))
+    url = PI_ENDPOINT + str(led);
+    print (url)
+    urllib2.urlopen(url)
     speech_text = render_template('get_response', item=item, location=location)
     return statement(speech_text).simple_card(card_title, speech_text)
 
