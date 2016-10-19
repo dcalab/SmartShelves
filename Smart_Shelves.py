@@ -44,7 +44,7 @@ def set_item(item, location):
 def get_item(item):
     card_title = render_template('card_title')
     #query database for item, store item in variable called location
-    cur.execute("SELECT location AND led FROM Items where name=%s", (item,))
+    cur.execute("SELECT location, led FROM Items where name=%s", (item,))
     #db.commit()
     result= cur.fetchone()
     location = result[0]
