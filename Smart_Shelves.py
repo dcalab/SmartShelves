@@ -30,7 +30,14 @@ def launch():
 @ask.intent('SetItemLocation', mapping={'item': 'Item', 'location': 'Location'})
 def set_item(item, location):
     card_title = render_template('card_title')
-    #write to database with new item location
+    cur.execute("SELECT * FROM Items WHERE name=%s", (item,))
+    if (cur.fetchone() > 0) {
+        cur.execute("UPDATE Items SET location=%s WHERE name=%s", (location, item))
+    }
+    else {
+        cur.execute("INSERT INTO Items (name,location) Values(%s, %s)", (item, location)) 
+    }
+    
     speech_text = render_template('set_response', item=item, location=location)
     return statement(speech_text).simple_card(card_title, speech_text)
 
@@ -38,7 +45,8 @@ def set_item(item, location):
 def get_item(item):
     card_title = render_template('card_title')
     #query database for item, store item in variable called location
-    #location = 
+    cur.execute("SELECT location FROM Items where item=%s", (item,))
+    location = cur.fetchone()
     speech_text = render_template('get_response', item=item, location=location)
     return statement(speech_text).simple_card(card_title, speech_text)
 
@@ -46,6 +54,7 @@ def get_item(item):
 def get_item(item, location):
     card_title = render_template('card_title')
     #write to database with new item location
+    cur.execute("UPDATE Items SET location=%s WHERE name=%s", (location, item))
     speech_text = render_template('move_response', item=item, location=location)
     return statement(speech_text).simple_card(card_title, speech_text)
 
