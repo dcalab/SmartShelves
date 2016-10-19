@@ -1,8 +1,8 @@
 import logging
 
-from flask import Flask
+from flask import Flask, json, render_template
 from flask_ask import Ask, request, session, question, statement
-import MySQLdb
+import MySQLdb, urllib2
 
 app = Flask(__name__)
 ask = Ask(app, "/")
@@ -18,7 +18,7 @@ db = MySQLdb.connect(host="localhost",
                      passwd="",
                      db="SmartShelves")
 
-cur = db.cursor
+cur = db.cursor()
 
 @ask.launch
 def launch():
@@ -27,7 +27,7 @@ def launch():
     return question(speech_text).reprompt(speech_text).simple_card(card_title, speech_text)
 
 
-@ask.intent('SetItemLocation', mapping={'item': 'Item', 'location': 'Location'})
+@ask.intent('SetItemLocation', mapping={'item': 'Item'})
 def set_item(item, location):
     card_title = render_template('card_title')
     cur.execute("SELECT * FROM Items WHERE name=%s", (item,))
@@ -42,8 +42,12 @@ def set_item(item, location):
 def get_item(item):
     card_title = render_template('card_title')
     #query database for item, store item in variable called location
-    cur.execute("SELECT location FROM Items where item=%s", (item,))
-    location = cur.fetchone()
+    cur.execute("SELECT location, led FROM Items where name=%s", (item,))
+    
+    result= cur.fetchone()
+    location = result[0]
+    led = result[1]
+    #urllib2.urlopen("http://smartshelves.ddns.net/api/locate/"+str(led))
     speech_text = render_template('get_response', item=item, location=location)
     return statement(speech_text).simple_card(card_title, speech_text)
 
