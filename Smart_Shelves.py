@@ -57,7 +57,14 @@ def get_item(item):
 def get_item(item, location):
     card_title = render_template('card_title')
     #write to database with new item location
-    cur.execute("UPDATE Items SET location=%s WHERE name=%s", (location, item))
+    led = 20
+    if location == "top shelf":
+        led=80
+    elif location == "middle shelf":
+        led = 50
+    elif location == "bottom shelf":
+        led = 80
+    cur.execute("UPDATE Items SET location=%s, led=%d WHERE name=%s", (location, led, item))
     speech_text = render_template('move_response', item=item, location=location)
     return statement(speech_text).simple_card(card_title, speech_text)
 

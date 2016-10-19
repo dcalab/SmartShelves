@@ -1,11 +1,11 @@
 INSERT INTO Items (name, location, led)
-VALUES ('paper towel', 'bottom shelf', 75);
+VALUES ('paper towel', 'bottom shelf', 23);
 
 INSERT INTO Items (name, location, led)
 VALUES ('dishes', 'middle shelf', 77);
 
 INSERT INTO Items (name, location, led)
-VALUES ('cup', 'middle shelf', 90);
+VALUES ('cup', 'top shelf', 80);
 
 INSERT INTO Items(name, location, led)
 VALUES ('shirt', 'closet', 8);
