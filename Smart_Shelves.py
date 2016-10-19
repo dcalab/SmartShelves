@@ -68,7 +68,7 @@ def get_item(item, location):
         led = 50
     elif location == "bottom shelf":
         led = 80
-    cur.execute("UPDATE Items SET location=%s, led=%d WHERE name=%s", (location, led, item))
+    cur.execute("UPDATE Items SET location=%s, led=%d WHERE name=%s", (location, int(led), item))
     speech_text = render_template('move_response', item=item, location=location)
     return statement(speech_text).simple_card(card_title, speech_text)
 
