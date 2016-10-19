@@ -2,12 +2,19 @@ import logging
 
 from flask import Flask
 from flask_ask import Ask, request, session, question, statement
-
+import MySQLdb
 
 app = Flask(__name__)
 ask = Ask(app, "/")
 logging.getLogger('flask_ask').setLevel(logging.DEBUG)
 
+#connect to sql
+db = MySQLdb.connect(host="localhost",
+                     user="root",
+                     passwd="",
+                     db="SmartShelves")
+
+cur = db.cursor
 
 @ask.launch
 def launch():
@@ -23,6 +30,7 @@ def set_item():
 
 @ask.intent('GetItemLocation')
 def get_item():
+    
     speech_text = 'The paper towel is on the top shelf'
     return statement(speech_text).simple_card('SmartShelves', speech_text)
 
