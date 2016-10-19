@@ -1,3 +1,4 @@
+
 'use strict';
 
 /**
@@ -20,6 +21,8 @@ var config = {
     storageBucket: "smartshelves-5ab7e.appspot.com",
 };
 firebase.initializeApp(config);
+
+var database = firebase.database();
 
 // --------------- Helpers that build all of the responses -----------------------
 function makeFirebaseGetReq(item) {
@@ -78,12 +81,12 @@ function getWelcomeResponse(callback) {
     // If we wanted to initialize the session to have some attributes we could add those here.
     const sessionAttributes = {};
     const cardTitle = 'Welcome';
-    const speechOutput = 'Welcome to the Alexa Skills Kit sample. ' +
-        'Please tell me your favorite color by saying, my favorite color is red';
+    const speechOutput = 'Welcome to Smart Shelves. ' +
+        'I can help you remember where items are. You can ask, where is an item or you can move and set an items location';
     // If the user either does not reply to the welcome message or says something that is not
     // understood, they will be prompted again with this text.
-    const repromptText = 'Please tell me your favorite color by saying, ' +
-        'my favorite color is red';
+    const repromptText = 'Please ask where something is by asking, ' +
+        'where is the paper towel';
     const shouldEndSession = false;
 
     callback(sessionAttributes,
@@ -118,7 +121,8 @@ function getItemLocation(intent, session, callback) {
     if (requestedItemSlot) {
         const item = requestedItemSlot.value;
         var firebase_data = new Promise(function(resolve, reject) {
-            var database = firebase.database();
+            database.goOnline();
+
             database.ref("/"+item).once('value').then(function(snapshot) {
               // The Promise was "fulfilled" (it succeeded).
               console.log("item request: "+ item);
@@ -145,14 +149,46 @@ function getItemLocation(intent, session, callback) {
                 buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
         });
     } else {
-        speechOutput = "I'm not sure what your favorite color is. Please try again.";
-        repromptText = "I'm not sure what your favorite color is. You can tell me your " +
-            'favorite color by saying, my favorite color is red';
+        speechOutput = "I'm not sure what item you asked for. Please try again.";
+        repromptText = "I'm not sure what item you asked. You can ask me where an item is " +
+            'by asking, where is the paper towel';
         callback(sessionAttributes,
             buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
     }
 
 
+}
+
+/**
+ * Sets the color in the session and prepares the speech to reply to the user.
+ */
+function setItemLocation(intent, session, callback) {
+    const cardTitle = intent.name;
+    const requestedItemSlotToBe = intent.slots.Location;
+    const requestedItemSlot = intent.slots.Item;
+    let repromptText = '';
+    let sessionAttributes = {};
+    const shouldEndSession = true;
+    let speechOutput = '';
+    //if item already here
+    if (requestedItemSlot && requestedItemSlotToBe) {
+        var item = requestedItemSlot.value;
+        database.goOnline();
+        database.ref("/"+item+"/").set({
+                                       is_there : 1,
+                                       item_location: requestedItemSlotToBe.value
+                                       })
+        database.goOffline();
+    }
+    else {
+        console.log("invalid request");
+    }
+    speechOutput = "I've place " + requestedItemSlot.value + " at " + requestedItemSlotToBe.value;
+    
+    callback(sessionAttributes,
+             buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
+    
+    
 }
 
 function getColorFromSession(intent, session, callback) {
@@ -214,7 +250,7 @@ function onIntent(intentRequest, session, callback) {
     if (intentName === 'GetItemLocation') {
         getItemLocation(intent, session, callback);
     } else if (intentName === 'SetItemLocation') {
-        getColorFromSession(intent, session, callback);
+        setItemLocation(intent, session, callback);
     } else if (intentName === 'MoveItemLocation') {
         getColorFromSession(intent, session, callback);
     } else if (intentName === 'AMAZON.HelpIntent') {
@@ -243,7 +279,7 @@ function onSessionEnded(sessionEndedRequest, session) {
 exports.handler = (event, context, callback) => {
     try {
         console.log(`event.session.application.applicationId=${event.session.application.applicationId}`);
-
+        database.goOffline();
         /**
          * Uncomment this if statement and populate with your skill's application ID to
          * prevent someone else from configuring a skill that sends requests to this function.

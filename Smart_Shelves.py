@@ -32,7 +32,7 @@ def set_item(item, location):
     card_title = render_template('card_title')
     #write to database with new item location
     speech_text = render_template('set_response', item=item, location=location)
-    return statement(speech_text).simple_card('SmartShelves', speech_text)
+    return statement(speech_text).simple_card(card_title, speech_text)
 
 @ask.intent('GetItemLocation', mapping={'item': 'Item', 'location': 'Location'})
 def get_item(item):
@@ -40,14 +40,14 @@ def get_item(item):
     #query database for item, store item in variable called location
     #location = 
     speech_text = render_template('get_response', item=item, location=location)
-    return statement(speech_text).simple_card('SmartShelves', speech_text)
+    return statement(speech_text).simple_card(card_title, speech_text)
 
 @ask.intent('MoveItemLocation', mapping={'item': 'Item', 'location': 'Location'})
 def get_item(item, location):
     card_title = render_template('card_title')
     #write to database with new item location
     speech_text = render_template('move_response', item=item, location=location)
-    return statement(speech_text).simple_card('SmartShelves', speech_text)
+    return statement(speech_text).simple_card(card_title, speech_text)
 
 @ask.intent('AMAZON.HelpIntent')
 def help():
