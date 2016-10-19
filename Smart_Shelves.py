@@ -51,6 +51,8 @@ def get_item(item):
     led = result[1]
     url = PI_ENDPOINT + str(led);
     print (url)
+    print (location)
+    print (item)
     urllib2.urlopen(url)
     speech_text = render_template('get_response', item=item, location=location)
     return statement(speech_text).simple_card(card_title, speech_text)
