@@ -91,8 +91,10 @@ def get_item(item):
     db.commit()
     if cur.fetchall() == 0: 
         #no available spots
+        print("no open locations")
     else: 
         #list spots available in speech
+        print("open locations found")
     speech_text = render_template('move_response', item=item, location=location)
     return statement(speech_text).simple_card(card_title, speech_text)
 
