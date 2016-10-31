@@ -49,6 +49,7 @@ def get_item(item):
     #TODO need name from items table and LED id from locaitons table
     cur.execute("SELECT name, led FROM Locations WHERE LocationID IN (SELECT locationID FROM Items WHERE name=%s)", (item))
     data = cur.fetchall()
+    print (data)
     if data: 
         location = ""
         for row in data:
@@ -59,8 +60,8 @@ def get_item(item):
             location += row[0]
             led = row[1]
             #urllib2.urlopen(PI_ENDPOINT + str(led))
-            speech_text = render_template('get_response', item=item, location=location)
-            return statement(speech_text).simple_card(card_title, speech_text)
+        speech_text = render_template('get_response', item=item, location=location)
+        return statement(speech_text).simple_card(card_title, speech_text)
     else: 
         #no available spots
         print("no items found")
