@@ -58,6 +58,7 @@ def get_item(item):
             #does not currently handle multiple locations
             print("success")
             location += row[0]
+            location += ", "
             led = row[1]
             #urllib2.urlopen(PI_ENDPOINT + str(led))
         speech_text = render_template('get_response', item=item, location=location)
