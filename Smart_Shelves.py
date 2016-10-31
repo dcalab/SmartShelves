@@ -48,20 +48,21 @@ def get_item(item):
     #TODO update this statement, maybe use join for mutliple locations
     #TODO need name from items table and LED id from locaitons table
     cur.execute("SELECT name, led FROM Locations WHERE LocationID IN (SELECT locationID FROM Items WHERE name=%s)", (item))
-    if cur.fetchall() == 0: 
+    data = cur.fetchall()
+    if data: 
+        for row in data:
+            #list spots available in speech
+            #TODO THIS NEEDS TO CHANGE
+            #does not currently handle multiple locations
+            print("success")
+            location = row[0]
+            led = row[1]
+            #urllib2.urlopen(PI_ENDPOINT + str(led))
+            speech_text = render_template('get_response', item=item, location=location)
+            return statement(speech_text).simple_card(card_title, speech_text)
+    else: 
         #no available spots
         print("no items found")
-        speech_text = render_template('get_response', item=item, location=location)
-        return statement(speech_text).simple_card(card_title, speech_text)
-    else: 
-        #list spots available in speech
-        #TODO THIS NEEDS TO CHANGE
-        #does not currently handle multiple locations
-        print("success")
-        result= cur.fetchone()
-        location = result[0]
-        led = result[1]
-        urllib2.urlopen(PI_ENDPOINT + str(led))
         speech_text = render_template('get_response', item=item, location=location)
         return statement(speech_text).simple_card(card_title, speech_text)
 
