@@ -50,19 +50,21 @@ def get_item(item):
     cur.execute("SELECT name, led FROM Locations WHERE LocationID IN (SELECT locationID FROM Items WHERE name=%s)", (item))
     if cur.fetchall() == 0: 
         #no available spots
+        print("no items found")
+        speech_text = render_template('get_response', item=item, location=location)
+        return statement(speech_text).simple_card(card_title, speech_text)
     else: 
         #list spots available in speech
-    result= cur.fetchone()
-    location = result[0]
-    led = result[1]
-    url = PI_ENDPOINT + str(led);
-    print (url)
-    print (location)
-    print (item)
-    print (led)
-    urllib2.urlopen(PI_ENDPOINT + str(led))
-    speech_text = render_template('get_response', item=item, location=location)
-    return statement(speech_text).simple_card(card_title, speech_text)
+        #TODO THIS NEEDS TO CHANGE
+        #does not currently handle multiple locations
+        print("success")
+        result= cur.fetchone()
+        location = result[0]
+        led = result[1]
+        urllib2.urlopen(PI_ENDPOINT + str(led))
+        speech_text = render_template('get_response', item=item, location=location)
+        return statement(speech_text).simple_card(card_title, speech_text)
+
 
 @ask.intent('MoveItemLocation', mapping={'item': 'Item', 'location': 'Location'})
 def get_item(item, location):
