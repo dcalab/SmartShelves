@@ -44,9 +44,14 @@ def set_item(item, location):
 def get_item(item):
     card_title = render_template('card_title')
     #query database for item, store item in variable called location
-    cur.execute("SELECT location, led FROM Items where name=%s", (item,))
-    #cur.commit()
-    #db.commit
+
+    #TODO update this statement, maybe use join for mutliple locations
+    #TODO need name from items table and LED id from locaitons table
+    cur.execute("SELECT name FROM Locations WHERE LocationID IN (SELECT locationID FROM Items WHERE name=%s)", (item))
+    if cur.fetchall() == 0: 
+        #no available spots
+    else: 
+        #list spots available in speech
     result= cur.fetchone()
     location = result[0]
     led = result[1]
@@ -55,7 +60,7 @@ def get_item(item):
     print (location)
     print (item)
     print (led)
-    urllib2.urlopen("http://smartshelves.ddns.net/api/locate/" + str(led))
+    urllib2.urlopen(PI_ENDPOINT + str(led))
     speech_text = render_template('get_response', item=item, location=location)
     return statement(speech_text).simple_card(card_title, speech_text)
 
