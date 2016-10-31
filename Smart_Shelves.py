@@ -55,8 +55,8 @@ def get_item(item):
             #TODO THIS NEEDS TO CHANGE
             #does not currently handle multiple locations
             print("success")
-            location = row[0]
-            led = row[1]
+            location += row[0]
+            led += row[1]
             #urllib2.urlopen(PI_ENDPOINT + str(led))
             speech_text = render_template('get_response', item=item, location=location)
             return statement(speech_text).simple_card(card_title, speech_text)
