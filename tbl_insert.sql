@@ -1,4 +1,7 @@
 INSERT INTO Locations (name, led)
+VALUES ('unkown', 0);
+
+INSERT INTO Locations (name, led)
 VALUES ('top shelf', 80);
 
 INSERT INTO Locations (name, led)
@@ -9,24 +12,24 @@ VALUES ('bottom shelf', 20);
 
 
 INSERT INTO Locations (name, led)
-VALUES ('closet', 1);
+VALUES ('closet', 2);
 
 INSERT INTO Items (name, locationId)
-VALUES ('paper towel', 3);
+VALUES ('paper towel', 4);
 
 
 INSERT INTO Items (name, locationId)
-VALUES ('cup', 1);
+VALUES ('cup', 2);
 
 INSERT INTO Items(name, locationId)
-VALUES ('shirt', 4);
+VALUES ('shirt', 5);
 
 INSERT INTO Items(name, locationId)
-VALUES ('stapler', 1);
+VALUES ('stapler', 2);
 
 INSERT INTO Items(name, locationId)
-VALUES ('keys', 2);
+VALUES ('keys', 3);
 
 INSERT INTO Items(name, locationId)
-VALUES ('watch', 3);
+VALUES ('watch', 4);
 
