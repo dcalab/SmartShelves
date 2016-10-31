@@ -47,7 +47,7 @@ def get_item(item):
 
     #TODO update this statement, maybe use join for mutliple locations
     #TODO need name from items table and LED id from locaitons table
-    cur.execute("SELECT name FROM Locations WHERE LocationID IN (SELECT locationID FROM Items WHERE name=%s)", (item))
+    cur.execute("SELECT name, led FROM Locations WHERE LocationID IN (SELECT locationID FROM Items WHERE name=%s)", (item))
     if cur.fetchall() == 0: 
         #no available spots
     else: 
