@@ -1,21 +1,32 @@
-INSERT INTO Items (name, location, led)
-VALUES ('paper towel', 'bottom shelf', 23);
+INSERT INTO Locations (name, led)
+VALUES ('top shelf', 80);
 
-INSERT INTO Items (name, location, led)
-VALUES ('dishes', 'middle shelf', 77);
+INSERT INTO Locations (name, led)
+VALUES ('middle shelf', 50);
 
-INSERT INTO Items (name, location, led)
-VALUES ('cup', 'top shelf', 80);
+INSERT INTO Locations (name, led)
+VALUES ('bottom shelf', 20);
 
-INSERT INTO Items(name, location, led)
-VALUES ('shirt', 'closet', 8);
 
-INSERT INTO Items(name, location, led)
-VALUES ('stapler', 'downstairs', 18);
+INSERT INTO Locations (name, led)
+VALUES ('closet', 1);
 
-INSERT INTO Items(name, location, led)
-VALUES ('keys', 'kitchen drwaer', 22);
+INSERT INTO Items (name, locationId)
+VALUES ('paper towel', 3);
 
-INSERT INTO Items(name, location, led)
-VALUES ('watch', 'desk', 110);
+
+INSERT INTO Items (name, locationId)
+VALUES ('cup', 1);
+
+INSERT INTO Items(name, locationId)
+VALUES ('shirt', 4);
+
+INSERT INTO Items(name, locationId)
+VALUES ('stapler', 1);
+
+INSERT INTO Items(name, locationId)
+VALUES ('keys', 2);
+
+INSERT INTO Items(name, locationId)
+VALUES ('watch', 3);
 
