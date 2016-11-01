@@ -82,6 +82,7 @@ def get_item(item, location):
     if cur.execute("SELECT LocationID FROM Locations WHERE name=%s", (location)):
         #TODO ensure that item moved is the one we want if duplicate in database
         selectId = cur.fetchone()
+        print (selectId)
         cur.execute("UPDATE Items SET locationID=%s WHERE name=%s", (selectId, item))
 
     else:
