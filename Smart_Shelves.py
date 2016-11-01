@@ -80,14 +80,14 @@ def get_item(item, location):
     #db.commit()
     #first ensure item location exists in db
     if cur.execute("SELECT LocationID FROM Locations WHERE name=%s", (location)):
-        #location is in DB
-        #use cur.fetch
+        #TODO ensure that item moved is the one we want if duplicate in database
         selectId = cur.fetchone()
         cur.execute("UPDATE Items SET location=%s WHERE name=%s", (selectId, item))
 
     else:
         cur.execute("INSERT INTO Locations (name, Led) OUTPUT INSERTED.LocationID VALUES (%s, 0)", (item))
         cur.execute("UPDATE Items SET LocastionID = LAST_INSERT_ID() WHERE name=%s", (item))
+    db.commit()
     speech_text = render_template('move_response', item=item, location=location)
     return statement(speech_text).simple_card(card_title, speech_text)
 
