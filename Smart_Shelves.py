@@ -58,7 +58,7 @@ def get_item(item):
             #TODO THIS NEEDS TO CHANGE
             #does not currently handle multiple locations on pi, need a "batch signal"
             if row[0] == "unknown":
-                break;
+                break
             print("success")
             location += row[0]
             location += ", "
@@ -94,15 +94,22 @@ def get_item(item, location):
 @ask.intent('GetOpenLocations', mapping={'item': 'Item'})
 def get_item(item):
     card_title = render_template('card_title')
-    cur.execute("SELECT name FROM Locations WHERE locationID NOT IN (SELECT locationID FROM Items)")
-    db.commit()
-    if cur.fetchall() == 0: 
+    cur.execute("SELECT name, led FROM Locations WHERE locationID NOT IN (SELECT locationID FROM Items) ORDER BY LocationID DESC")
+    data = cur.fetchall()
+    speech_text = ""
+    if data: 
         #no available spots
-        print("no open locations")
-    else: 
-        #list spots available in speech
-        print("open locations found")
-    speech_text = render_template('move_response', item=item, location=location)
+        print("open locations")
+        for row in data:
+            if row[0] == "unkown":
+                break
+            location += row[0]
+            location += ", "
+            led = row[1]
+    if location == "":
+        speech_text = render_template('no_open_locations')
+    else:
+        speech_text = render_template('open_locations', location=location)
     return statement(speech_text).simple_card(card_title, speech_text)
 
 @ask.intent('AMAZON.HelpIntent')

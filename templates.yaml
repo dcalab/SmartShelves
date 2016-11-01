@@ -11,3 +11,5 @@ goodbye: Thanks for using SmartShelves!
 card_title: SmartShelves
 
 not_found: I could not find {{ item }} in the system
+
+no_open_locations: I could not find any open locations in the system
