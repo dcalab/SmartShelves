@@ -47,27 +47,30 @@ def get_item(item):
 
     #TODO update this statement, maybe use join for mutliple locations
     #TODO need name from items table and LED id from locaitons table
-    cur.execute("SELECT name, led FROM Locations WHERE LocationID IN (SELECT locationID FROM Items WHERE name=%s)", (item))
+    cur.execute("SELECT name, led FROM Locations WHERE LocationID IN (SELECT locationID FROM Items WHERE name=%s) ORDER BY LocationId DECS", (item))
     data = cur.fetchall()
-    print (data)
+    location = ""
+    led = ""
+    speech_text = ""
     if data: 
-        location = ""
         for row in data:
             #list spots available in speech
             #TODO THIS NEEDS TO CHANGE
-            #does not currently handle multiple locations
+            #does not currently handle multiple locations on pi, need a "batch signal"
+            if row[0] == "unknown":
+                break;
             print("success")
             location += row[0]
             location += ", "
             led = row[1]
             #urllib2.urlopen(PI_ENDPOINT + str(led))
+
+    if location == "":
+        speech_text = render_template('not_found', item=item)
+    else:
         speech_text = render_template('get_response', item=item, location=location)
-        return statement(speech_text).simple_card(card_title, speech_text)
-    else: 
-        #no available spots
-        print("no items found")
-        speech_text = render_template('get_response', item=item, location=location)
-        return statement(speech_text).simple_card(card_title, speech_text)
+
+    return statement(speech_text).simple_card(card_title, speech_text)
 
 
 @ask.intent('MoveItemLocation', mapping={'item': 'Item', 'location': 'Location'})

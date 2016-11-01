@@ -9,3 +9,5 @@ move_response: Alright, you have moved your {{ item }} to the {{ location }}
 goodbye: Thanks for using SmartShelves!
 
 card_title: SmartShelves
+
+not_found: I could not find {{ item }} in the system
