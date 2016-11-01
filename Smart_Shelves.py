@@ -86,7 +86,7 @@ def get_item(item, location):
         cur.execute("UPDATE Items SET locationID=%s WHERE name=%s", (selectId, item))
 
     else:
-        cur.execute("INSERT INTO Locations (name, Led) OUTPUT INSERTED.LocationID VALUES (%s, 0)", (item))
+        cur.execute("INSERT INTO Locations (name, Led) VALUES (%s, 0)", (item))
         cur.execute("UPDATE Items SET LocastionID = LAST_INSERT_ID() WHERE name=%s", (item))
     db.commit()
     speech_text = render_template('move_response', item=item, location=location)
