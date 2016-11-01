@@ -97,6 +97,7 @@ def get_item(item):
     cur.execute("SELECT name, led FROM Locations WHERE locationID NOT IN (SELECT locationID FROM Items) ORDER BY LocationID DESC")
     data = cur.fetchall()
     speech_text = ""
+    location = ""
     if data: 
         #no available spots
         print("open locations")
