@@ -77,6 +77,7 @@ def get_item(item, location, location2):
     card_title = render_template('card_title')
     start = location
     end  = location2
+    speech_text = ""
     if end:
         checkAndInsertItem(item, start)
         startId = checkAndInsertLocation(start)
@@ -84,13 +85,14 @@ def get_item(item, location, location2):
         selectedItemId = cur.fetchone()[0]
         endId = checkAndInsertLocation(end)
         cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (endId, selectedItemId))
+        render_template('move_response', item=item, location=location2)
     else:
         checkItem(item, "");
         selectItemId = cur.fetchone()[0]
         endId = checkAndInsertLocation(end)
         cur.execute("UPDATE Items SET locationId = %s WHERE itemId=%s", (endId, selectItemId))
+        speech_text = render_template('move_response', item=item, location=location)
     db.commit()
-    speech_text = render_template('move_response', item=item, location=location)
     return statement(speech_text).simple_card(card_title, speech_text)
 
 def checkAndInsertItem(item, location):
