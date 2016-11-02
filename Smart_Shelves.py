@@ -85,7 +85,7 @@ def get_item(item, location, location2):
         selectedItemId = cur.fetchone()[0]
         endId = checkAndInsertLocation(end)
         cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (endId, selectedItemId))
-        render_template('move_response', item=item, location=location2)
+        speech_text = render_template('move_response', item=item, location=location2)
     else:
         checkItem(item, "");
         selectItemId = cur.fetchone()[0]
