@@ -80,7 +80,8 @@ def get_item(item, location, location2):
     if end:
         checkAndInsertItem(item, start)
         startId = checkAndInsertLocation(start)
-        selectItemId = cur.execute("SELECT itemId FROM Items WHERE name=%s and locationId=%s", (item, startId))
+        cur.execute("SELECT itemId FROM Items WHERE name=%s and locationId=%s", (item, startId))
+        selectItemId = cur.fetchone()[0]
         endId = checkAndInsertLocation(end)
         cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (endId, selectedItemId))
     else:
