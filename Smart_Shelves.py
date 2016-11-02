@@ -29,7 +29,7 @@ def launch():
     return question(speech_text).reprompt(speech_text).simple_card(card_title, speech_text)
 
 
-@ask.intent('SetItemLocation', mapping={'item': 'Item'})
+@ask.intent('SetItemLocation', mapping={'item': 'Item', 'location':'Location'})
 def set_item(item, location):
     card_title = render_template('card_title')
     cur.execute("SELECT * FROM Items WHERE name=%s", (item,))
@@ -44,9 +44,6 @@ def set_item(item, location):
 def get_item(item):
     card_title = render_template('card_title')
     #query database for item, store item in variable called location
-
-    #TODO update this statement, maybe use join for mutliple locations
-    #TODO need name from items table and LED id from locaitons table
     cur.execute("SELECT name, led FROM Locations WHERE LocationID IN (SELECT locationID FROM Items WHERE name=%s) ORDER BY LocationId DESC", (item))
     data = cur.fetchall()
     location = ""
@@ -83,6 +80,7 @@ def get_item(item, location):
         #TODO ensure that item moved is the one we want if duplicate in database
         selectId = cur.fetchone()[0]
         print (selectId)
+        #TODO problem with this update statement
         cur.execute("UPDATE Items SET locationID=%s WHERE name=%s", (selectId, item))
 
     else:
