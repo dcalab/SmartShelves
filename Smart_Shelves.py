@@ -29,8 +29,10 @@ def launch():
     return question(speech_text).reprompt(speech_text).simple_card(card_title, speech_text)
 
 
-@ask.intent('SetItemLocation', mapping={'item': 'Item', 'location':'Location'})
+@ask.intent('SetItemLocation', mapping={'item': 'Item', 'location':'Location_one'})
 def set_item(item, location):
+    
+    print(location)
     card_title = render_template('card_title')
     cur.execute("SELECT * FROM Items WHERE name=%s", (item,))
     if (cur.fetchone() > 0):
@@ -40,7 +42,7 @@ def set_item(item, location):
     speech_text = render_template('set_response', item=item, location=location)
     return statement(speech_text).simple_card(card_title, speech_text)
 
-@ask.intent('GetItemLocation', mapping={'item': 'Item', 'location': 'Location'})
+@ask.intent('GetItemLocation', mapping={'item':'Item'})
 def get_item(item):
     card_title = render_template('card_title')
     #query database for item, store item in variable called location
@@ -70,8 +72,8 @@ def get_item(item):
     return statement(speech_text).simple_card(card_title, speech_text)
 
 
-@ask.intent('MoveItemLocation', mapping={'item': 'Item', 'location': 'Location'})
-def get_item(item, location):
+@ask.intent('MoveItemLocation', mapping={'item': 'Item', 'location': 'Location_one', 'location2': 'Location_two'})
+def get_item(item, location, location2):
     card_title = render_template('card_title')
     #cur.execute("UPDATE Items SET location=%s WHERE name=%s", (location, item))
     #db.commit()
