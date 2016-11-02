@@ -75,22 +75,46 @@ def get_item(item):
 @ask.intent('MoveItemLocation', mapping={'item': 'Item', 'location': 'Location_one', 'location2': 'Location_two'})
 def get_item(item, location, location2):
     card_title = render_template('card_title')
-    #cur.execute("UPDATE Items SET location=%s WHERE name=%s", (location, item))
-    #db.commit()
-    #first ensure item location exists in db
-    if cur.execute("SELECT LocationID FROM Locations WHERE name=%s", (location)):
-        #TODO ensure that item moved is the one we want if duplicate in database
-        selectId = cur.fetchone()[0]
-        print (selectId)
-        #TODO problem with this update statement
-        cur.execute("UPDATE Items SET locationID=%s WHERE name=%s", (selectId, item))
-
+    start = location
+    end  = location2
+    if end:
+        checkItem(item, start):
+        selectItemId = cur.fetchone()[0]
+        endId = checkAndInsertLocation(end)
+        cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (endId, selectedItemId))
     else:
-        cur.execute("INSERT INTO Locations (name, Led) VALUES (%s, 0)", (item))
-        cur.execute("UPDATE Items SET LocastionID = LAST_INSERT_ID() WHERE name=%s", (item))
+        checkItem(item, "");
+        selectItemId = cur.fetchone()[0]
+        endId = checkAndInsertLocation(end)
+        cur.execute("UPDATE Items SET locationId = %s WHERE itemId=%s", (endId, selectItemId))
     db.commit()
     speech_text = render_template('move_response', item=item, location=location)
     return statement(speech_text).simple_card(card_title, speech_text)
+
+def checkAndInsertItem(item, location):
+    if location:
+        locationId = checkAndInsertLocation(location)
+        if cur.execute("SELECT itemID FROM Items WHERE locationID =%s AND name= %s", (locationId, item)):
+            return
+        else: 
+            cur.execute("INSERT INTO Items (locationID, name) VALUES (%s, %s)", (locationId, item))
+    else:
+        if cur.execute("SELECT itemID FROM Items WHERE name= %s", (item)):
+            #check number of existing, if many start conversation
+            results = cur.fetchall()
+            if len(results) > 1:
+                #TODO have conversation if more than one exists to decide which paper towel to move
+                print ("which item should we move?")
+        else:
+            cur.execute("INSERT INTO Items (locationID, name) VALUES (1, %s)", (item))
+
+def checkAndInsertLocation(location):
+    if cur.execute("SELECT LocationId FROM Locations WHERE name = %s", (location)):
+        return cur.fetchone()[0]
+    else:
+        cur.execute("INSERT INTO Locations (name, Led) VALUES (%s, 0)", (location))
+        #this line might cause a problem, need to get last id
+        return cur.lastrowid()
 
 @ask.intent('GetOpenLocations', mapping={'item': 'Item'})
 def get_item(item):
