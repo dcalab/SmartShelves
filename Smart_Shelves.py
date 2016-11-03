@@ -98,9 +98,8 @@ def checkAndInsertItem(item, location):
     if location != "":
         locationId = checkAndInsertLocation(location)
         cur.execute("SELECT itemID FROM Items WHERE locationID =%s AND name= %s", (locationId, item));
-        results = cur.fetchone()
-        if len(results):
-            return results[0]
+        if cur.fetchone():
+            return cur.fetchone()[0]
         else: 
             cur.execute("INSERT INTO Items (name, locationId) VALUES (%s, %s)", (item, locationId))
             cur.execute("SELECT ItemId FROM Items WHERE name=%s and locationid=%s", (item, locationId))
