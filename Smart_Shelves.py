@@ -113,7 +113,8 @@ def checkAndInsertItem(item, location):
             if len(results) > 1:
                 #TODO have conversation if more than one exists to decide which paper towel to move
                 print ("which item should we move?")
-                return results[0]
+            print ("results = "+results)
+            return results[0]
         else:
             cur.execute("INSERT INTO Items (locationID, name) VALUES (1, %s)", (item))
             cur.execute("SELECT ItemId FROM Items WHERE name=%s and locationid=1", (item))
