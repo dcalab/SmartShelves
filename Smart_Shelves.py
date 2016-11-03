@@ -100,7 +100,7 @@ def checkAndInsertItem(item, location):
         locationId = checkAndInsertLocation(location)
         cur.execute("SELECT itemID FROM Items WHERE locationID =%s AND name= %s", (locationId, item));
         results = cur.fetchall()
-        if len(result):
+        if len(results):
             return results[0]
         else: 
             cur.execute("INSERT INTO Items (name, locationId) VALUES (%s, %s)", (item, locationId))
