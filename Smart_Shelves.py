@@ -115,7 +115,8 @@ def checkAndInsertItem(item, location):
                 print ("which item should we move?")
             print ("results = ")
             print(results)
-            return results[0]
+            #this has to change hard coded to grab first row
+            return results[0][0]
         else:
             cur.execute("INSERT INTO Items (locationID, name) VALUES (1, %s)", (item))
             cur.execute("SELECT ItemId FROM Items WHERE name=%s and locationid=1", (item))
