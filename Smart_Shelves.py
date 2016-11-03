@@ -79,16 +79,14 @@ def get_item(item, location, location2):
     end  = location2
     speech_text = ""
     if end:
-        checkAndInsertItem(item, start)
+        selectedItemId = checkAndInsertItem(item, start)
         startId = checkAndInsertLocation(start)
         cur.execute("SELECT itemId FROM Items WHERE name=%s and locationId=%s", (item, startId))
-        selectedItemId = cur.fetchone()[0]
         endId = checkAndInsertLocation(end)
         cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (endId, selectedItemId))
         speech_text = render_template('move_response', item=item, location=location2)
     else:
-        checkItem(item, "");
-        selectItemId = cur.fetchone()[0]
+        selectedItemId = checkAndInsertItem(item, "");
         endId = checkAndInsertLocation(end)
         cur.execute("UPDATE Items SET locationId = %s WHERE itemId=%s", (endId, selectItemId))
         speech_text = render_template('move_response', item=item, location=location)
@@ -98,10 +96,14 @@ def get_item(item, location, location2):
 def checkAndInsertItem(item, location):
     if location:
         locationId = checkAndInsertLocation(location)
-        if cur.execute("SELECT itemID FROM Items WHERE locationID =%s AND name= %s", (locationId, item)):
-            return
+        cur.execute("SELECT itemID FROM Items WHERE locationID =%s AND name= %s", (locationId, item));
+        results = cur.fetchall()
+        if len(result):
+            return results[0]
         else: 
-            cur.execute("INSERT INTO Items (locationID, name) VALUES (%s, %s)", (locationId, item))
+            cur.execute("INSERT INTO Items (name, locationId) VALUES (%s, %s)", (item, locationId))
+            cur.execute("SELECT ItemId FROM Items WHERE name=%s and locationid=%s", (item, locationId))
+            return cur.fetchone()[0]
     else:
         if cur.execute("SELECT itemID FROM Items WHERE name= %s", (item)):
             #check number of existing, if many start conversation
@@ -109,8 +111,11 @@ def checkAndInsertItem(item, location):
             if len(results) > 1:
                 #TODO have conversation if more than one exists to decide which paper towel to move
                 print ("which item should we move?")
+                return results[0]
         else:
             cur.execute("INSERT INTO Items (locationID, name) VALUES (1, %s)", (item))
+            cur.execute("SELECT ItemId FROM Items WHERE name=%s and locationid=1", (item))
+            return cur.fetchone()[0]
 
 def checkAndInsertLocation(location):
     if cur.execute("SELECT LocationId FROM Locations WHERE name = %s", (location)):
