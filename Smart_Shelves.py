@@ -81,7 +81,6 @@ def get_item(item, location, location2):
     if end != None:
         selectedItemId = checkAndInsertItem(item, start)
         startId = checkAndInsertLocation(start)
-        cur.execute("SELECT itemId FROM Items WHERE name=%s and locationId=%s", (item, startId))
         endId = checkAndInsertLocation(end)
         cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (endId, selectedItemId))
         speech_text = render_template('move_response', item=item, location=location2)
@@ -99,7 +98,7 @@ def checkAndInsertItem(item, location):
     if location != "":
         locationId = checkAndInsertLocation(location)
         cur.execute("SELECT itemID FROM Items WHERE locationID =%s AND name= %s", (locationId, item));
-        results = cur.fetchall()
+        results = cur.fetchone()
         if len(results):
             return results[0]
         else: 
