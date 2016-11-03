@@ -113,7 +113,8 @@ def checkAndInsertItem(item, location):
             if len(results) > 1:
                 #TODO have conversation if more than one exists to decide which paper towel to move
                 print ("which item should we move?")
-            print ("results = "+results)
+            print ("results = ")
+            print(results)
             return results[0]
         else:
             cur.execute("INSERT INTO Items (locationID, name) VALUES (1, %s)", (item))
@@ -125,8 +126,9 @@ def checkAndInsertLocation(location):
         return cur.fetchone()[0]
     else:
         cur.execute("INSERT INTO Locations (name, Led) VALUES (%s, 0)", (location))
+        cur.execute("SELECT LocationId FROM Locations WHERE name = %s", (location))
         #this line might cause a problem, need to get last id
-        return cur.lastrowid()
+        return cur.fetchone()[0]
 
 @ask.intent('GetOpenLocations', mapping={'item': 'Item'})
 def get_item(item):
