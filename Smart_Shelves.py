@@ -78,7 +78,7 @@ def get_item(item, location, location2):
     start = location
     end  = location2
     speech_text = ""
-    if end:
+    if end is not None:
         selectedItemId = checkAndInsertItem(item, start)
         startId = checkAndInsertLocation(start)
         cur.execute("SELECT itemId FROM Items WHERE name=%s and locationId=%s", (item, startId))
@@ -87,18 +87,18 @@ def get_item(item, location, location2):
         speech_text = render_template('move_response', item=item, location=location2)
     else:
         selectedItemId = checkAndInsertItem(item, "");
-        endId = checkAndInsertLocation(end)
-        cur.execute("UPDATE Items SET locationId = %s WHERE itemId=%s", (endId, selectItemId))
+        endId = checkAndInsertLocation(start)
+        cur.execute("UPDATE Items SET locationId = %s WHERE itemId=%s", (endId, selectedItemId))
         speech_text = render_template('move_response', item=item, location=location)
     db.commit()
     return statement(speech_text).simple_card(card_title, speech_text)
 
 def checkAndInsertItem(item, location):
-    if location:
+    if location is not None:
         locationId = checkAndInsertLocation(location)
         cur.execute("SELECT itemID FROM Items WHERE locationID =%s AND name= %s", (locationId, item));
         results = cur.fetchall()
-        if len(result):
+        if results:
             return results[0]
         else: 
             cur.execute("INSERT INTO Items (name, locationId) VALUES (%s, %s)", (item, locationId))
@@ -109,6 +109,7 @@ def checkAndInsertItem(item, location):
             #check number of existing, if many start conversation
             results = cur.fetchall()
             if len(results) > 1:
+                print (results)
                 #TODO have conversation if more than one exists to decide which paper towel to move
                 print ("which item should we move?")
                 return results[0]
@@ -118,12 +119,15 @@ def checkAndInsertItem(item, location):
             return cur.fetchone()[0]
 
 def checkAndInsertLocation(location):
-    if cur.execute("SELECT LocationId FROM Locations WHERE name = %s", (location)):
-        return cur.fetchone()[0]
+    print(location)
+    cur.execute("SELECT LocationId FROM Locations WHERE name = %s", (location))
+    results = cur.fetchone()
+    if results:
+        return results[0] 
     else:
         cur.execute("INSERT INTO Locations (name, Led) VALUES (%s, 0)", (location))
-        #this line might cause a problem, need to get last id
-        return cur.lastrowid()
+        cur.execute("SELECT locationId FROM Locations WHERE name =%s", (location))
+	return cur.fetchone()[0]
 
 @ask.intent('GetOpenLocations', mapping={'item': 'Item'})
 def get_item(item):
