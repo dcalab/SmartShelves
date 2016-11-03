@@ -88,7 +88,7 @@ def get_item(item, location, location2):
     else:
         selectedItemId = checkAndInsertItem(item, "");
         endId = checkAndInsertLocation(start)
-        cur.execute("UPDATE Items SET locationId = %s WHERE itemId=%s", (endId, selectItemId))
+        cur.execute("UPDATE Items SET locationId = %s WHERE itemId=%s", (endId, selectedItemId))
         speech_text = render_template('move_response', item=item, location=location)
     db.commit()
     return statement(speech_text).simple_card(card_title, speech_text)
