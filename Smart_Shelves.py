@@ -99,6 +99,7 @@ def checkAndInsertItem(item, location):
         else: 
             cur.execute("INSERT INTO Items (name, locationId) VALUES (%s, %s)", (item, locationId))
             cur.execute("SELECT ItemId FROM Items WHERE name=%s and locationid=%s", (item, locationId))
+            db.commit()
             return cur.fetchone()[0]
     else:
         if cur.execute("SELECT itemID FROM Items WHERE name= %s", (item)):
@@ -114,6 +115,7 @@ def checkAndInsertItem(item, location):
         else:
             cur.execute("INSERT INTO Items (locationID, name) VALUES (1, %s)", (item))
             cur.execute("SELECT ItemId FROM Items WHERE name=%s and locationid=1", (item))
+            db.commit()
             return cur.fetchone()[0]
 
 def checkAndInsertLocation(location):
@@ -122,7 +124,7 @@ def checkAndInsertLocation(location):
     else:
         cur.execute("INSERT INTO Locations (name, Led) VALUES (%s, 0)", (location))
         cur.execute("SELECT LocationId FROM Locations WHERE name = %s", (location))
-        #this line might cause a problem, need to get last id
+        db.commit()
         return cur.fetchone()[0]
 
 @ask.intent('GetOpenLocations', mapping={'item': 'Item'})
