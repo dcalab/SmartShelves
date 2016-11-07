@@ -166,23 +166,23 @@ def session_ended():
     return "", 200
 
 def standardize_shelf_location(location):
-    if ('left' is in location and 'top' is in location):
+    if ('left' in location and 'top' in location):
         return 'left side of the top shelf'
-    if ('right' is in location and 'top' is in location):
+    if ('right' in location and 'top' in location):
         return 'right side of the top shelf'
-    if ('middle' or 'center' is in location and 'top' is in location):
+    if ('middle' or 'center' in location and 'top' in location):
         return 'center of the top shelf'
-    if ('left' is in location and 'bottom' is in location):
+    if ('left' in location and 'bottom' in location):
         return 'left side of the top shelf'
-    if ('right' is in location and 'bottom' is in location):
+    if ('right' in location and 'bottom' in location):
         return 'right side of the bottom shelf'
-    if ('middle' or 'center' is in location and 'bottom' is in location):
+    if ('middle' or 'center' in location and 'bottom' in location):
         return 'center of the bottom shelf'
-    if ('left' is in location and 'middle' or 'center' is in location):
+    if ('left' in location and 'middle' or 'center' in location):
         return 'left side of the middle shelf'
-    if ('right' is in location and 'middle' or 'center' is in location):
+    if ('right' in location and 'middle' or 'center' in location):
         return 'right side of the bottom shelf'
-    if ('middle' or 'center' is in location):
+    if ('middle' or 'center' in location):
         return 'center of the middle shelf'
     return location
 
