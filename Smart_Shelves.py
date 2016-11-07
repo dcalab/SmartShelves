@@ -120,6 +120,7 @@ def checkAndInsertItem(item, location):
             return cur.fetchone()[0]
 
 def checkAndInsertLocation(location):
+    location = standardize_shelf_location(location)
     if cur.execute("SELECT LocationId FROM Locations WHERE name = %s", (location)):
         return cur.fetchone()[0]
     else:
@@ -163,6 +164,27 @@ def stop():
 @ask.session_ended
 def session_ended():
     return "", 200
+
+def standardize_shelf_location(location):
+    if ('left' is in location and 'top' is in location):
+        return 'left side of the top shelf'
+    if ('right' is in location and 'top' is in location):
+        return 'right side of the top shelf'
+    if ('middle' or 'center' is in location and 'top' is in location):
+        return 'center of the top shelf'
+    if ('left' is in location and 'bottom' is in location):
+        return 'left side of the top shelf'
+    if ('right' is in location and 'bottom' is in location):
+        return 'right side of the bottom shelf'
+    if ('middle' or 'center' is in location and 'bottom' is in location):
+        return 'center of the bottom shelf'
+    if ('left' is in location and 'middle' or 'center' is in location):
+        return 'left side of the middle shelf'
+    if ('right' is in location and 'middle' or 'center' is in location):
+        return 'right side of the bottom shelf'
+    if ('middle' or 'center' is in location):
+        return 'center of the middle shelf'
+    return location
 
 
 if __name__ == '__main__':
