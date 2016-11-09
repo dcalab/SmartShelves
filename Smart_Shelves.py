@@ -18,6 +18,7 @@ db = MySQLdb.connect(host="localhost",
                      passwd="",
                      db="SmartShelves")
 
+db.autocommit(True)
 cur = db.cursor()
 
 PI_ENDPOINT = "http://smartshelves.ddns.net/api/locate/"
@@ -31,10 +32,13 @@ def launch():
 
 @ask.intent('SetItemLocation', mapping={'item': 'Item', 'location':'Location_one'})
 def set_item(item, location):
+    print("in set item")
+    print(item)
     card_title = render_template('card_title')
     itemId = checkAndInsertItem(item, "")
     endId = checkAndInsertLocation(location)
-    cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (endId, selectedItemId))
+    print("endId = "+ str(endId))
+    cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (endId, itemId))
     db.commit()
     speech_text = render_template('set_response', item=item, location=location)
     return statement(speech_text).simple_card(card_title, speech_text)
@@ -78,15 +82,19 @@ def get_item(item, location, location2):
     end  = location2
     speech_text = ""
     if end != None:
+        print("in move item intent, end != none")
+        print ("end = "+str(end))
         selectedItemId = checkAndInsertItem(item, start)
         if selectedItemId == "conversation_needed":
             speech_text = render_template('move_conversation', item=item)
             return statement(speech_text).simple_card(card_title, speech_text)
         startId = checkAndInsertLocation(start)
         endId = checkAndInsertLocation(end)
+        print("startId = " + str(startId) + " endId = " + str(endId))
         cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (endId, selectedItemId))
         speech_text = render_template('move_response', item=item, location=location2)
     else:
+        print("in move item intent, end == None")
         selectedItemId = checkAndInsertItem(item, "");
         endId = checkAndInsertLocation(start)
         print (endId)
@@ -109,7 +117,10 @@ def checkAndInsertItem(item, location):
             db.commit()
             return cur.fetchone()[0]
     else:
+        print(item)
+        print("item above----------")
         if cur.execute("SELECT itemID FROM Items WHERE name= %s", (item)):
+            print("in check and insert item, found item, dont care about location here")
             #check number of existing, if many start conversation
             results = cur.fetchall()
             if len(results) > 1:
@@ -126,6 +137,7 @@ def checkAndInsertItem(item, location):
 
 def checkAndInsertLocation(location):
     location = standardize_shelf_location(location)
+    print ("after standardizing, location = " + location)
     if cur.execute("SELECT LocationId FROM Locations WHERE name = %s", (location)):
         return cur.fetchone()[0]
     else:
@@ -135,23 +147,24 @@ def checkAndInsertLocation(location):
         return cur.fetchone()[0]
 
 def standardize_shelf_location(location):
+    print("string given to standardize = " + location)
     if ('left' in location and 'top' in location):
         return 'left side of the top shelf'
     if ('right' in location and 'top' in location):
         return 'right side of the top shelf'
-    if ('middle' or 'center' in location and 'top' in location):
+    if (('middle' or 'center') in location and 'top' in location):
         return 'center of the top shelf'
     if ('left' in location and 'bottom' in location):
         return 'left side of the top shelf'
     if ('right' in location and 'bottom' in location):
         return 'right side of the bottom shelf'
-    if ('middle' or 'center' in location and 'bottom' in location):
+    if (('middle' or 'center') in location and 'bottom' in location):
         return 'center of the bottom shelf'
-    if ('left' in location and 'middle' or 'center' in location):
+    if ('left' in location and ('middle' or 'center') in location):
         return 'left side of the middle shelf'
     if ('right' in location and 'middle' or 'center' in location):
         return 'right side of the bottom shelf'
-    if ('middle' or 'center' in location):
+    if (('middle' or 'center') in location):
         return 'center of the middle shelf'
     return location
 
