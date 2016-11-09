@@ -31,10 +31,11 @@ def launch():
 
 @ask.intent('SetItemLocation', mapping={'item': 'Item', 'location':'Location_one'})
 def set_item(item, location):
-    
-    print(location)
-    card_title = render_template('card_title')
-    checkAndInsertItem(item, location)
+        card_title = render_template('card_title')
+    itemId = checkAndInsertItem(item, "")
+    endId = checkAndInsertLocation(location)
+    cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (endId, selectedItemId))
+    db.commit()
     speech_text = render_template('set_response', item=item, location=location)
     return statement(speech_text).simple_card(card_title, speech_text)
 
