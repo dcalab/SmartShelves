@@ -47,7 +47,8 @@ def get_item(item):
     location = ""
     led = ""
     speech_text = ""
-    if data: 
+    if data:
+        led += str(len(data))
         for row in data:
             #list spots available in speech
             #TODO THIS NEEDS TO CHANGE
@@ -57,14 +58,15 @@ def get_item(item):
             print("success")
             location += row[0]
             location += ", "
-            led = row[1]
+            led += str(row[1])
             #urllib2.urlopen(PI_ENDPOINT + str(led))
 
     if location == "":
+        led = "0"
         speech_text = render_template('not_found', item=item)
     else:
         speech_text = render_template('get_response', item=item, location=location)
-
+    print(led)
     return statement(speech_text).simple_card(card_title, speech_text)
 
 
