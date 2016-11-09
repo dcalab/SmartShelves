@@ -59,6 +59,7 @@ def get_item(item):
             #TODO THIS NEEDS TO CHANGE
             #does not currently handle multiple locations on pi, need a "batch signal"
             if row[0] == "unknown":
+                led += str(row[1])
                 break
             print("success")
             location += row[0]
@@ -182,6 +183,7 @@ def get_item(item):
         print("open locations")
         for row in data:
             if row[0] == "unkown":
+                led += str(row[1])
                 break
             location += row[0]
             location += ", "
