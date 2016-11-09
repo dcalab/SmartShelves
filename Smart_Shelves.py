@@ -76,6 +76,9 @@ def get_item(item, location, location2):
     speech_text = ""
     if end != None:
         selectedItemId = checkAndInsertItem(item, start)
+        if selectedItemId == "conversation_needed":
+            speech_text = render_template('move_conversation', item=item)
+            return statement(speech_text).simple_card(card_title, speech_text)
         startId = checkAndInsertLocation(start)
         endId = checkAndInsertLocation(end)
         cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (endId, selectedItemId))
@@ -107,8 +110,7 @@ def checkAndInsertItem(item, location):
             #check number of existing, if many start conversation
             results = cur.fetchall()
             if len(results) > 1:
-                #TODO have conversation if more than one exists to decide which paper towel to move
-                print ("which item should we move?")
+                return "conversation_needed"
             print ("results = ")
             print(results)
             #this has to change hard coded to grab first row
@@ -128,6 +130,28 @@ def checkAndInsertLocation(location):
         cur.execute("SELECT LocationId FROM Locations WHERE name = %s", (location))
         db.commit()
         return cur.fetchone()[0]
+
+def standardize_shelf_location(location):
+    if ('left' in location and 'top' in location):
+        return 'left side of the top shelf'
+    if ('right' in location and 'top' in location):
+        return 'right side of the top shelf'
+    if ('middle' or 'center' in location and 'top' in location):
+        return 'center of the top shelf'
+    if ('left' in location and 'bottom' in location):
+        return 'left side of the top shelf'
+    if ('right' in location and 'bottom' in location):
+        return 'right side of the bottom shelf'
+    if ('middle' or 'center' in location and 'bottom' in location):
+        return 'center of the bottom shelf'
+    if ('left' in location and 'middle' or 'center' in location):
+        return 'left side of the middle shelf'
+    if ('right' in location and 'middle' or 'center' in location):
+        return 'right side of the bottom shelf'
+    if ('middle' or 'center' in location):
+        return 'center of the middle shelf'
+    return location
+
 
 @ask.intent('GetOpenLocations', mapping={'item': 'Item'})
 def get_item(item):
@@ -165,26 +189,6 @@ def stop():
 def session_ended():
     return "", 200
 
-def standardize_shelf_location(location):
-    if ('left' in location and 'top' in location):
-        return 'left side of the top shelf'
-    if ('right' in location and 'top' in location):
-        return 'right side of the top shelf'
-    if ('middle' or 'center' in location and 'top' in location):
-        return 'center of the top shelf'
-    if ('left' in location and 'bottom' in location):
-        return 'left side of the top shelf'
-    if ('right' in location and 'bottom' in location):
-        return 'right side of the bottom shelf'
-    if ('middle' or 'center' in location and 'bottom' in location):
-        return 'center of the bottom shelf'
-    if ('left' in location and 'middle' or 'center' in location):
-        return 'left side of the middle shelf'
-    if ('right' in location and 'middle' or 'center' in location):
-        return 'right side of the bottom shelf'
-    if ('middle' or 'center' in location):
-        return 'center of the middle shelf'
-    return location
 
 
 if __name__ == '__main__':
