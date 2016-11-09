@@ -64,14 +64,13 @@ def get_item(item):
             location += row[0]
             location += ", "
             led += str(row[1])
-            #urllib2.urlopen(PI_ENDPOINT + str(led))
 
     if location == "":
         led = "0"
         speech_text = render_template('not_found', item=item)
     else:
         speech_text = render_template('get_response', item=item, location=location)
-    print(led)
+    urllib2.urlopen(PI_ENDPOINT + str(led))
     return statement(speech_text).simple_card(card_title, speech_text)
 
 
@@ -176,7 +175,9 @@ def get_item(item):
     data = cur.fetchall()
     speech_text = ""
     location = ""
+    led = ""
     if data: 
+        led += str(len(data))
         #no available spots
         print("open locations")
         for row in data:
@@ -184,11 +185,13 @@ def get_item(item):
                 break
             location += row[0]
             location += ", "
-            led = row[1]
+            led += str(row[1])
     if location == "":
+        led = "0"
         speech_text = render_template('no_open_locations')
     else:
         speech_text = render_template('open_locations', location=location)
+    urllib2.urlopen(PI_ENDPOINT + str(led))
     return statement(speech_text).simple_card(card_title, speech_text)
 
 @ask.intent('AMAZON.HelpIntent')
