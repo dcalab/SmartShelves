@@ -98,6 +98,9 @@ def get_item(item, location, location2):
     else:
         print("in move item intent, end == None")
         selectedItemId = checkAndInsertItem(item, "");
+        if selectedItemId == "conversation_needed":
+            speech_text = render_template('move_conversation', item=item)
+            return statement(speech_text).simple_card(card_title, speech_text)
         endId = checkAndInsertLocation(start)
         print (endId)
         print (selectedItemId)
