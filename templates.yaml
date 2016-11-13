@@ -17,3 +17,5 @@ no_open_locations: I could not find any open locations in the system
 open_locations: I found {{ location }} to be open
 
 move_conversation: There are multiple {{ item }}. Where did you get the {{ item }} from?
+
+bad_session: Im sorry I couldn't complete the request

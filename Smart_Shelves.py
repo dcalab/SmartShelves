@@ -31,18 +31,13 @@ def launch():
     return question(speech_text).reprompt(speech_text).simple_card(card_title, speech_text)
 
 
-@ask.intent('SetItemLocation', mapping={'item': 'Item', 'location':'Location_one'})
-def set_item(item, location):
-    print("in set item")
-    print(item)
-    card_title = render_template('card_title')
-    itemId = checkAndInsertItem(item, "")
-    endId = checkAndInsertLocation(location)
-    print("endId = "+ str(endId))
-    cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (endId, itemId))
-    db.commit()
-    speech_text = render_template('set_response', item=item, location=location)
-    return statement(speech_text).simple_card(card_title, speech_text)
+@ask.intent('PrevItemLocationIntnent', mapping={'location':'Location_one'})
+def set_item(location):
+    if session.attributes['dest'] == None:
+        speech_text = render_template('bad_session')
+        return statement(speech_text).simple_card(card_title, speech_text)
+    print (session.attributes['dest'])
+    return statement("noah has trump hands")
 
 @ask.intent('GetItemLocation', mapping={'item':'Item'})
 def get_item(item):
@@ -85,11 +80,14 @@ def get_item(item, location, location2):
     if end != None:
         print("in move item intent, end != none")
         print ("end = "+str(end))
+
         selectedItemId = checkAndInsertItem(item, start)
         print ("item id = " + str(selectedItemId))
+
         if selectedItemId == "conversation_needed":
             speech_text = render_template('move_conversation', item=item)
             return question(speech_text).simple_card(card_title, speech_text)
+
         startId = checkAndInsertLocation(start)
         endId = checkAndInsertLocation(end)
         print("startId = " + str(startId) + " endId = " + str(endId))
@@ -98,10 +96,11 @@ def get_item(item, location, location2):
     else:
         print("in move item intent, end == None")
         selectedItemId = checkAndInsertItem(item, "");
+        endId = checkAndInsertLocation(start)
+        session.attributes['dest'] = endId
         if selectedItemId == "conversation_needed":
             speech_text = render_template('move_conversation', item=item)
             return question(speech_text).simple_card(card_title, speech_text)
-        endId = checkAndInsertLocation(start)
         print (endId)
         print (selectedItemId)
         cur.execute("UPDATE Items SET locationId = %s WHERE itemId=%s", (endId, selectedItemId))
