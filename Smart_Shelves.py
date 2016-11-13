@@ -21,7 +21,8 @@ db = MySQLdb.connect(host="localhost",
 db.autocommit(True)
 cur = db.cursor()
 
-PI_ENDPOINT = "http://smartshelves.ddns.net/api/locate/"
+#PI_ENDPOINT = "http://smartshelves.ddns.net/api/locate/"
+PI_ENDPOINT = "http://eb3f06ba.ngrok.io/api/locate/"
 
 @ask.launch
 def launch():
