@@ -33,6 +33,7 @@ def launch():
 
 @ask.intent('PrevItemLocationIntnent', mapping={'location':'Location_one'})
 def set_item(location):
+    print ('in PrevItemLocationIntent')
     if session.attributes['dest'] == None:
         speech_text = render_template('bad_session')
         return statement(speech_text).simple_card(card_title, speech_text)
