@@ -89,7 +89,7 @@ def get_item(item, location, location2):
         print ("item id = " + str(selectedItemId))
         if selectedItemId == "conversation_needed":
             speech_text = render_template('move_conversation', item=item)
-            return statement(speech_text).simple_card(card_title, speech_text)
+            return question(speech_text).simple_card(card_title, speech_text)
         startId = checkAndInsertLocation(start)
         endId = checkAndInsertLocation(end)
         print("startId = " + str(startId) + " endId = " + str(endId))
@@ -100,7 +100,7 @@ def get_item(item, location, location2):
         selectedItemId = checkAndInsertItem(item, "");
         if selectedItemId == "conversation_needed":
             speech_text = render_template('move_conversation', item=item)
-            return statement(speech_text).simple_card(card_title, speech_text)
+            return question(speech_text).simple_card(card_title, speech_text)
         endId = checkAndInsertLocation(start)
         print (endId)
         print (selectedItemId)
