@@ -39,8 +39,10 @@ def set_item(location):
         return statement(speech_text).simple_card(card_title, speech_text)
     print (session.attributes['dest'])
     for items in session.attributes['items']:
-        print(str(items[1]))
+        print(str(items))
     card_title = render_template('card_title')
+    #TODO TODO TODO update the end of this conversation!
+    speech_text = render_template('move_response', item="TODO: update me please", location="TODO: update me please")    
     return statement("noah has trump hands").simple_card(card_title, "noah has trump hands")
 
 @ask.intent('GetItemLocation', mapping={'item':'Item'})
@@ -127,7 +129,7 @@ def checkAndInsertItem(item, location):
     else:
         print(item)
         print("item above----------")
-        if cur.execute("SELECT (itemID, locationId) FROM Items WHERE name= %s", (item)):
+        if cur.execute("SELECT itemID, locationId FROM Items WHERE name= %s", (item)):
             print("in check and insert item, found item")
             #check number of existing, if many start conversation
             results = cur.fetchall()
@@ -135,6 +137,8 @@ def checkAndInsertItem(item, location):
                 for row in results:
                     #put items in dictionary
                     #locationId -> itemId
+                    session.attributes['items'] = {}
+                    #session.attributes['items']
                     session.attributes['items'][row[1]] = row[0]
                 return "conversation_needed"
             print ("results = ")
