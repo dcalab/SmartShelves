@@ -38,6 +38,8 @@ def set_item(location):
         speech_text = render_template('bad_session')
         return statement(speech_text).simple_card(card_title, speech_text)
     print (session.attributes['dest'])
+    for items in session.attributes['items']:
+        print(str(items[1]))
     card_title = render_template('card_title')
     return statement("noah has trump hands").simple_card(card_title, "noah has trump hands")
 
@@ -125,11 +127,15 @@ def checkAndInsertItem(item, location):
     else:
         print(item)
         print("item above----------")
-        if cur.execute("SELECT itemID FROM Items WHERE name= %s", (item)):
-            print("in check and insert item, found item, dont care about location here")
+        if cur.execute("SELECT (itemID, locationId) FROM Items WHERE name= %s", (item)):
+            print("in check and insert item, found item")
             #check number of existing, if many start conversation
             results = cur.fetchall()
             if len(results) > 1:
+                for row in results:
+                    #put items in dictionary
+                    #locationId -> itemId
+                    session.attributes['items'][row[1]] = row[0]
                 return "conversation_needed"
             print ("results = ")
             print(results)
