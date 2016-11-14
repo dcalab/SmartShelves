@@ -31,14 +31,14 @@ def launch():
     return question(speech_text).reprompt(speech_text).simple_card(card_title, speech_text)
 
 
-@ask.intent('PrevItemLocationIntnent', mapping={'location':'Location_one'})
+@ask.intent('PrevItemLocationIntent', mapping={'location':'Location_one'})
 def set_item(location):
     print ('in PrevItemLocationIntent')
     if session.attributes['dest'] == None:
         speech_text = render_template('bad_session')
         return statement(speech_text).simple_card(card_title, speech_text)
     print (session.attributes['dest'])
-    return statement("noah has trump hands")
+    return statement("noah has trump hands").simple_card(card_title, "noah has trump hands")
 
 @ask.intent('GetItemLocation', mapping={'item':'Item'})
 def get_item(item):
