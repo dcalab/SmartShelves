@@ -38,6 +38,7 @@ def set_item(location):
         speech_text = render_template('bad_session')
         return statement(speech_text).simple_card(card_title, speech_text)
     print (session.attributes['dest'])
+    card_title = render_template('card_title')
     return statement("noah has trump hands").simple_card(card_title, "noah has trump hands")
 
 @ask.intent('GetItemLocation', mapping={'item':'Item'})
