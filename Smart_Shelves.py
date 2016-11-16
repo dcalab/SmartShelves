@@ -37,6 +37,7 @@ def set_item(location):
     print ('in PrevItemLocationIntent')
     item_name = ""
     location_name = ""
+    card_title = render_template('card_title')
     try:
         print (session.attributes['dest'])
         locationId = checkAndInsertLocation(location)
@@ -50,8 +51,6 @@ def set_item(location):
                 db.commit()
                 cur.execute("SELECT name FROM Locations WHERE LocationID=%s",(key))
                 location_name = cur.fetchone()
-        card_title = render_template('card_title')
-    
         if location_name is "":
             speech_text = render_template('move_conversation', item=session.attributes['item_name'])
             return question(speech_text).simple_card(card_title, speech_text)
