@@ -138,10 +138,10 @@ def checkAndInsertItem(item, location):
             #check number of existing, if many start conversation
             results = cur.fetchall()
             if len(results) > 1:
+                session.attributes['items'] = {}
                 for row in results:
                     #put items in dictionary
                     #locationId -> itemId
-                    session.attributes['items'] = {}
                     #session.attributes['items']
                     session.attributes['items'][row[1]] = row[0]
                 return "conversation_needed"
