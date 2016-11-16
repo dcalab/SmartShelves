@@ -42,7 +42,7 @@ def set_item(location):
     print (session.attributes['dest'])
     locationId = checkAndInsertLocation(location)
     for key, value in session.attributes['items']:
-        print(str(items))
+        print(str(key)+str(value))
         item_name = cur.execute("SELECT name FROM Items WHERE ItemID=%s", (value))
         if locationId == key:
             cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (key, value))
@@ -52,7 +52,7 @@ def set_item(location):
     if location_name is "":
         speech_text = render_template('move_conversation', item=item_name)
         return question(speech_text).simple_card(card_title, speech_text)
-        
+
     speech_text = render_template('move_response', item=item_name, location=location_name)    
     return statement(speech_text).simple_card(card_title, speech_text)
 
