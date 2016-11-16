@@ -38,10 +38,13 @@ def set_item(location):
         speech_text = render_template('bad_session')
         return statement(speech_text).simple_card(card_title, speech_text)
     print (session.attributes['dest'])
+    locationId = checkAndInsertLocation(location)
     for items in session.attributes['items']:
         print(str(items))
+
+    #cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (session.attributes['dest'], session.attributes['items']))
     card_title = render_template('card_title')
-    #TODO TODO TODO update the end of this conversation!
+    
     speech_text = render_template('move_response', item="TODO: update me please", location="TODO: update me please")    
     return statement("noah has trump hands").simple_card(card_title, "noah has trump hands")
 
@@ -89,13 +92,14 @@ def get_item(item, location, location2):
 
         selectedItemId = checkAndInsertItem(item, start)
         print ("item id = " + str(selectedItemId))
+        startId = checkAndInsertLocation(start)
+        endId = checkAndInsertLocation(end)
+        session.attributes['dest'] = endId
 
         if selectedItemId == "conversation_needed":
             speech_text = render_template('move_conversation', item=item)
             return question(speech_text).simple_card(card_title, speech_text)
-
-        startId = checkAndInsertLocation(start)
-        endId = checkAndInsertLocation(end)
+        
         print("startId = " + str(startId) + " endId = " + str(endId))
         cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (endId, selectedItemId))
         speech_text = render_template('move_response', item=item, location=location2)
@@ -179,7 +183,7 @@ def standardize_shelf_location(location):
     if ('left' in location and ('middle' or 'center') in location):
         return 'left side of the middle shelf'
     if ('right' in location and 'middle' or 'center' in location):
-        return 'right side of the bottom shelf'
+        return 'right side of the middle shelf'
     if (('middle' or 'center') in location):
         return 'center of the middle shelf'
     return location
