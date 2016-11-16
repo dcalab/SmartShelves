@@ -34,19 +34,27 @@ def launch():
 @ask.intent('PrevItemLocationIntent', mapping={'location':'Location_one'})
 def set_item(location):
     print ('in PrevItemLocationIntent')
+    item_name = ""
+    location_name = ""
     if session.attributes['dest'] == None:
         speech_text = render_template('bad_session')
         return statement(speech_text).simple_card(card_title, speech_text)
     print (session.attributes['dest'])
     locationId = checkAndInsertLocation(location)
-    for items in session.attributes['items']:
+    for key, value in session.attributes['items']:
         print(str(items))
-
-    #cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (session.attributes['dest'], session.attributes['items']))
+        item_name = cur.execute("SELECT name FROM Items WHERE ItemID=%s", (value))
+        if locationId == key:
+            cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (key, value))
+            location_name = cur.execute("SELECT name FROM Locations WHERE LocationID=%s",(key))
     card_title = render_template('card_title')
     
-    speech_text = render_template('move_response', item="TODO: update me please", location="TODO: update me please")    
-    return statement("noah has trump hands").simple_card(card_title, "noah has trump hands")
+    if location_name is "":
+        speech_text = render_template('move_conversation', item=item_name)
+        return question(speech_text).simple_card(card_title, speech_text)
+        
+    speech_text = render_template('move_response', item=item_name, location=location_name)    
+    return statement(speech_text).simple_card(card_title, speech_text)
 
 @ask.intent('GetItemLocation', mapping={'item':'Item'})
 def get_item(item):
