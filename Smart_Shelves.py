@@ -37,27 +37,28 @@ def set_item(location):
     print ('in PrevItemLocationIntent')
     item_name = ""
     location_name = ""
-    if session.attributes['dest'] == None:
+    try:
+        print (session.attributes['dest'])
+        locationId = checkAndInsertLocation(location)
+        print (locationId)
+        for key in session.attributes['items']:
+           value = session.attributes['items'][key]
+           print(str(key)+" "+str(value))
+           if str(locationId) == str(key):
+              print ("found key")
+              cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (key, value))
+              db.commit()
+                cur.execute("SELECT name FROM Locations WHERE LocationID=%s",(key))
+                location_name = cur.fetchone()
+        card_title = render_template('card_title')
+    
+        if location_name is "":
+            speech_text = render_template('move_conversation', item=session.attributes['item_name'])
+            return question(speech_text).simple_card(card_title, speech_text)
+    except:
         speech_text = render_template('bad_session')
         return statement(speech_text).simple_card(card_title, speech_text)
-    print (session.attributes['dest'])
-    locationId = checkAndInsertLocation(location)
-    print (locationId)
-    for key in session.attributes['items']:
-        value = session.attributes['items'][key]
-        print(str(key)+" "+str(value))
-        if str(locationId) == str(key):
-            print ("found key")
-            cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (key, value))
-            db.commit()
-            cur.execute("SELECT name FROM Locations WHERE LocationID=%s",(key))
-            location_name = cur.fetchone()
-    card_title = render_template('card_title')
-    
-    if location_name is "":
-        speech_text = render_template('move_conversation', item=session.attributes['item_name'])
-        return question(speech_text).simple_card(card_title, speech_text)
-
+        
     speech_text = render_template('move_response', item=session.attributes['item_name'], location=location_name)    
     return statement(speech_text).simple_card(card_title, speech_text)
 
