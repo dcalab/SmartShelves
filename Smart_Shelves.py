@@ -45,9 +45,9 @@ def set_item(location):
            value = session.attributes['items'][key]
            print(str(key)+" "+str(value))
            if str(locationId) == str(key):
-              print ("found key")
-              cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (key, value))
-              db.commit()
+                print ("found key")
+                cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (key, value))
+                db.commit()
                 cur.execute("SELECT name FROM Locations WHERE LocationID=%s",(key))
                 location_name = cur.fetchone()
         card_title = render_template('card_title')
@@ -58,7 +58,7 @@ def set_item(location):
     except:
         speech_text = render_template('bad_session')
         return statement(speech_text).simple_card(card_title, speech_text)
-        
+
     speech_text = render_template('move_response', item=session.attributes['item_name'], location=location_name)    
     return statement(speech_text).simple_card(card_title, speech_text)
 
