@@ -3,6 +3,7 @@ import logging
 from flask import Flask, json, render_template
 from flask_ask import Ask, request, session, question, statement
 import MySQLdb, urllib2
+import grequests
 
 app = Flask(__name__)
 ask = Ask(app, "/")
@@ -87,6 +88,7 @@ def get_item(item):
         speech_text = render_template('not_found', item=item)
     else:
         speech_text = render_template('get_response', item=item, location=location)
+    grequests.get(PI_ENDPOINT + str(led))
     #urllib2.urlopen(PI_ENDPOINT + str(led))
     return statement(speech_text).simple_card(card_title, speech_text)
 
@@ -226,7 +228,7 @@ def get_item(item):
         speech_text = render_template('no_open_locations')
     else:
         speech_text = render_template('open_locations', location=location)
-    #urllib2.urlopen(PI_ENDPOINT + str(led))
+    grequests.get(PI_ENDPOIT+ str(led))
     return statement(speech_text).simple_card(card_title, speech_text)
 
 @ask.intent('AMAZON.HelpIntent')
