@@ -76,7 +76,7 @@ def get_item(item):
         speech_text = render_template('not_found', item=item)
     else:
         speech_text = render_template('get_response', item=item, location=location)
-    urllib2.urlopen(PI_ENDPOINT + str(led))
+    #urllib2.urlopen(PI_ENDPOINT + str(led))
     return statement(speech_text).simple_card(card_title, speech_text)
 
 
@@ -213,7 +213,7 @@ def get_item(item):
         speech_text = render_template('no_open_locations')
     else:
         speech_text = render_template('open_locations', location=location)
-    urllib2.urlopen(PI_ENDPOINT + str(led))
+    #urllib2.urlopen(PI_ENDPOINT + str(led))
     return statement(speech_text).simple_card(card_title, speech_text)
 
 @ask.intent('AMAZON.HelpIntent')
