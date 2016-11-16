@@ -49,7 +49,8 @@ def set_item(location):
             print ("found key")
             cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (key, value))
             db.commit()
-            location_name = cur.execute("SELECT name FROM Locations WHERE LocationID=%s",(key))
+            cur.execute("SELECT name FROM Locations WHERE LocationID=%s",(key))
+            location_name = cur.fetchone()
     card_title = render_template('card_title')
     
     if location_name is "":
