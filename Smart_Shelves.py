@@ -43,18 +43,19 @@ def set_item(location):
     locationId = checkAndInsertLocation(location)
     for key in session.attributes['items']:
         value = session.attributes['items'][key]
-        print(str(key)+str(value))
-        item_name = cur.execute("SELECT name FROM Items WHERE ItemID=%s", (value))
+        print(str(key)+" "+str(value))
         if locationId == key:
+            print "found key"
             cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (key, value))
+            db.commit()
             location_name = cur.execute("SELECT name FROM Locations WHERE LocationID=%s",(key))
     card_title = render_template('card_title')
     
     if location_name is "":
-        speech_text = render_template('move_conversation', item=item_name)
+        speech_text = render_template('move_conversation', item=session.attributes['item_name'])
         return question(speech_text).simple_card(card_title, speech_text)
 
-    speech_text = render_template('move_response', item=item_name, location=location_name)    
+    speech_text = render_template('move_response', item=session.attributes['item_name'], location=location_name)    
     return statement(speech_text).simple_card(card_title, speech_text)
 
 @ask.intent('GetItemLocation', mapping={'item':'Item'})
@@ -104,6 +105,7 @@ def get_item(item, location, location2):
         startId = checkAndInsertLocation(start)
         endId = checkAndInsertLocation(end)
         session.attributes['dest'] = endId
+        session.atrributes['item_name'] = item
 
         if selectedItemId == "conversation_needed":
             speech_text = render_template('move_conversation', item=item)
