@@ -45,7 +45,7 @@ def set_item(location):
     for key in session.attributes['items']:
         value = session.attributes['items'][key]
         print(str(key)+" "+str(value))
-        if locationId == key:
+        if str(locationId) == str(key):
             print ("found key")
             cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (key, value))
             db.commit()
