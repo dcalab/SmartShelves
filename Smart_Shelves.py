@@ -120,7 +120,7 @@ def get_item(item, location, location2):
         selectedItemId = checkAndInsertItem(item, "");
         endId = checkAndInsertLocation(start)
         session.attributes['dest'] = endId
-        session.attributes['item_name']
+        session.attributes['item_name'] = item
         if selectedItemId == "conversation_needed":
             speech_text = render_template('move_conversation', item=item)
             return question(speech_text).simple_card(card_title, speech_text)
