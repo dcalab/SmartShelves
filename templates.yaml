@@ -1,21 +1,23 @@
-launch: Welcome to Smart Shelves, you can ask where an item is or you can set or move an item
+launch: Welcome to Smart Shelves, you can ask where an item is or you can place, or move an item.
 
-get_response: Your {{ item }} is on the {{ location }}
+get_response: Your {{ item }} is on the {{ location }}.
 
-set_response: Alright, you have placed your {{ item }} on the {{ location }}
+set_response: Alright, you have placed your {{ item }} on the {{ location }}.
 
-move_response: Alright, you have moved your {{ item }} to the {{ location }}
+move_response: Alright, you have moved your {{ item }} to the {{ location }}.
 
 goodbye: Thanks for using SmartShelves!
 
 card_title: SmartShelves
 
-not_found: I could not find {{ item }} in the system
+not_found: I could not find {{ item }} in the system.
 
-no_open_locations: I could not find any open locations in the system
+no_open_locations: I could not find any open locations in the system.
 
-open_locations: I found {{ location }} to be open
+open_locations: I found {{ location }} to be open.
 
 move_conversation: There are multiple {{ item }}. Where did you get the {{ item }} from?
 
-bad_session: Im sorry I couldn't complete the request
+bad_session: I'm sorry I couldn't complete the request.
+
+help: Welcome to Smart Shelves, you can ask where an item is or you can set or move an item. For example, Alexa, Ask SmartShelves, where is the paper towel? will prompt me to tell you the location of the paper towels.
