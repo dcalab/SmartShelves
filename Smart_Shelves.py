@@ -234,7 +234,7 @@ def get_item(item):
 
 @ask.intent('AMAZON.HelpIntent')
 def help():
-    speech_text = 'You can say hello to me!'
+    speech_text = render_template('help')
     return question(speech_text).reprompt(speech_text).simple_card('SmartShelves', speech_text)
 
 @ask.intent('AMAZON.StopIntent')
