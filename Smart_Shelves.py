@@ -41,7 +41,8 @@ def set_item(location):
         return statement(speech_text).simple_card(card_title, speech_text)
     print (session.attributes['dest'])
     locationId = checkAndInsertLocation(location)
-    for key, value in session.attributes['items']:
+    for key in session.attributes['items']:
+        value = session.attributes['items'][key]
         print(str(key)+str(value))
         item_name = cur.execute("SELECT name FROM Items WHERE ItemID=%s", (value))
         if locationId == key:
