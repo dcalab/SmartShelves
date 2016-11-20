@@ -74,9 +74,8 @@ def get_item(item):
     if data:
         led += str(len(data))
         for row in data:
-            if row[0] == "bottom shelf" or row == "middle shelf" or row == "top shelf" or row == "unknown":
-                while len(data) > len(led)+1:
-                    led += "0"
+            if row[0] == "unkown":
+                led += str(row[1])
                 break
             location += row[0]
             location += ", "
@@ -219,8 +218,9 @@ def get_item(item):
         #no available spots
         print("open locations")
         for row in data:
-            if row[0] == "unkown":
-                led += str(row[1])
+            if row[0] == "bottom shelf" or row == "middle shelf" or row == "top shelf" or row == "unknown":
+                while len(data) > len(led)+1:
+                    led += "0"
                 break
             location += row[0]
             location += ", "
@@ -236,7 +236,7 @@ def get_item(item):
     except:
         print ("could not reach shelf enpoint")
     print (PI_ENDPOINT + str(led))
-     
+
     return statement(speech_text).simple_card(card_title, speech_text)
 
 @ask.intent('AMAZON.HelpIntent')
