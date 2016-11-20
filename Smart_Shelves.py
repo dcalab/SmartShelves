@@ -24,6 +24,23 @@ cur = db.cursor()
 #PI_ENDPOINT = "http://smartshelves.ddns.net/api/locate/"
 PI_ENDPOINT = "https://smartshelves.localtunnel.me/api/locate/"
 
+@app.route("/view")
+def view() {
+    cur.execute("SELECT Items.name, Items.locationId, Locations.name FROM Items inner join Locations on Items.locationId=Locations.locationId")
+    results = cur.fetchall()
+    items_map = {}
+    locations_map = {}
+    if results:
+        for row in results:
+            if locations_map[row[1]]:
+                items_map[row[1]].append(row[0])
+            else:
+                locations_map[row[1]] = row[2]
+                items_map[row[1]] = [row[0]]
+    return [items_map, locations_map]
+
+}
+
 @ask.launch
 def launch():
     card_title = render_template('card_title')
