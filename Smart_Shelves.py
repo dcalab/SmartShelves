@@ -230,7 +230,13 @@ def get_item(item):
         speech_text = render_template('no_open_locations')
     else:
         speech_text = render_template('open_locations', location=location)
-    grequests.get(PI_ENDPOIT+ led)
+
+    try:
+        urllib2.urlopen(PI_ENDPOINT + led)
+    except:
+        print ("could not reach shelf enpoint")
+    print (PI_ENDPOINT + str(led))
+     
     return statement(speech_text).simple_card(card_title, speech_text)
 
 @ask.intent('AMAZON.HelpIntent')

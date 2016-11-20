@@ -42,20 +42,20 @@ VALUES ('closet', '0');
 
 
 INSERT INTO Items (name, locationId)
-VALUES ('paper towel', 2);
+VALUES ('paper towel', 5);
 
 INSERT INTO Items (name, locationId)
-VALUES ('cup', 5);
+VALUES ('cup', 6);
 
 INSERT INTO Items(name, locationId)
-VALUES ('shirt', 6);
+VALUES ('shirt', 7);
 
 INSERT INTO Items(name, locationId)
-VALUES ('stapler', 3);
+VALUES ('stapler', 2);
 
 INSERT INTO Items(name, locationId)
 VALUES ('keys', 9);
 
 INSERT INTO Items(name, locationId)
-VALUES ('watch', 4);
+VALUES ('watch', 10);
 
