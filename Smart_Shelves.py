@@ -51,7 +51,7 @@ def set_item(location):
                 cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (endId, value))
                 db.commit()
                 cur.execute("SELECT name FROM Locations WHERE LocationID=%s",(endId))
-                location_name = cur.fetchone()
+                location_name = cur.fetchone()[0]
         if location_name is "":
             speech_text = render_template('move_conversation', item=item_name)
             return question(speech_text).simple_card(card_title, speech_text)
@@ -188,19 +188,19 @@ def standardize_shelf_location(location):
         return 'left side of the top shelf'
     if ('right' in location and 'top' in location):
         return 'right side of the top shelf'
-    if (('middle' or 'center') in location and 'top' in location):
+    if ((('middle' in location) or 'center' in location) and 'top' in location):
         return 'center of the top shelf'
     if ('left' in location and 'bottom' in location):
         return 'left side of the top shelf'
     if ('right' in location and 'bottom' in location):
         return 'right side of the bottom shelf'
-    if (('middle' or 'center') in location and 'bottom' in location):
+    if ((('middle' in location) or 'center' in location) and 'bottom' in location):
         return 'center of the bottom shelf'
-    if ('left' in location and ('middle' or 'center') in location):
+    if ('left' in location and (('middle' in location) or 'center' in location)):
         return 'left side of the middle shelf'
-    if ('right' in location and 'middle' or 'center' in location):
+    if ('right' in location and (('middle' in location) or 'center' in location)):
         return 'right side of the middle shelf'
-    if (('middle' or 'center') in location):
+    if ((('middle' in location) or 'center' in location)):
         return 'center of the middle shelf'
     return location
 
