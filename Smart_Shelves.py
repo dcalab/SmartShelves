@@ -30,18 +30,23 @@ def about():
 
 @app.route("/view")
 def view():
-    cur.execute("SELECT Items.name, Items.locationId, Locations.name FROM Items inner join Locations on Items.locationId=Locations.locationId")
+    objectDict = {}
+    locationsDict = {}
+
+    cur.execute("SELECT locationId, name FROM Locations")
     results = cur.fetchall()
-    items_map = {}
-    locations_map = {}
     if results:
         for row in results:
-            if row[1] in locations_map:
-                items_map[row[1]].append(row[0])
-            else:
-                locations_map[row[1]] = row[2]
-                items_map[row[1]] = [row[0]]
-    return str(items_map) + str(locations_map)
+            locationDict[row[0]] = row[1]
+            objectDict[row[0]] = []
+
+    cur.execute("SELECT name, locationId FROM Items")
+    results = cur.fetchall()
+    if results:
+        for row in results:
+            objectDict[row[1]].append(row[0])
+
+    return str(objectDict) + str(locationDict)
 
 
 @ask.launch
