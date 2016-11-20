@@ -31,7 +31,7 @@ def about():
 @app.route("/view")
 def view():
     objectDict = {}
-    locationDict = {}
+    locationgDict = {}
 
     cur.execute("SELECT locationId, name FROM Locations")
     results = cur.fetchall()
@@ -46,7 +46,7 @@ def view():
         for row in results:
             objectDict[row[1]].append(row[0])
 
-    return str(objectDict) + str(locationDict)
+    return render_template("smartshelves-me.html", objectDict = objectDict, locationDict= locationDict)
 
 
 @ask.launch
