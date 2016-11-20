@@ -25,7 +25,7 @@ cur = db.cursor()
 PI_ENDPOINT = "https://smartshelves.localtunnel.me/api/locate/"
 
 @app.route("/view")
-def view() {
+def view():
     cur.execute("SELECT Items.name, Items.locationId, Locations.name FROM Items inner join Locations on Items.locationId=Locations.locationId")
     results = cur.fetchall()
     items_map = {}
@@ -39,7 +39,6 @@ def view() {
                 items_map[row[1]] = [row[0]]
     return [items_map, locations_map]
 
-}
 
 @ask.launch
 def launch():
