@@ -219,7 +219,7 @@ def get_item(item):
         print("open locations")
         for row in data:
             if row[0] in ["bottom shelf", "middle shelf", "top shelf", "unknown"]:
-                while len(data) > len(led)+1:
+                while len(data)+1 > len(led):
                     led += "0"
                 break
             location += row[0]
