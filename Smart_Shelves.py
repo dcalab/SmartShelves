@@ -45,8 +45,8 @@ def view():
     if results:
         for row in results:
             objectDict[row[1]].append(row[0])
-
-    return render_template("smartshelves-me.html", objectDict = objectDict, locationDict= locationDict)
+    print ("objectDict = "+str(objectDict))
+    return render_template('smartshelves-me.html', objectDict = objectDict, locationDict= locationDict)
 
 
 @ask.launch
@@ -109,7 +109,15 @@ def get_item(item):
         led = "0"
         speech_text = render_template('not_found', item=item)
     else:
-        speech_text = render_template('get_response', item=item, location=location)
+        grammar_checks = check_grammar(item, location)
+        if grammar_checks[0] == False and grammar_checks[1] == False:
+            speech_text = render_template('get_response_in', item=item, location=location)
+        elif grammar_checks[0] == True and grammar_checks[1] == False:
+            speech_text = render_template('get_response_in_plural', item=item, location=location)
+        elif grammar_checks[0] == False and grammar_checks[1] == True:
+            speech_text = render_template('get_response_on', item=item, location=location)
+        else:
+            speech_text = render_template('get_response_on_plural', item=item, location=location)
     try:
         urllib2.urlopen(PI_ENDPOINT + led)
     except:
@@ -121,8 +129,8 @@ def get_item(item):
 @ask.intent('MoveItemLocation', mapping={'item': 'Item', 'location': 'Location_one', 'location2': 'Location_two'})
 def get_item(item, location, location2):
     card_title = render_template('card_title')
-    start = location
-    end  = location2
+    start = standardize_shelf_location(location)
+    end  = standardize_shelf_location(location2)
     speech_text = ""
     if end != None:
         print("in move item intent, end != none")
@@ -141,7 +149,7 @@ def get_item(item, location, location2):
         
         print("startId = " + str(startId) + " endId = " + str(endId))
         cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (endId, selectedItemId))
-        speech_text = render_template('move_response', item=item, location=location2)
+        speech_text = render_template('move_response', item=item, location=end)
     else:
         print("in move item intent, end == None")
         selectedItemId = checkAndInsertItem(item, "");
@@ -154,7 +162,7 @@ def get_item(item, location, location2):
         print (endId)
         print (selectedItemId)
         cur.execute("UPDATE Items SET locationId = %s WHERE itemId=%s", (endId, selectedItemId))
-        speech_text = render_template('move_response', item=item, location=location)
+        speech_text = render_template('move_response', item=item, location=start)
     db.commit()
     return statement(speech_text).simple_card(card_title, speech_text)
 
@@ -207,6 +215,8 @@ def checkAndInsertLocation(location):
         return cur.fetchone()[0]
 
 def standardize_shelf_location(location):
+    if location == None:
+        return location
     print("string given to standardize = " + location)
     if ('left' in location and 'top' in location):
         return 'left side of the top shelf'
@@ -228,7 +238,15 @@ def standardize_shelf_location(location):
         return 'center of the middle shelf'
     return location
 
-
+def check_grammar_with_location(item, location):
+    plural = False
+    on_or_in = True
+    if item.endswith('s'):
+        plural = True
+    if 'shelf' not in location:
+        on_or_in = False
+    return [plural, on_or_in]
+    
 @ask.intent('GetOpenLocations', mapping={'item': 'Item'})
 def get_item(item):
     card_title = render_template('card_title')

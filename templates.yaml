@@ -1,6 +1,12 @@
 launch: Welcome to Smart Shelves, you can ask where an item is or you can place, or move an item.
 
-get_response: Your {{ item }} is on the {{ location }}.
+get_response_on: Your {{ item }} is on the {{ location }}.
+
+get_response_on_plural: Your {{ item }} are on the location {{ location }}.
+
+get_response_in: Your {{ item }} is in the {{ location }}.
+
+get_response_in_plural: Your {{ item }} are in the location {{ location }}.
 
 set_response: Alright, you have placed your {{ item }} on the {{ location }}.
 
