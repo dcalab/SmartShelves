@@ -72,7 +72,6 @@ def get_item(item):
     led = ""
     speech_text = ""
     if data:
-        led += str(len(data))
         for row in data:
             if row[0] == "unkown":
                 led += str(row[1])
@@ -214,12 +213,11 @@ def get_item(item):
     location = ""
     led = ""
     if data: 
-        led += str(len(data))
         #no available spots
         print("open locations")
         for row in data:
             if row[0] in ["bottom shelf", "middle shelf", "top shelf", "unknown"]:
-                while len(data)+1 > len(led):
+                while len(data) > len(led):
                     led += "0"
                 break
             location += row[0]
