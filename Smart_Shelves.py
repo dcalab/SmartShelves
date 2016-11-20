@@ -23,7 +23,7 @@ db.autocommit(True)
 cur = db.cursor()
 
 #PI_ENDPOINT = "http://smartshelves.ddns.net/api/locate/"
-PI_ENDPOINT = "http://eb3f06ba.ngrok.io/api/locate/"
+PI_ENDPOINT = "http://smartshelves.localtunnel.me/api/locate/"
 
 @ask.launch
 def launch():
@@ -73,13 +73,9 @@ def get_item(item):
     if data:
         led += str(len(data))
         for row in data:
-            #list spots available in speech
-            #TODO THIS NEEDS TO CHANGE
-            #does not currently handle multiple locations on pi, need a "batch signal"
             if row[0] == "unknown":
                 led += str(row[1])
                 break
-            print("success")
             location += row[0]
             location += ", "
             led += str(row[1])
@@ -90,7 +86,6 @@ def get_item(item):
     else:
         speech_text = render_template('get_response', item=item, location=location)
     grequests.get(PI_ENDPOINT + str(led))
-    #urllib2.urlopen(PI_ENDPOINT + str(led))
     return statement(speech_text).simple_card(card_title, speech_text)
 
 
