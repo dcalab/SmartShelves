@@ -218,7 +218,7 @@ def get_item(item):
         #no available spots
         print("open locations")
         for row in data:
-            if row[0] == "bottom shelf" or row == "middle shelf" or row == "top shelf" or row == "unknown":
+            if row[0] in ["bottom shelf", "middle shelf", "top shelf", "unknown"]:
                 while len(data) > len(led)+1:
                     led += "0"
                 break
