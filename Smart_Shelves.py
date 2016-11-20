@@ -45,8 +45,8 @@ def view():
     if results:
         for row in results:
             objectDict[row[1]].append(row[0])
-
-    return render_template("smartshelves-me.html", objectDict = objectDict, locationDict= locationDict)
+    print ("objectDict = "+str(objectDict))
+    return render_template('smartshelves-me.html', objectDict = objectDict, locationDict= locationDict)
 
 
 @ask.launch
@@ -121,8 +121,8 @@ def get_item(item):
 @ask.intent('MoveItemLocation', mapping={'item': 'Item', 'location': 'Location_one', 'location2': 'Location_two'})
 def get_item(item, location, location2):
     card_title = render_template('card_title')
-    start = location
-    end  = location2
+    start = standardize_shelf_location(location)
+    end  = standardize_shelf_location(location2)
     speech_text = ""
     if end != None:
         print("in move item intent, end != none")
@@ -141,7 +141,7 @@ def get_item(item, location, location2):
         
         print("startId = " + str(startId) + " endId = " + str(endId))
         cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (endId, selectedItemId))
-        speech_text = render_template('move_response', item=item, location=location2)
+        speech_text = render_template('move_response', item=item, location=end)
     else:
         print("in move item intent, end == None")
         selectedItemId = checkAndInsertItem(item, "");
@@ -154,7 +154,7 @@ def get_item(item, location, location2):
         print (endId)
         print (selectedItemId)
         cur.execute("UPDATE Items SET locationId = %s WHERE itemId=%s", (endId, selectedItemId))
-        speech_text = render_template('move_response', item=item, location=location)
+        speech_text = render_template('move_response', item=item, location=start)
     db.commit()
     return statement(speech_text).simple_card(card_title, speech_text)
 
