@@ -37,7 +37,7 @@ def view():
             else:
                 locations_map[row[1]] = row[2]
                 items_map[row[1]] = [row[0]]
-    return {items_map, locations_map}
+    return str(items_map) + str(locations_map)
 
 
 @ask.launch
