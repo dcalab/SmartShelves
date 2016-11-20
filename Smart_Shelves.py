@@ -23,7 +23,7 @@ db.autocommit(True)
 cur = db.cursor()
 
 #PI_ENDPOINT = "http://smartshelves.ddns.net/api/locate/"
-PI_ENDPOINT = "http://smartshelves.localtunnel.me/api/locate/"
+PI_ENDPOINT = "https://smartshelves.localtunnel.me/api/locate/"
 
 @ask.launch
 def launch():
