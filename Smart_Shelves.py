@@ -215,6 +215,8 @@ def checkAndInsertLocation(location):
         return cur.fetchone()[0]
 
 def standardize_shelf_location(location):
+    if location == None:
+        return location
     print("string given to standardize = " + location)
     if ('left' in location and 'top' in location):
         return 'left side of the top shelf'
