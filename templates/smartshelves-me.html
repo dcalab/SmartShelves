@@ -36,22 +36,33 @@
         <h1>Bootstrap grid examples</h1>
         <p class="lead">Basic grid layouts to get you familiar with building within the Bootstrap grid system.</p>
       </div>
+        
+        
+
 
 	  <h3>Three equal columns</h3>
 	  <p>Get three equal-width columns <strong>starting at desktops and scaling to large desktops</strong>. On mobile devices, tablets and below, the columns will automatically stack.</p>
-	  <div class="row">
+	
+        {{testVar}}
+        
+        
+       
+      <div class="row">
 	  <div class="col-md-4">
 	       <strong>Top Left</strong>
           <ul>
             {% for item in objectDict[5] %}
               <li> {{item}} </li>
+            {% endfor %}
           </ul>
 	  </div>
+    
 	  <div class="col-md-4">
           <strong>Top Center</strong>
 	  <ul>
           {% for item in objectDict[6] %}
               <li> {{item}} </li>
+          {% endfor %}
 	  </ul>
 	  </div>
 	  <div class="col-md-4">
@@ -59,16 +70,20 @@
 	  <ul>
           {% for item in objectDict[7] %}
               <li> {{item}} </li>
+          {% endfor %}
 	  </ul>
 	  </div>
 	  </div>
 
+      
+        <br><br>
 	  <div class="row">
 	  <div class="col-md-4">
           <strong>Middle Left</strong>
 	  <ul>
           {% for item in objectDict[8] %}
               <li> {{item}} </li>
+            {% endfor %}
 	  </ul>
 	  </div>
 	  <div class="col-md-4">
@@ -76,6 +91,7 @@
 	  <ul>
           {% for item in objectDict[9] %}
               <li> {{item}} </li>
+            {% endfor %}
 	  </ul>
 	  </div>
 	  <div class="col-md-4">
@@ -83,16 +99,19 @@
 	  <ul>
           {% for item in objectDict[10] %}
               <li> {{item}} </li>
+            {% endfor %}
 	  </ul>
 	  </div>
 	  </div>
 
+        <br><br>
 	  <div class="row">
 	  <div class="col-md-4">
           <strong>Bottom Left</strong>
 	  <ul>
           {% for item in objectDict[11] %}
               <li> {{item}} </li>
+            {% endfor %}
 	  </ul>
 	  </div>
 	  <div class="col-md-4">
@@ -100,6 +119,7 @@
 	  <ul>
           {% for item in objectDict[12] %}
               <li> {{item}} </li>
+            {% endfor %}
 	  </ul>
 	  </div>
 	  <div class="col-md-4">
@@ -107,6 +127,7 @@
 	  <ul>
           {% for item in objectDict[13] %}
               <li> {{item}} </li>
+            {% endfor %}
 	  </ul>
 	  </div>
 	  </div>
