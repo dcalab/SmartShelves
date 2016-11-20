@@ -24,6 +24,10 @@ cur = db.cursor()
 #PI_ENDPOINT = "http://smartshelves.ddns.net/api/locate/"
 PI_ENDPOINT = "https://smartshelves.localtunnel.me/api/locate/"
 
+@app.route("/about")
+def about():
+    return "about us"
+
 @app.route("/view")
 def view():
     cur.execute("SELECT Items.name, Items.locationId, Locations.name FROM Items inner join Locations on Items.locationId=Locations.locationId")
