@@ -1,35 +1,45 @@
 INSERT INTO Locations (name, led)
-VALUES ('unkown', 0);
+VALUES ('unkown', '0');
 
 INSERT INTO Locations (name, led)
-VALUES ('left side of the top shelf', 1);
+VALUES ('left side of the top shelf', '1');
 
 INSERT INTO Locations (name, led)
-VALUES ('center of the top shelf', 2);
+VALUES ('center of the top shelf', '2');
 
 INSERT INTO Locations (name, led)
-VALUES ('right side of the top shelf', 3);
+VALUES ('right side of the top shelf', '3');
 
 INSERT INTO Locations (name, led)
-VALUES ('left side of the middle shelf', 4);
+VALUES ('left side of the middle shelf', '4');
 
 INSERT INTO Locations (name, led)
-VALUES ('center of the middle shelf', 5);
+VALUES ('center of the middle shelf', '5');
 
 INSERT INTO Locations (name, led)
-VALUES ('right side of the middle shelf', 6);
+VALUES ('right side of the middle shelf', '6');
 
 INSERT INTO Locations (name, led)
-VALUES ('left side of the bottom shelf', 7);
+VALUES ('left side of the bottom shelf', '7');
 
 INSERT INTO Locations (name, led)
-VALUES ('center of the bottom shelf', 8);
+VALUES ('center of the bottom shelf', '8');
 
 INSERT INTO Locations (name, led)
-VALUES ('right side of the bottom shelf', 9);
+VALUES ('right side of the bottom shelf', '9');
 
 INSERT INTO Locations (name, led)
-VALUES ('closet', 0);
+VALUES ('closet', '0');
+
+INSERT INTO Locations (name, led)
+VALUES ('top shelf', 'a');
+
+INSERT INTO Locations (name, led)
+VALUES ('middle shelf', 'b');
+
+INSERT INTO Locations (name, led)
+VALUES ('bottom shelf', 'c');
+
 
 INSERT INTO Items (name, locationId)
 VALUES ('paper towel', 2);
