@@ -238,12 +238,12 @@ def standardize_shelf_location(location):
         return 'center of the middle shelf'
     return location
 
-def check_grammar_with_location(item, location):
+def check_grammar(item, location):
     plural = False
     on_or_in = True
     if item.endswith('s'):
         plural = True
-    if 'shelf' not in location:
+    if 'shelf' not in location or 'counter' not in location:
         on_or_in = False
     return [plural, on_or_in]
     
