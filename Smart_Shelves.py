@@ -74,12 +74,13 @@ def get_item(item):
     if data:
         led += str(len(data))
         for row in data:
-            if row[0] == "unknown":
-                led += str(row[1])
+            if row[0] == "bottom shelf" or row == "middle shelf" or row == "top shelf" or row == "unknown":
+                while len(data) > len(led)+1:
+                    led += "0"
                 break
             location += row[0]
             location += ", "
-            led += str(row[1])
+            led += row[1]
 
     if location == "":
         led = "0"
@@ -87,7 +88,7 @@ def get_item(item):
     else:
         speech_text = render_template('get_response', item=item, location=location)
     try:
-        urllib2.urlopen(PI_ENDPOINT + str(led))
+        urllib2.urlopen(PI_ENDPOINT + led)
     except:
         print ("could not reach shelf enpoint")
     print (PI_ENDPOINT + str(led))
@@ -223,13 +224,13 @@ def get_item(item):
                 break
             location += row[0]
             location += ", "
-            led += str(row[1])
+            led += row[1]
     if location == "":
         led = "0"
         speech_text = render_template('no_open_locations')
     else:
         speech_text = render_template('open_locations', location=location)
-    grequests.get(PI_ENDPOIT+ str(led))
+    grequests.get(PI_ENDPOIT+ led)
     return statement(speech_text).simple_card(card_title, speech_text)
 
 @ask.intent('AMAZON.HelpIntent')

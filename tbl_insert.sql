@@ -2,6 +2,15 @@ INSERT INTO Locations (name, led)
 VALUES ('unkown', '0');
 
 INSERT INTO Locations (name, led)
+VALUES ('top shelf', 'a');
+
+INSERT INTO Locations (name, led)
+VALUES ('middle shelf', 'b');
+
+INSERT INTO Locations (name, led)
+VALUES ('bottom shelf', 'c');
+
+INSERT INTO Locations (name, led)
 VALUES ('left side of the top shelf', '1');
 
 INSERT INTO Locations (name, led)
@@ -30,15 +39,6 @@ VALUES ('right side of the bottom shelf', '9');
 
 INSERT INTO Locations (name, led)
 VALUES ('closet', '0');
-
-INSERT INTO Locations (name, led)
-VALUES ('top shelf', 'a');
-
-INSERT INTO Locations (name, led)
-VALUES ('middle shelf', 'b');
-
-INSERT INTO Locations (name, led)
-VALUES ('bottom shelf', 'c');
 
 
 INSERT INTO Items (name, locationId)
