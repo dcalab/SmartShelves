@@ -32,7 +32,7 @@ def view():
     locations_map = {}
     if results:
         for row in results:
-            if locations_map[row[1]]:
+            if row[1] in locations_map:
                 items_map[row[1]].append(row[0])
             else:
                 locations_map[row[1]] = row[2]
