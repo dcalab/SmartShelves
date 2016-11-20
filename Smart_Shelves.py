@@ -31,7 +31,7 @@ def about():
 @app.route("/view")
 def view():
     objectDict = {}
-    locationgDict = {}
+    locationDict = {}
 
     cur.execute("SELECT locationId, name FROM Locations")
     results = cur.fetchall()
