@@ -109,7 +109,15 @@ def get_item(item):
         led = "0"
         speech_text = render_template('not_found', item=item)
     else:
-        speech_text = render_template('get_response', item=item, location=location)
+        grammar_checks = check_grammar(item, location)
+        if grammar_checks[0] == False and grammar_checks[1] == False:
+            speech_text = render_template('get_response_in', item=item, location=location)
+        elif grammar_checks[0] == True and grammar_checks[1] == False:
+            speech_text = render_template('get_response_in_plural', item=item, location=location)
+        elif grammar_checks[0] == False and grammar_checks[1] == True:
+            speech_text = render_template('get_response_on', item=item, location=location)
+        else:
+            speech_text = render_template('get_response_on_plural', item=item, location=location)
     try:
         urllib2.urlopen(PI_ENDPOINT + led)
     except:
@@ -228,7 +236,15 @@ def standardize_shelf_location(location):
         return 'center of the middle shelf'
     return location
 
-
+def check_grammar_with_location(item, location):
+    plural = False
+    on_or_in = True
+    if item.endswith('s'):
+        plural = True
+    if 'shelf' not in location:
+        on_or_in = False
+    return [plural, on_or_in]
+    
 @ask.intent('GetOpenLocations', mapping={'item': 'Item'})
 def get_item(item):
     card_title = render_template('card_title')
