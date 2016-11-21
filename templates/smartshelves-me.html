@@ -130,7 +130,7 @@
 
       <h2>Other Locations:</h2>
       {% for key, val in objectDict.iteritems() %}
-        <strong>{{ locationDict[loop.index0] }}:</strong>
+        <strong>{{ locationDict[loop.index] }}:</strong>
         <ul>
           {% for v in val %}
             <li> {{ v }} </li>
