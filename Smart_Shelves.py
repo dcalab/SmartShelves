@@ -269,7 +269,7 @@ def check_grammar(item, location):
     on_or_in = True
     if item.endswith('s'):
         plural = True
-    if 'shelf' not in location or 'counter' not in location:
+    if 'shelf' not in location:
         on_or_in = False
     return [plural, on_or_in]
     
