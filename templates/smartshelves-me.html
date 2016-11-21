@@ -131,12 +131,12 @@
 
       <div class="row">
         <div id='forms'>
-          <div action="add" method='post' style="display:none">
+          <div action="{{url_for(add}}" method='post' style="display:none">
             <input type='text' name="item">
             <input type='text' name="new_location">
             <input type='submit' value="Add Item" >
           </div>
-         <div action="move" method='post' style="display:none">
+         <div action="{{url_for(move)}}" method='post' style="display:none">
             <input type='text' name="item">
             <input type='text' name="old_location">
             <input type='text' name="new_location">
