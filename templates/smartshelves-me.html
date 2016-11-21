@@ -127,20 +127,22 @@
             </ul>
         </div>
       </div>
-      <button onclick="function1()">Edit Contents</a>
-      <div class="row" id='forms'>
-        <div action="add" method='post' style="display:none">
-          <input type='text' name="item">
-          <input type='text' name="new_location">
-          <input type='submit' value="Add Item" >
+
+      <div class="row">
+        <button onclick="function1()">Edit Contents</a>
+        <div id=forms>
+          <div action="add" method='post' style="display:none">
+            <input type='text' name="item">
+            <input type='text' name="new_location">
+            <input type='submit' value="Add Item" >
+          </div>
+         <div action="move" method='post' style="display:none">
+            <input type='text' name="item">
+            <input type='text' name="old_location">
+            <input type='text' name="new_location">
+            <input type='submit' value="Move Item" >
+          </div>
         </div>
-        <div action="move" method='post' style="display:none">
-          <input type='text' name="item">
-          <input type='text' name="old_location">
-          <input type='text' name="new_location">
-          <input type='submit' value="Move Item" >
-        </div>
-      </div>
       <script>
         function function1() {
             document.getElementById('forms').style.display = 'block'
