@@ -42,29 +42,30 @@
 
   	  <h2>The shelves</h2>
   	  <p>The contents of each location on the shelves are listed below</p>
+	<hr>
       <div class="row">
         <div class="col-md-4">
-  	       <strong>Top Left</strong>
+          <h4 tabindex='0'>Top Left</h4>
             <ul>
               {% for item in objectDict[5] %}
-                <li> {{item}} </li>
+                <li tabindex='0'> {{item}} </li>
               {% endfor %}
             </ul>
         </div>
       
         <div class="col-md-4">
-          <strong>Top Center</strong>
+  	  <h4 tabindex='0'>Top Center</h4>
             <ul>
             {% for item in objectDict[6] %}
-              <li> {{item}} </li>
+              <li tabindex='0'> {{item}} </li>
             {% endfor %}
             </ul>
         </div>
         <div class="col-md-4">
-            <strong>Top Right</strong>
+            <h4 tabindex='0'>Top Right</h4>
             <ul>
             {% for item in objectDict[7] %}
-              <li> {{item}} </li>
+              <li tabindex='0'> {{item}} </li>
             {% endfor %}
             </ul>
         </div>
@@ -74,26 +75,26 @@
   	  
       <div class="row">
         <div class="col-md-4">
-          <strong>Middle Left</strong>
+          <h4 tabindex='0'>Middle Left</h4>
           <ul>
             {% for item in objectDict[8] %}
-                <li> {{item}} </li>
+                <li tabindex='0'> {{item}} </li>
             {% endfor %}
           </ul>
         </div>
         <div class="col-md-4">
-          <strong>Middle Center</strong>
+          <h4 tabindex='0'>Middle Center</h4>
           <ul>
             {% for item in objectDict[9] %}
-              <li> {{item}} </li>
+              <li tabindex='0'> {{item}} </li>
             {% endfor %}
           </ul>
         </div>
         <div class="col-md-4">
-          <strong>Midde Right</strong>
+          <h4 tabindex='0'>Midde Right</h4>
           <ul>
           {% for item in objectDict[10] %}
-              <li> {{item}} </li>
+              <li tabindex='0'> {{item}} </li>
           {% endfor %}
           </ul>
           </div>
@@ -103,32 +104,35 @@
   	  
         <div class="row">
           <div class="col-md-4">
-            <strong>Bottom Left</strong>
+            <h4 tabindex='0'>Bottom Left</h4>
             <ul>
               {% for item in objectDict[11] %}
-                <li> {{item}} </li>
+                <li tabindex='0'> {{item}} </li>
               {% endfor %}
             </ul>
             </div>
           <div class="col-md-4">
-            <strong>Bottom Center</strong>
+            <h4 tabindex='0'>Bottom Center</h4>
             <ul>
               {% for item in objectDict[12] %}
-                <li> {{item}} </li>
+                <li tabindex='0'> {{item}} </li>
               {% endfor %}
             </ul>
           </div>
           <div class="col-md-4">
-            <strong>Bottom Right</strong>
+            <h4 tabindex='0'>Bottom Right</h4>
             <ul>
               {% for item in objectDict[13] %}
-                <li> {{item}} </li>
+                <li tabindex='0'> {{item}} </li>
               {% endfor %}
             </ul>
         </div>
-        <button onclick="function1()">Edit Contents</a>
         <br>
       </div>
+	<hr>
+
+<!--
+      <button onclick="function1()">Edit Contents</a>
 
       <div class="row">
         <div id='forms' style="display:none">
@@ -149,14 +153,15 @@
             document.getElementById('forms').style.display = 'block'
         }
       </script>
-
-      <h2>Other Locations:</h2>
+-->
+      <h2 tabindex='0'>Other Locations:</h2>
       {% for key, val in objectDict.iteritems() %}
         {% if loop.index < 5 or loop.index > 13%}
         <strong>{{ locationDict[loop.index] }}:</strong>
+        <h4 tabindex='0'>{{ locationDict[loop.index] }}:</h4>
         <ul>
           {% for v in val %}
-            <li> {{ v }} </li>
+            <li tabindex='0'> {{ v }} </li>
           {% endfor %}
         </ul>
         {% endif %}
