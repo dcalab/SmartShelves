@@ -48,6 +48,32 @@ def view():
     print ("objectDict = "+str(objectDict))
     return render_template('smartshelves-me.html', objectDict = objectDict, locationDict= locationDict)
 
+@app.route("/add", methods=['POST'])
+def website_add_item():
+    item = request.form['item']
+    location = standardize_shelf_location(request.form['location'])
+    if item != None and location != None:
+        checkAndInsertItem(item, location)
+    return redirect(url_for(view))
+
+@app.route("/move", methods=['POST'])
+def website_move_item():
+    item = request.form['item']
+    start = standardize_shelf_location(request.form['old_location'])
+    end  = standardize_shelf_location(request.form['new_location'])
+    if item != None and start != None and end != None:
+        print("in move item intent, end != none")
+        print ("end = "+str(end))
+        selectedItemId = checkAndInsertItem(item, start)
+        print ("item id = " + str(selectedItemId))
+        startId = checkAndInsertLocation(start)
+        endId = checkAndInsertLocation(end)
+        if selectedItemId == "conversation_needed":
+            return redirec(url_for(view))
+        print("startId = " + str(startId) + " endId = " + str(endId))
+        cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (endId, selectedItemId))
+    db.commit()
+    return redirect(url_for(view))
 
 @ask.launch
 def launch():
