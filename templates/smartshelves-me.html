@@ -130,13 +130,13 @@
       </div>
 
       <div class="row">
-        <div id='forms'>
-          <div action="{{url_for('website_add_item')}}" method='post' style="display:none">
+        <div id='forms' style="display:none">
+          <div action="{{url_for('website_add_item')}}" method='post' >
             <input type='text' name="item">
             <input type='text' name="new_location">
             <input type='submit' value="Add Item" >
           </div>
-         <div action="{{url_for('website_move_item')}}" method='post' style="display:none">
+         <div action="{{url_for('website_move_item')}}" method='post'>
             <input type='text' name="item">
             <input type='text' name="old_location">
             <input type='text' name="new_location">
