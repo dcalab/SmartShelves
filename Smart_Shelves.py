@@ -48,7 +48,7 @@ def view():
     print ("objectDict = "+str(objectDict))
     return render_template('smartshelves-me.html', objectDict = objectDict, locationDict= locationDict)
 
-@app.route("/add")
+@app.route("/add", methods=['POST'])
 def website_add_item():
     item = request.form['item']
     location = standardize_shelf_location(request.form['location'])
@@ -56,7 +56,7 @@ def website_add_item():
         checkAndInsertItem(item, location)
     return redirect(url_for(view))
 
-@app.route("/move")
+@app.route("/move", methods=['POST'])
 def website_move_item():
     item = request.form['item']
     start = standardize_shelf_location(request.form['old_location'])
