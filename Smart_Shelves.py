@@ -53,7 +53,9 @@ def website_add_item():
     item = request.form['item']
     location = standardize_shelf_location(request.form['location'])
     if item != None and location != None:
+        print("got to insert item")
         checkAndInsertItem(item, location)
+    print("pre redirect")
     return redirect(url_for(view))
 
 @app.route("/move", methods=['POST'])
@@ -69,7 +71,7 @@ def website_move_item():
         startId = checkAndInsertLocation(start)
         endId = checkAndInsertLocation(end)
         if selectedItemId == "conversation_needed":
-            return redirec(url_for(view))
+            return redirect(url_for(view))
         print("startId = " + str(startId) + " endId = " + str(endId))
         cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (endId, selectedItemId))
     db.commit()
