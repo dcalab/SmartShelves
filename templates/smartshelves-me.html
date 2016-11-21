@@ -132,17 +132,15 @@
 
       <div class="row">
         <form id='forms' style="display:none">
-          <div action="/add" method='post' >
+          <div action="{{url_for(add)}}" method='post' >
             <input type='text' name="item" placeholder="item name">
             <input type='text' name="new_location" placeholder="new location">
-            <input type='hidden' name='op' value='add'>
             <input type='submit' value="Add Item" >
           </form>
-         <form action="/move" method='post'>
+         <form action="{{url_for(move)}}" method='post'>
             <input type='text' name="item" placeholder="item name">
             <input type='text' name="old_location" placeholder="old location">
             <input type='text' name="new_location" placeholder="new location">
-            <input type='hidden' name='op' value='move'>
             <input type='submit' value="Move Item" >
           </form>
         </div>
