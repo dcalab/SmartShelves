@@ -131,22 +131,22 @@
       </div>
 	<hr>
 
-      <button onclick="function1()">Edit Contents</a>
-
       <div class="row">
+      <button onclick="function1()">Edit Contents</button>
         <div id='forms' style="display:none">
           <form action="/add" method='post' >
             <input type='text' name="item" placeholder="item name">
             <input type='text' name="new_location" placeholder="new location">
             <input type='submit' value="Add Item" >
           </form>
-         <form action="/move" method='post'>
+          <form action="/move" method='post'>
             <input type='text' name="item" placeholder="item name">
             <input type='text' name="old_location" placeholder="old location">
             <input type='text' name="new_location" placeholder="new location">
             <input type='submit' value="Move Item" >
           </form>
         </div>
+      </div>
       <script>
         function function1() {
             document.getElementById('forms').style.display = 'block'
