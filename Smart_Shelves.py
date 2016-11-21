@@ -1,6 +1,6 @@
 import logging
 
-from flask import Flask, json, render_template
+from flask import Flask, json, render_template, request
 from flask_ask import Ask, request, session, question, statement
 import MySQLdb, urllib2
 
