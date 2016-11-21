@@ -132,12 +132,12 @@
 
       <div class="row">
         <form id='forms' style="display:none">
-          <div action="{{url_for('website_add_item')}}" method='post' >
+          <div action="/add" method='post' >
             <input type='text' name="item" placeholder="item name">
             <input type='text' name="new_location" placeholder="new location">
             <input type='submit' value="Add Item" >
           </form>
-         <form action="{{url_for('website_move_item')}}" method='post'>
+         <form action="/move" method='post'>
             <input type='text' name="item" placeholder="item name">
             <input type='text' name="old_location" placeholder="old location">
             <input type='text' name="new_location" placeholder="new location">
