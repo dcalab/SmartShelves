@@ -1,6 +1,6 @@
 import logging
 
-from flask import Flask, json, render_template, request, redirect
+from flask import Flask, json, render_template, request, redirect, url_for
 from flask_ask import Ask, session, question, statement
 import MySQLdb, urllib2
 
@@ -56,7 +56,7 @@ def website_add_item():
         print("got to insert item")
         checkAndInsertItem(item, location)
     print("pre redirect")
-    return redirect(url_for(view))
+    return redirect(url_for('view'))
 
 @app.route("/move", methods=['POST'])
 def website_move_item():
@@ -75,7 +75,7 @@ def website_move_item():
         print("startId = " + str(startId) + " endId = " + str(endId))
         cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (endId, selectedItemId))
     db.commit()
-    return redirect(url_for(view))
+    return redirect(url_for('view'))
 
 @ask.launch
 def launch():
