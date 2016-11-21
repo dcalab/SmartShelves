@@ -51,7 +51,7 @@ def view():
 @app.route("/add", methods=['POST'])
 def website_add_item():
     item = request.form['item']
-    location = standardize_shelf_location(request.form['location'])
+    location = standardize_shelf_location(request.form['new_location'])
     if item != None and location != None:
         print("got to insert item")
         checkAndInsertItem(item, location)
