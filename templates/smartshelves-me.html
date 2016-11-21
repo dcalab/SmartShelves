@@ -152,12 +152,14 @@
 
       <h2>Other Locations:</h2>
       {% for key, val in objectDict.iteritems() %}
+        {% if loop.index < 5 or loop.index > 13%}
         <strong>{{ locationDict[loop.index] }}:</strong>
         <ul>
           {% for v in val %}
             <li> {{ v }} </li>
           {% endfor %}
         </ul>
+        {% endif %}
       {% endfor %}
 	  </div> <!-- /container -->
 
