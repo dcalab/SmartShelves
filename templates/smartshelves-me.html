@@ -40,104 +40,103 @@
         
 
 
-	  <h3>The shelves</h3>
-	  <p>The contents of each location on the shelves are listed below</p>
-	
-       
+  	  <h2>The shelves</h2>
+  	  <p>The contents of each location on the shelves are listed below</p>
       <div class="row">
-	  <div class="col-md-4">
-	       <strong>Top Left</strong>
+        <div class="col-md-4">
+  	       <strong>Top Left</strong>
+            <ul>
+              {% for item in objectDict[5] %}
+                <li> {{item}} </li>
+              {% endfor %}
+            </ul>
+        </div>
+      
+        <div class="col-md-4">
+          <strong>Top Center</strong>
+            <ul>
+            {% for item in objectDict[6] %}
+              <li> {{item}} </li>
+            {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <strong>Top Right</strong>
+            <ul>
+            {% for item in objectDict[7] %}
+              <li> {{item}} </li>
+            {% endfor %}
+            </ul>
+        </div>
+      </div>
+      
+      <br><br>
+  	  
+      <div class="row">
+        <div class="col-md-4">
+          <strong>Middle Left</strong>
           <ul>
-            {% for item in objectDict[5] %}
+            {% for item in objectDict[8] %}
+                <li> {{item}} </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <strong>Middle Center</strong>
+          <ul>
+            {% for item in objectDict[9] %}
               <li> {{item}} </li>
             {% endfor %}
           </ul>
-	  </div>
-    
-	  <div class="col-md-4">
-          <strong>Top Center</strong>
-	  <ul>
-          {% for item in objectDict[6] %}
-              <li> {{item}} </li>
-          {% endfor %}
-	  </ul>
-	  </div>
-	  <div class="col-md-4">
-          <strong>Top Right</strong>
-	  <ul>
-          {% for item in objectDict[7] %}
-              <li> {{item}} </li>
-          {% endfor %}
-	  </ul>
-	  </div>
-	  </div>
-
-      
-        <br><br>
-	  <div class="row">
-	  <div class="col-md-4">
-          <strong>Middle Left</strong>
-	  <ul>
-          {% for item in objectDict[8] %}
-              <li> {{item}} </li>
-            {% endfor %}
-	  </ul>
-	  </div>
-	  <div class="col-md-4">
-          <strong>Middle Center</strong>
-	  <ul>
-          {% for item in objectDict[9] %}
-              <li> {{item}} </li>
-            {% endfor %}
-	  </ul>
-	  </div>
-	  <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
           <strong>Midde Right</strong>
-	  <ul>
+          <ul>
           {% for item in objectDict[10] %}
               <li> {{item}} </li>
-            {% endfor %}
-	  </ul>
-	  </div>
-	  </div>
+          {% endfor %}
+          </ul>
+          </div>
+        </div>
 
         <br><br>
-	  <div class="row">
-	  <div class="col-md-4">
-          <strong>Bottom Left</strong>
-	  <ul>
-          {% for item in objectDict[11] %}
-              <li> {{item}} </li>
-            {% endfor %}
-	  </ul>
-	  </div>
-	  <div class="col-md-4">
-          <strong>Bottom Center</strong>
-	  <ul>
-          {% for item in objectDict[12] %}
-              <li> {{item}} </li>
-            {% endfor %}
-	  </ul>
-	  </div>
-	  <div class="col-md-4">
-          <strong>Bottom Right</strong>
-	  <ul>
-          {% for item in objectDict[13] %}
-              <li> {{item}} </li>
-            {% endfor %}
-	  </ul>
-	  </div>
-	  </div>
+  	  
+        <div class="row">
+          <div class="col-md-4">
+            <strong>Bottom Left</strong>
+            <ul>
+              {% for item in objectDict[11] %}
+                <li> {{item}} </li>
+              {% endfor %}
+            </ul>
+            </div>
+          <div class="col-md-4">
+            <strong>Bottom Center</strong>
+            <ul>
+              {% for item in objectDict[12] %}
+                <li> {{item}} </li>
+              {% endfor %}
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <strong>Bottom Right</strong>
+            <ul>
+              {% for item in objectDict[13] %}
+                <li> {{item}} </li>
+              {% endfor %}
+            </ul>
+        </div>
+      </div>
 
-    <h2>Other Locations:</h2>
-    {% for key, val in objectDict.iteritems() %}
-      <strong>{{ key }}:</strong>
-      <ul>
-        {% for v in val %}
-          <li> {{ item }} </li>
-        {% endfor %}
-      </ul>
-    {% endfor %}
+      <h2>Other Locations:</h2>
+      {% for key, val in objectDict.iteritems() %}
+        <strong>{{ key }}:</strong>
+        <ul>
+          {% for v in val %}
+            <li> {{ item }} </li>
+          {% endfor %}
+        </ul>
+      {% endfor %}
 	  </div> <!-- /container -->
 
 
