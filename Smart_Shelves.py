@@ -1,7 +1,7 @@
 import logging
 
 from flask import Flask, json, render_template, request
-from flask_ask import Ask, request, session, question, statement
+from flask_ask import Ask, session, question, statement
 import MySQLdb, urllib2
 
 app = Flask(__name__)
