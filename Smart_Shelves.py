@@ -253,7 +253,7 @@ def standardize_shelf_location(location):
     if ((('middle' in location) or 'center' in location) and 'top' in location):
         return 'center of the top shelf'
     if ('left' in location and 'bottom' in location):
-        return 'left side of the top shelf'
+        return 'left side of the bottom shelf'
     if ('right' in location and 'bottom' in location):
         return 'right side of the bottom shelf'
     if ((('middle' in location) or 'center' in location) and 'bottom' in location):
