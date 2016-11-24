@@ -22,8 +22,8 @@ db.autocommit(True)
 cur = db.cursor()
 
 #PI_ENDPOINT = "http://smartshelves.ddns.net/api/locate/"
-PI_ENDPOINT = "https://smartshelves.localtunnel.me/api/locate/"
-
+#PI_ENDPOINT = "https://smartshelves.localtunnel.me/api/locate/"
+PI_ENDPOINT = "https://b5bedaea.ngrok.io/api/locate/"
 @app.route("/about")
 def about():
     return "about us"
