@@ -12,6 +12,8 @@ set_response: Alright, you have placed your {{ item }} on the {{ location }}.
 
 move_response: Alright, you have moved your {{ item }} to the {{ location }}.
 
+remove_response: Alright, you have removed your {{ item }}
+
 goodbye: Thanks for using SmartShelves!
 
 card_title: SmartShelves
@@ -23,6 +25,8 @@ no_open_locations: I could not find any open locations in the system.
 open_locations: I found {{ location }} to be open.
 
 move_conversation: There are multiple {{ item }}. Where did you get the {{ item }} from?
+
+remove_conversation: There are multiple {{ item }}. Where is the {{ item }} you would like to remove?
 
 bad_session: I'm sorry I couldn't complete the request.
 
