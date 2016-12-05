@@ -199,13 +199,13 @@
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
     <script>
       $(document).ready(function() {
-        $("#submit_move").disabled = true;
+        $("#submit_move").prop("disabled", true);
         function selectListener() {
           $( "#select_old_loc" ).change(function() {
             if ($(this).selectedIndex == 0) {
-              $("#submit_move").disabled = true;
+              $("#submit_move").prop("disabled", true);
             } else {
-              $("#submit_move").disabled = false;
+              $("#submit_move").prop("disabled", false);
             }      
           });
        }
