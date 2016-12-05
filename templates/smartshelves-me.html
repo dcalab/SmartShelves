@@ -167,10 +167,10 @@
 
         function move_button_able() {
           console.log("change detected");
-          if ($("#select_old_loc").selectedIndex == 0 || $("select_new_loc").selectedIndex == 0) {
-           $("#submit_move").prop("disabled", true);
+          if (document.getElementById("select_old_loc").selectedIndex == 0 || document.getElementById("select_new_loc").selectedIndex == 0) {
+           document.getElementById("submit_move").prop("disabled", true);
           } else {
-           $("#submit_move").prop("disabled", false);
+           document.getElementById("#ubmit_move").prop("disabled", false);
           }
         };
         function function1() {
