@@ -147,23 +147,32 @@
             <input type='text' name="item" placeholder="item name">
             <input type='text' name="old_location" placeholder="old location">
             <input type='text' name="new_location" placeholder="new location">
-            <select id="select_old_loc">
+            <select id="select_old_loc" onchange="move_button_able()">
               <option selected>Select the previous location</option>
               {% for id, name in locationDict.iteritems() %}
               <option value={{ name }}>{{ name }}</option>
               {% endfor %}
             </select>
-            <select id="select_new_loc">
+            <select id="select_new_loc" onchange="move_button_able()">
               <option selected="selected">Select the new location</option>
               {% for id, name in locationDict.iteritems() %}
               <option value={{ name }}>{{ name }}</option>
               {% endfor %}
               <option value="custom">enter custom</option>           
-            <input id='submit_move' type='submit' value="Move Item" onclick="function2()" >
+            <input id='submit_move' type='submit' value="Move Item" onclick="function2()" disabled=true >
           </form>
         </div>
       </div>
       <script>
+
+        function move_button_able() {
+          console.log("change detected");
+          if ($("#select_old_loc").selectedIndex == 0 || $("select_new_loc").selectedIndex == 0) {
+           $("#submit_move").prop("disabled", true);
+          } else {
+           $("#submit_move").prop("disabled", false);
+          }
+        };
         function function1() {
             document.getElementById('forms').style.display = 'block'
         }
@@ -197,21 +206,5 @@
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
-    <script>
-      function move_button_able() {
-        console.log("change detected");
-        if ($("#select_old_loc").selectedIndex == 0 || $("select_new_loc").selectedIndex == 0) {
-         $("#submit_move").prop("disabled", true);
-        } else {
-         $("#submit_move").prop("disabled", false);
-        }
-      };
-      $(document).ready(function() {
-        $("#submit_move").prop("disabled", true);
-
-        $( "#select_old_loc" ).on("change", move_button_able());
-        $( "#select_new_loc" ).on("change", move_button_able());
-    }); 
-    </script>
   </body>
 </html>
