@@ -141,16 +141,16 @@
           </form>
           <form action="/move" method='post'>
             <input type='text' name="item" placeholder="item name">
-            <!--- <input type='text' name="old_location" placeholder="old location">
-            <input type='text' name="new_location" placeholder="new location"> -->
-            <select name="old_location">
-              <option selected="selected" disabled="disable">Select the previous location</option>
+            <input type='text' name="old_location" placeholder="old location">
+            <input type='text' name="new_location" placeholder="new location">
+            <select id="select_old_loc">
+              <option disabled="disable" selected>Select the previous location</option>
               {% for id, name in locationDict.iteritems() %}
               <option value={{ name }}>{{name}}</option>
               {% endfor %}
             </select>
-            <select name="new_location">
-              <option selected="selected" disabled="disable">Select the new location</option>
+            <select id="select_new_location">
+              <option disabled="disable" selected>Select the new location</option>
               {% for id, name in locationDict.iteritems() %}
               <option value={{name}}>{{name}}</option>
               {% endfor %}
@@ -162,6 +162,9 @@
       <script>
         function function1() {
             document.getElementById('forms').style.display = 'block'
+        }
+        function function2() {
+          document.getElementById('select_old_loc')
         }
       </script>
 
