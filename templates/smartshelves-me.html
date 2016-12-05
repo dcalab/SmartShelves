@@ -171,8 +171,8 @@
            document.getElementById("submit_move").setAttribute("disabled", true);
           } else {
             document.getElementById("submit_move").removeAttribute("disabled");
-            document.getElementById("move_old").value = document.getElementById("select_old_loc").options[document.getElementById("select_old_loc").selectIndex].value
-            document.getElementById("move_new").value = document.getElementById("select_new_loc").options[document.getElementById("select_new_loc").selectIndex].value
+            document.getElementById("move_old").value = document.getElementById("select_old_loc").options[document.getElementById("select_old_loc").selectedIndex].value
+            document.getElementById("move_new").value = document.getElementById("select_new_loc").options[document.getElementById("select_new_loc").selectedIndex].value
           }
         };
         function function1() {
