@@ -150,13 +150,13 @@
             <select id="select_old_loc" onchange="move_button_able()">
               <option selected>Select the previous location</option>
               {% for id, name in locationDict.iteritems() %}
-              <option value={{ name }}>{{ name }}</option>
+              <option value="{{ name }}">{{ name }}</option>
               {% endfor %}
             </select>
             <select id="select_new_loc" onchange="move_button_able()">
               <option selected="selected">Select the new location</option>
               {% for id, name in locationDict.iteritems() %}
-              <option value={{ name }}>{{ name }}</option>
+              <option value="{{ name }}">{{ name }}</option>
               {% endfor %}
               <option value="custom">enter custom</option>           
             <input id='submit_move' type='submit' value="Move Item" onclick="function2()" disabled="true" >
