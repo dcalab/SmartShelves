@@ -144,13 +144,13 @@
             <input type='text' name="old_location" placeholder="old location">
             <input type='text' name="new_location" placeholder="new location">
             <select id="select_old_loc">
-              <option disabled="disable" selected>Select the previous location</option>
+              <option selected>Select the previous location</option>
               {% for id, name in locationDict.iteritems() %}
               <option value={{ name }}>{{ name }}</option>
               {% endfor %}
             </select>
             <select id="select_new_loc">
-              <option disabled="disable" selected="selected">Select the new location</option>
+              <option selected="selected">Select the new location</option>
               {% for id, name in locationDict.iteritems() %}
               <option value={{ name }}>{{ name }}</option>
               {% endfor %}
@@ -195,6 +195,7 @@
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
     <script>
       $(document).ready(function() {
+        $("#submit_move").disabled = true;
         function selectListener() {
           $( "#select_old_loc" ).change(function() {
             if ($(this).selectedIndex == 0) {
