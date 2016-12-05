@@ -143,13 +143,13 @@
             <input type='text' name="item" placeholder="item name">
             <!--- <input type='text' name="old_location" placeholder="old location">
             <input type='text' name="new_location" placeholder="new location"> -->
-            <select name="old location">
+            <select name="old_location">
               <option selected="selected" disabled="disable">Select the previous location</option>
               {% for id, name in locationDict.iteritems() %}
               <option value={{ name }}>{{name}}</option>
               {% endfor %}
             </select>
-            <select name="new location">
+            <select name="new_location">
               <option selected="selected" disabled="disable">Select the new location</option>
               {% for id, name in locationDict.iteritems() %}
               <option value={{name}}>{{name}}</option>
