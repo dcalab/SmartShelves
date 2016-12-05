@@ -61,6 +61,8 @@ def website_add_item():
 @app.route("/move", methods=['POST'])
 def website_move_item():
     item = request.form['item']
+    print ("got request")
+    print(request.form['old_location'])
     start = standardize_shelf_location(request.form['old_location'])
     end  = standardize_shelf_location(request.form['new_location'])
     if item != None and start != None and end != None:
@@ -408,4 +410,4 @@ def session_ended():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

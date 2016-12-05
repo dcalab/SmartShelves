@@ -143,6 +143,18 @@
             <input type='text' name="item" placeholder="item name">
             <input type='text' name="old_location" placeholder="old location">
             <input type='text' name="new_location" placeholder="new location">
+            <select id="select_old_loc">
+              <option disabled="disable" selected>Select the previous location</option>
+              {% for id, name in locationDict.iteritems() %}
+              <option value={{ name }}>{{name}}</option>
+              {% endfor %}
+            </select>
+            <select id="select_new_location">
+              <option disabled="disable" selected>Select the new location</option>
+              {% for id, name in locationDict.iteritems() %}
+              <option value={{name}}>{{name}}</option>
+              {% endfor %}
+              <option value="custom">enter custom</option>           
             <input type='submit' value="Move Item" >
           </form>
         </div>
@@ -150,6 +162,9 @@
       <script>
         function function1() {
             document.getElementById('forms').style.display = 'block'
+        }
+        function function2() {
+          document.getElementById('select_old_loc')
         }
       </script>
 
