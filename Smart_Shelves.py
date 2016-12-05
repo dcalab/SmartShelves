@@ -79,7 +79,7 @@ def website_move_item():
     db.commit()
     return redirect(url_for('view'))
 
-@pp.route("/remove", methods=['POST'])
+@app.route("/remove", methods=['POST'])
 def website_remove_item():
     item = request.form['item']
     location = request.form['location']
