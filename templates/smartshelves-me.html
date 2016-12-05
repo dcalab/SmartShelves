@@ -198,23 +198,18 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
     <script>
+      function move_button_able() {
+        if ($("#select_old_loc").selectedIndex == 0 || $("select_new_loc").selectedIndex == 0) {
+         $("#submit_move").prop("disabled", true);
+        } else {
+         $("#submit_move").prop("disabled", false);
+        }
+      };
       $(document).ready(function() {
         $("#submit_move").prop("disabled", true);
-        $( "#select_old_loc" ).on("change", function() {
-          if ($(this).selectedIndex == 0 || $("#select_new_loc").selectedIndex == 0) {
-            $("#submit_move").prop("disabled", true);
-          } else {
-            $("#submit_move").prop("disabled", false);
-          }      
-        });
-        $( "#select_new_loc" ).on("change", function() {
-          if ($(this).selectedIndex == 0 || $("#select_old_loc").selectedIndex == 0) {
-            $("#submit_move").prop("disabled", true);
-          } else {
-            $("#submit_move").prop("disabled", false);
-          }      
-        });
 
+        $( "#select_old_loc" ).on("change", move_button_able());
+        $( "#select_new_loc" ).on("change", move_button_able());
     }); 
     </script>
   </body>
