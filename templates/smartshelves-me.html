@@ -141,8 +141,20 @@
           </form>
           <form action="/move" method='post'>
             <input type='text' name="item" placeholder="item name">
-            <input type='text' name="old_location" placeholder="old location">
-            <input type='text' name="new_location" placeholder="new location">
+            <!--- <input type='text' name="old_location" placeholder="old location">
+            <input type='text' name="new_location" placeholder="new location"> -->
+            <select name="old location">
+              <option disabled="disable">Select the previous location</option>
+              {% for loc in locationDict %}
+              <option value={{loc}}>{{loc[loop.index]}}</option>
+              {% endfor %}
+            </select>
+            <select name="new location">
+              <option disabled="disable">Select the new location</option>
+              {% for loc in locationDict %}
+              <option value={{loc}}>{{loc[loop.index]}}</option>
+              {% endfor %}
+              <option value="custom">enter custom</option>           
             <input type='submit' value="Move Item" >
           </form>
         </div>
