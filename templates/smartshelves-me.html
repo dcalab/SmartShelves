@@ -144,15 +144,15 @@
             <!--- <input type='text' name="old_location" placeholder="old location">
             <input type='text' name="new_location" placeholder="new location"> -->
             <select name="old location">
-              <option disabled="disable">Select the previous location</option>
-              {% for loc_id, loc_name in locationDict.iteritems() %}
-              <option value={{loc_name}}>{{loc_nam}}</option>
+              <option seleted="selected" disabled="disable">Select the previous location</option>
+              {% for id, name in locationDict.iteritems() %}
+              <option value={{ name }}>{{name}}</option>
               {% endfor %}
             </select>
             <select name="new location">
-              <option disabled="disable">Select the new location</option>
-              {% for loc_id, loc_name in locationDict.iteritems() %}
-              <option value={{loc_name}}>{{loc_nam}}</option>
+              <option selected="selected" disabled="disable">Select the new location</option>
+              {% for id, name in locationDict.iteritems() %}
+              <option value={{name}}>{{name}}</option>
               {% endfor %}
               <option value="custom">enter custom</option>           
             <input type='submit' value="Move Item" >
