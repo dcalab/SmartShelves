@@ -87,7 +87,7 @@ def website_remove_item():
         print("in remove item intent")
         cur.execute("SELECT locationID FROM Locations WHERE name=%s", (location))
         locationId = cur.fetchone()
-        if !locationId:
+        if not locationId:
             #TODO: print some sort of error message to website and return
             return redirect(url_for('view'))
         cur.execute("SELECT itemID FROM Items WHERE name=%s AND locationId=%s", (item, locationId))
