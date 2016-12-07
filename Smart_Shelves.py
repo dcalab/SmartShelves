@@ -61,11 +61,14 @@ def website_add_item():
 @app.route("/move", methods=['POST'])
 def website_move_item():
     item = request.form['item']
+    start = request.form['old_location']
+    end = request.form['new_location']
+    print(item)
     print ("got request")
-    print(request.form['old_location'])
-    start = standardize_shelf_location(request.form['old_location'])
-    end  = standardize_shelf_location(request.form['new_location'])
+    print(start)
     if item != None and start != None and end != None:
+        start = standardize_shelf_location(start)
+        end  = standardize_shelf_location(end)
         print("in move item intent, end != none")
         print ("end = "+str(end))
         selectedItemId = checkAndInsertItem(item, start)
@@ -76,7 +79,7 @@ def website_move_item():
             return redirect(url_for('view'))
         print("startId = " + str(startId) + " endId = " + str(endId))
         cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (endId, selectedItemId))
-    db.commit()
+        db.commit()
     return redirect(url_for('view'))
 
 @app.route("/remove", methods=['POST'])
