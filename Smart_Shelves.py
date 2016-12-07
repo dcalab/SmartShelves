@@ -52,7 +52,7 @@ def view():
 def website_add_item():
     item = request.form['item']
     location = standardize_shelf_location(request.form['new_location'])
-    if item != None and location != None:
+    if item != "" and location != "":
         print("got to insert item")
         checkAndInsertItem(item, location)
     print("pre redirect")
@@ -66,7 +66,7 @@ def website_move_item():
     print(item)
     print ("got request")
     print(start)
-    if item != None and start != None and end != None:
+    if item != "" and start != None and end != None:
         start = standardize_shelf_location(start)
         end  = standardize_shelf_location(end)
         print("in move item intent, end != none")
