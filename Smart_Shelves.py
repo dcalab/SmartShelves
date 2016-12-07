@@ -66,7 +66,7 @@ def website_move_item():
     print(item)
     print ("got request")
     print(start)
-    if item != "" and start != None and end != None:
+    if item != "" and start != "" and end != "":
         start = standardize_shelf_location(start)
         end  = standardize_shelf_location(end)
         print("in move item intent, end != none")
