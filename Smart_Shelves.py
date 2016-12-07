@@ -85,8 +85,10 @@ def website_move_item():
 @app.route("/remove", methods=['POST'])
 def website_remove_item():
     item = request.form['item']
-    location = request.form['location']
-    if item != None and location != None:
+    location = request.form['old_location']
+    print(item)
+    print(location)
+    if item != "" and item != "*" and location != "":
         print("in remove item intent")
         cur.execute("SELECT locationID FROM Locations WHERE name=%s", (location))
         locationId = cur.fetchone()
