@@ -146,13 +146,13 @@
           <form action="/move" method='post'>
             <input type='text' name="item" placeholder="item name">
             <input type='hidden' name="old_location" id="move_old">
-            <input type='text' name="new_location" id="move_new">
             <select id="select_old_loc" onchange="move_button_able()">
               <option selected>Select the previous location</option>
               {% for id, name in locationDict.iteritems() %}
               <option value="{{ name }}">{{ name }}</option>
               {% endfor %}
             </select>
+            <input type='text' name="new_location" placeholder="new location">
             <!--<select id="select_new_loc" onchange="move_button_able()">
               <option selected>Select the new location</option>
               {% for id, name in locationDict.iteritems() %}
