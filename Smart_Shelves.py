@@ -92,7 +92,7 @@ def website_remove_item():
         print("in remove item intent")
         cur.execute("SELECT locationID FROM Locations WHERE name=%s", (location))
         print("after first sql")
-        locationId = cur.fetchone()
+        locationId = cur.fetchone()[0]
         print(locationId)
         if not locationId:
             #TODO: print some sort of error message to website and return
@@ -102,7 +102,7 @@ def website_remove_item():
         #     #no objects of that name at that location error:
         #     return redirect(url_for('view'))
         print("before delete statement")
-        cur.execute("DELETE FROM Items WHERE name=%s AND locationID=%s", (item, str(locationId)))
+        cur.execute("DELETE FROM Items WHERE name=%s AND locationID=%s", (item, locationId))
         print("after delete statement")
         db.commit()
         return redirect(url_for('view'))
