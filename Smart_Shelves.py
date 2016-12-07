@@ -230,7 +230,7 @@ def get_item(item, location, location2):
 @ask.intent('RemoveItemIntent', mapping={'item':'Item', 'location':'Location'})
 def remove_item(item, location):
     card_title = render_template('card_title')
-    if location:
+    if location != None:
         location = standardize_shelf_location(location)
         locationId = checkAndInsertLocation(location)
         location_name = ""
