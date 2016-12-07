@@ -95,11 +95,11 @@ def website_remove_item():
         if not locationId:
             #TODO: print some sort of error message to website and return
             return redirect(url_for('view'))
-        cur.execute("SELECT itemID FROM Items WHERE name=%s AND locationId=%s", (item, locationId))
+        cur.execute("SELECT itemID FROM Items WHERE name=%s AND locationID=%s", (item, locationId))
         if cur.fetchall().len() == 0:
             #no objects of that name at that location error:
             return redirect(url_for('view'))
-        cur.execute("DELETE FROM Items WHERE name=%s AND locationId=%s", (item, locationId))
+        cur.execute("DELETE FROM Items WHERE name=%s AND locationID=%s", (item, locationId))
         db.commit()
         return redirect(url_for('view'))
     #TODO: print error item or location wasn't filled in
