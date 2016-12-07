@@ -231,6 +231,7 @@ def get_item(item, location, location2):
 def remove_item(item, location):
     card_title = render_template('card_title')
     if location != None:
+        print('AAAAAAAAAAAAAAAAA')
         location = standardize_shelf_location(location)
         locationId = checkAndInsertLocation(location)
         location_name = ""
