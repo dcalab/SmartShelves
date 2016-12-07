@@ -245,7 +245,7 @@ def remove_item(item, location):
                 cur.execute("SELECT name FROM Locations WHERE LocationID=%s",(i))
                 location_name = cur.fetchone()[0]
         if location_name is "":
-            speech_text = render_template('not_found', item=item)
+            speech_text = render_template('remove_not_found', item=item, location=location)
         else:
             speech_text = render_template('remove_response', item=item, location=location_name)    
         return statement(speech_text).simple_card(card_title, speech_text)
