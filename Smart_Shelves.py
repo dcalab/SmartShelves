@@ -101,7 +101,7 @@ def website_remove_item():
         #     #no objects of that name at that location error:
         #     return redirect(url_for('view'))
         print("before delete statement")
-        cur.execute("DELETE FROM Items WHERE name=%s AND locationID=%s", (item, locationId))
+        cur.execute("DELETE FROM Items WHERE name=%s AND locationID=%s", (item, str(locationId)))
         print("after delete statement")
         db.commit()
         return redirect(url_for('view'))
