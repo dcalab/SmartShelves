@@ -228,7 +228,7 @@ def get_item(item, location, location2):
     return statement(speech_text).simple_card(card_title, speech_text)
 
 @ask.intent('RemoveItemIntent', mapping={'item':'Item', 'location':'Location'})
-def remove_item(item):
+def remove_item(item, location):
     card_title = render_template('card_title')
     if location:
         location = standardize_shelf_location(location)
@@ -249,7 +249,7 @@ def remove_item(item):
             return question(speech_text).simple_card(card_title, speech_text)
         speech_text = render_template('remove_response', item=session.attributes['item_name'], location=location_name)    
         return statement(speech_text).simple_card(card_title, speech_text)
-          
+
     cur.execute("SELECT name, led FROM Locations WHERE LocationID IN (SELECT locationID FROM Items WHERE name=%s) ORDER BY LocationId DESC", (item))
     data = cur.fetchall()
     location = ""
