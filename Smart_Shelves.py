@@ -245,9 +245,10 @@ def remove_item(item, location):
                 cur.execute("SELECT name FROM Locations WHERE LocationID=%s",(i))
                 location_name = cur.fetchone()[0]
         if location_name is "":
-            speech_text = render_template('remove_conversation', item=item_name)
+            session.attributes['item_name'] = item
+            speech_text = render_template('remove_conversation', item=item)
             return question(speech_text).simple_card(card_title, speech_text)
-        speech_text = render_template('remove_response', item=session.attributes['item_name'], location=location_name)    
+        speech_text = render_template('remove_response', item=item, location=location_name)    
         return statement(speech_text).simple_card(card_title, speech_text)
 
     cur.execute("SELECT name, led FROM Locations WHERE LocationID IN (SELECT locationID FROM Items WHERE name=%s) ORDER BY LocationId DESC", (item))
