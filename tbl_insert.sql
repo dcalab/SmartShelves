@@ -1,5 +1,5 @@
 INSERT INTO Locations (name, led)
-VALUES ('unkown', '0');
+VALUES ('unknown', '0');
 
 INSERT INTO Locations (name, led)
 VALUES ('top shelf', 'a');

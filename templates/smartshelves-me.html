@@ -27,6 +27,10 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script
+  src="https://code.jquery.com/jquery-3.1.1.js"
+  integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+  crossorigin="anonymous"></script>
   </head>
 
   <body>
@@ -141,33 +145,45 @@
           </form>
           <form action="/move" method='post'>
             <input type='text' name="item" placeholder="item name">
-            <input type='text' name="old_location" placeholder="old location">
-            <input type='text' name="new_location" placeholder="new location">
-            <select id="select_old_loc">
-              <option disabled="disable" selected>Select the previous location</option>
+            <input type='hidden' name="old_location" id="move_old">
+            <input type='hidden' name="new_location" id="move_new">
+            <select id="select_old_loc" onchange="move_button_able()">
+              <option selected>Select the previous location</option>
               {% for id, name in locationDict.iteritems() %}
-              <option value={{{ name }}}>{{name}}</option>
+              <option value="{{ name }}">{{ name }}</option>
               {% endfor %}
             </select>
-            <select id="select_new_loc">
-              <option disabled="disable" selected="selected">Select the new location</option>
+            <select id="select_new_loc" onchange="move_button_able()">
+              <option selected="selected">Select the new location</option>
               {% for id, name in locationDict.iteritems() %}
-              <option value={{{name}}}>{{name}}</option>
+              <option value="{{ name }}">{{ name }}</option>
               {% endfor %}
-              <option value="custom">enter custom</option>           
-            <input type='submit' value="Move Item" >
+              <option value="custom">enter custom</option>
+              </select>          
+            <input id='submit_move' type='submit' value="Move Item" onclick="function2()" disabled="true" >
           </form>
         </div>
       </div>
       <script>
+        function move_button_able() {
+          console.log("change detected");
+          if (document.getElementById("select_old_loc").selectedIndex == 0 || document.getElementById("select_new_loc").selectedIndex == 0) {
+           document.getElementById("submit_move").setAttribute("disabled", true);
+          } else {
+            document.getElementById("submit_move").removeAttribute("disabled");
+            document.getElementById("move_old").value = document.getElementById("select_old_loc").options[document.getElementById("select_old_loc").selectedIndex].value
+            document.getElementById("move_new").value = document.getElementById("select_new_loc").options[document.getElementById("select_new_loc").selectedIndex].value
+          }
+        };
         function function1() {
             document.getElementById('forms').style.display = 'block'
         }
+
         function function2() {
           var old_l = document.getElementById('select_old_loc');
           var new_l = document.getElementById('select_new_loc');
-          if (old_l.selectedIndex === 0 || new_l.selectedIndex === 0) {
-            console.log("bad selection");
+          if (old_l.selectedIndex == 0 || new_l.selectedIndex == 0) {
+            alert("bad selection");
           }
           var old_l_val = old_l.options[old_l.selectedIndex].value;
           var new_l_val = new_l.options[new_l.selectedIndex].value;
