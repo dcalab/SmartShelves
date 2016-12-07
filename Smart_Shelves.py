@@ -93,6 +93,7 @@ def website_remove_item():
         cur.execute("SELECT locationID FROM Locations WHERE name=%s", (location))
         print("after first sql")
         locationId = cur.fetchone()
+        print(locationId)
         if not locationId:
             #TODO: print some sort of error message to website and return
             return redirect(url_for('view'))
