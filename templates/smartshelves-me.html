@@ -164,7 +164,7 @@
               <option value="{{ name }}">{{ name }}</option>
               {% endfor %}
             </select>
-            <input id='submit_remove' type='submit' value="Move Item" disabled="true" >
+            <input id='submit_remove' type='submit' value="Remove Item" disabled="true" >
           </form>
         </div>
       </div>
@@ -173,10 +173,10 @@
           console.log("change detected");
           if (document.getElementById("select_old_loc").selectedIndex == 0){
            document.getElementById("submit_move").setAttribute("disabled", true);
-           document.getElementById("move_old").value = document.getElementById("select_old_loc").options[document.getElementById("select_old_loc").selectedIndex].value
+           document.getElementById("remove_old").value = document.getElementById("select_old_loc").options[document.getElementById("select_old_loc").selectedIndex].value
           } else {
             document.getElementById("submit_move").removeAttribute("disabled");
-            document.getElementById("move_old").value = document.getElementById("select_old_loc").options[document.getElementById("select_old_loc").selectedIndex].value
+            document.getElementById("remove_old").value = document.getElementById("select_old_loc").options[document.getElementById("select_old_loc").selectedIndex].value
           }
         };
         function remove_button_able() {
