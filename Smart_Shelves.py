@@ -89,14 +89,7 @@ def website_remove_item():
     print(item)
     print(location)
     if item != "" and item != "*" and location != "":
-        print("in remove item intent")
-        cur.execute("SELECT locationID FROM Locations WHERE name=%s", (location))
-        print("after first sql")
-        locationId = cur.fetchone()[0]
-        print(locationId)
-        if not locationId:
-            #TODO: print some sort of error message to website and return
-            return redirect(url_for('view'))
+        locationId = checkAndInsertLocation(location)
         # cur.execute("SELECT itemID FROM Items WHERE name=%s AND locationID=%s", (item, locationId))
         # if len(cur.fetchall()) == 0:
         #     #no objects of that name at that location error:
