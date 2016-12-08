@@ -142,6 +142,7 @@ def set_item(location):
                 speech_text = render_template('move_conversation', item=item_name)
                 return question(speech_text).simple_card(card_title, speech_text)
         elif req_type == "remove":
+            print("in remove prev")
             cur.execute("DELETE FROM Items WHERE name=%s and locationID=%s", (item, locationId))
             db.commit()
             speech_text = render_template('remove_response', item=item_name, location=location)    
