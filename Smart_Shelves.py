@@ -220,9 +220,30 @@ def get_item(item, location, location2):
     db.commit()
     return statement(speech_text).simple_card(card_title, speech_text)
 
-@ask.intent('RemoveItemIntent', mapping={'item':'Item'})
-def remove_item(item):
+@ask.intent('RemoveItemIntent', mapping={'item':'Item', 'location':'Location'})
+def remove_item(item, location):
     card_title = render_template('card_title')
+    if location != None:
+        print('AAAAAAAAAAAAAAAAA')
+        location = standardize_shelf_location(location)
+        locationId = checkAndInsertLocation(location)
+        location_name = ""
+        print (locationId)
+        cur.execute("SELECT locationID FROM Items WHERE name=%s", (item))
+        data = cur.fetchall()
+        for i in data:
+           if str(locationId) == str(i):
+                print ("found key")
+                cur.execute("DELETE FROM Items WHERE name=%s and locationID=%s", (item, i))
+                db.commit()
+                cur.execute("SELECT name FROM Locations WHERE LocationID=%s",(i))
+                location_name = cur.fetchone()[0]
+        if location_name is "":
+            speech_text = render_template('remove_not_found', item=item, location=location)
+        else:
+            speech_text = render_template('remove_response', item=item, location=location_name)    
+        return statement(speech_text).simple_card(card_title, speech_text)
+
     cur.execute("SELECT name, led FROM Locations WHERE LocationID IN (SELECT locationID FROM Items WHERE name=%s) ORDER BY LocationId DESC", (item))
     data = cur.fetchall()
     location = ""

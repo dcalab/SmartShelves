@@ -2,11 +2,11 @@ launch: Welcome to Smart Shelves, you can ask where an item is or you can place,
 
 get_response_on: Your {{ item }} is on the {{ location }}.
 
-get_response_on_plural: Your {{ item }} are on the location {{ location }}.
+get_response_on_plural: Your {{ item }} are on the  {{ location }}.
 
 get_response_in: Your {{ item }} is in the {{ location }}.
 
-get_response_in_plural: Your {{ item }} are in the location {{ location }}.
+get_response_in_plural: Your {{ item }} are in the {{ location }}.
 
 set_response: Alright, you have placed your {{ item }} on the {{ location }}.
 
@@ -19,6 +19,8 @@ goodbye: Thanks for using SmartShelves!
 card_title: SmartShelves
 
 not_found: I could not find {{ item }} in the system.
+
+remove_not_found: I could not find {{ item }} on the {{ location }}.
 
 no_open_locations: I could not find any open locations in the system.
 
