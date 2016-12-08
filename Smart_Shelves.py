@@ -254,7 +254,7 @@ def remove_item(item, location):
         if location_name is "":
             speech_text = render_template('remove_not_found', item=item, location=location)
         else:
-            speech_text = render_template('remove_response', item=item, location=location_name)    
+            speech_text = render_template('remove_response', item=item)    
         return statement(speech_text).simple_card(card_title, speech_text)
     else:
         cur.execute("SELECT locationID FROM Items WHERE name=%s", (item))
@@ -262,12 +262,14 @@ def remove_item(item, location):
         if cur.rowcount == 1:
             cur.execute("DELETE FROM Items WHERE name=%s and locationID=%s", (item, i))
             db.commit()
+            speech_text = render_template('remove_response', item=item) 
+            return statement(speech_text).simple_card(card_title, speech_text)   
         else:
-            
-        session.attributes['item_name'] = item
-        session.attributes['type'] = "remove"
-        speech_text = render_template('remove_conversation', item=item)
-        return question(speech_text).simple_card(card_title, speech_text)
+
+            session.attributes['item_name'] = item
+            session.attributes['type'] = "remove"
+            speech_text = render_template('remove_conversation', item=item)
+            return question(speech_text).simple_card(card_title, speech_text)
 
 
 # @ask.intent('RemoveItemConversationIntent', mapping={'location':'Location_one'})
