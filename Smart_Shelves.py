@@ -124,6 +124,7 @@ def set_item(location):
         req_type = session.attributes['type']
         item_name = session.attributes['item_name']
         locationId = checkAndInsertLocation(location)
+        print ("req_type = " +req_type)
         if req_type == "move":
             endId = session.attributes['dest']
             print (endId)
