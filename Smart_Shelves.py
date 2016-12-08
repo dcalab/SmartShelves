@@ -66,7 +66,7 @@ def website_move_item():
     print(item)
     print ("got request")
     print(start)
-    if item != "" and start != "" and end != "":
+    if item != None and start != None and end != None:
         start = standardize_shelf_location(start)
         end  = standardize_shelf_location(end)
         print("in move item intent, end != none")
@@ -88,7 +88,8 @@ def website_remove_item():
     location = request.form['old_location']
     print(" item = "+item)
     print("location = "+location)
-    if item != None and location != "":
+    if item != None and location != None:
+        location = standardize_shelf_location(location)
         locationId = checkAndInsertLocation(location)
         print("locationId = " + str(LocationId))
 

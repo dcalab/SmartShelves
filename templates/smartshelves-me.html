@@ -145,50 +145,50 @@
           </form>
           <form action="/move" method='post'>
             <input aria-required="true" type='text' name="item" placeholder="name of item to move">
-            <input aria-required="true" type='hidden' name="old_location" id="current location of item">
-            <select id="select_old_loc" onchange="move_button_able()">
+            <input aria-required="true" type='text' name="old_location" id="current location of item">
+<!--             <select id="select_old_loc" onchange="move_button_able()">
               <option selected>Select the previous location</option>
               {% for id, name in locationDict.iteritems() %}
               <option value="{{ name }}">{{ name }}</option>
               {% endfor %}
-            </select>
+            </select> -->
             <input aria-required="true" type='text' name="new_location" placeholder="new location for item">        
             <input id='submit_move' type='submit' value="Move Item" disabled="true" >
           </form>
           <form action="/remove" method='post'>
             <input aria-required="true" type='text' name="item" placeholder="name of item to remove">
-            <input aria-required="true" type='hidden' name="old_location" id="location to remove item from">
-            <select id="remove_old_loc" onchange="remove_button_able()">
+            <input aria-required="true" type='text' name="old_location" id="location to remove item from">
+<!--             <select id="remove_old_loc" onchange="remove_button_able()">
               <option selected>Select the previous location</option>
               {% for id, name in locationDict.iteritems() %}
               <option value="{{ name }}">{{ name }}</option>
               {% endfor %}
-            </select>
-            <input id='submit_remove' type='submit' value="Remove Item" disabled="true" >
+            </select> -->
+            <input id='submit_remove' type='submit' value="Remove Item">
           </form>
         </div>
       </div>
       <script>
-        function move_button_able() {
-          console.log("change detected");
-          if (document.getElementById("select_old_loc").selectedIndex == 0){
-           document.getElementById("submit_move").setAttribute("disabled", true);
-           document.getElementById("move_old").value = document.getElementById("select_old_loc").options[document.getElementById("select_old_loc").selectedIndex].value
-          } else {
-            document.getElementById("submit_move").removeAttribute("disabled");
-            document.getElementById("move_old").value = document.getElementById("select_old_loc").options[document.getElementById("select_old_loc").selectedIndex].value
-          }
-        };
-        function remove_button_able() {
-          console.log("change detected");
-          if (document.getElementById("remove_old_loc").selectedIndex == 0){
-           document.getElementById("submit_remove").setAttribute("disabled", true);
-           document.getElementById("remove_old").value = document.getElementById("remove_old_loc").options[document.getElementById("remove_old_loc").selectedIndex].value
-          } else {
-            document.getElementById("submit_remove").removeAttribute("disabled");
-            document.getElementById("remove_old").value = document.getElementById("remove_old_loc").options[document.getElementById("remove_old_loc").selectedIndex].value
-          }
-        };
+        // function move_button_able() {
+        //   console.log("change detected");
+        //   if (document.getElementById("select_old_loc").selectedIndex == 0){
+        //    document.getElementById("submit_move").setAttribute("disabled", true);
+        //    document.getElementById("move_old").value = document.getElementById("select_old_loc").options[document.getElementById("select_old_loc").selectedIndex].value
+        //   } else {
+        //     document.getElementById("submit_move").removeAttribute("disabled");
+        //     document.getElementById("move_old").value = document.getElementById("select_old_loc").options[document.getElementById("select_old_loc").selectedIndex].value
+        //   }
+        // };
+        // function remove_button_able() {
+        //   console.log("change detected");
+        //   if (document.getElementById("remove_old_loc").selectedIndex == 0){
+        //    document.getElementById("submit_remove").setAttribute("disabled", true);
+        //    document.getElementById("remove_old").value = document.getElementById("remove_old_loc").options[document.getElementById("remove_old_loc").selectedIndex].value
+        //   } else {
+        //     document.getElementById("submit_remove").removeAttribute("disabled");
+        //     document.getElementById("remove_old").value = document.getElementById("remove_old_loc").options[document.getElementById("remove_old_loc").selectedIndex].value
+        //   }
+        // };
         function function1() {
             document.getElementById('forms').style.display = 'block'
         }
