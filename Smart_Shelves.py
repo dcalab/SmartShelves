@@ -86,10 +86,12 @@ def website_move_item():
 def website_remove_item():
     item = request.form['item']
     location = request.form['old_location']
-    print(item)
-    print(location)
-    if item != "" and item != "*" and location != "":
+    print(" item = "+item)
+    print("location = "+location)
+    if item != None and location != "":
         locationId = checkAndInsertLocation(location)
+        print("locationId = " + str(LocationId))
+
         # cur.execute("SELECT itemID FROM Items WHERE name=%s AND locationID=%s", (item, locationId))
         # if len(cur.fetchall()) == 0:
         #     #no objects of that name at that location error:
@@ -100,6 +102,7 @@ def website_remove_item():
         db.commit()
         return redirect(url_for('view'))
     #TODO: print error item or location wasn't filled in
+    print("if did not have correct values")
     return redirect(url_for('view'))
 
 
