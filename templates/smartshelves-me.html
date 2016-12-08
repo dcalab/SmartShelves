@@ -173,10 +173,10 @@
           console.log("change detected");
           if (document.getElementById("select_old_loc").selectedIndex == 0){
            document.getElementById("submit_move").setAttribute("disabled", true);
-           document.getElementById("remove_old").value = document.getElementById("select_old_loc").options[document.getElementById("select_old_loc").selectedIndex].value
+           document.getElementById("move_old").value = document.getElementById("select_old_loc").options[document.getElementById("select_old_loc").selectedIndex].value
           } else {
             document.getElementById("submit_move").removeAttribute("disabled");
-            document.getElementById("remove_old").value = document.getElementById("select_old_loc").options[document.getElementById("select_old_loc").selectedIndex].value
+            document.getElementById("move_old").value = document.getElementById("select_old_loc").options[document.getElementById("select_old_loc").selectedIndex].value
           }
         };
         function remove_button_able() {
