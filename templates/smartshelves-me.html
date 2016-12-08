@@ -50,7 +50,7 @@
       <div class="row">
         <div class="col-md-4">
           <h4 tabindex='0'>Top Left</h4>
-            <ul>
+            <ul style="list-style:none">
               {% for item in objectDict[5] %}
                 <li tabindex='0'> {{item}} </li>
               {% endfor %}
@@ -59,7 +59,7 @@
       
         <div class="col-md-4">
   	  <h4 tabindex='0'>Top Center</h4>
-            <ul>
+            <ul style="list-style:none">
             {% for item in objectDict[6] %}
               <li tabindex='0'> {{item}} </li>
             {% endfor %}
@@ -67,7 +67,7 @@
         </div>
         <div class="col-md-4">
             <h4 tabindex='0'>Top Right</h4>
-            <ul>
+            <ul style="list-style:none">
             {% for item in objectDict[7] %}
               <li tabindex='0'> {{item}} </li>
             {% endfor %}
@@ -80,7 +80,7 @@
       <div class="row">
         <div class="col-md-4">
           <h4 tabindex='0'>Middle Left</h4>
-          <ul>
+          <ul style="list-style:none">
             {% for item in objectDict[8] %}
                 <li tabindex='0'> {{item}} </li>
             {% endfor %}
@@ -88,7 +88,7 @@
         </div>
         <div class="col-md-4">
           <h4 tabindex='0'>Middle Center</h4>
-          <ul>
+          <ul style="list-style:none">
             {% for item in objectDict[9] %}
               <li tabindex='0'> {{item}} </li>
             {% endfor %}
@@ -96,7 +96,7 @@
         </div>
         <div class="col-md-4">
           <h4 tabindex='0'>Middle Right</h4>
-          <ul>
+          <ul style="list-style:none">
           {% for item in objectDict[10] %}
               <li tabindex='0'> {{item}} </li>
           {% endfor %}
@@ -109,7 +109,7 @@
         <div class="row">
           <div class="col-md-4">
             <h4 tabindex='0'>Bottom Left</h4>
-            <ul>
+            <ul style="list-style:none">
               {% for item in objectDict[11] %}
                 <li tabindex='0'> {{item}} </li>
               {% endfor %}
@@ -117,7 +117,7 @@
             </div>
           <div class="col-md-4">
             <h4 tabindex='0'>Bottom Center</h4>
-            <ul>
+            <ul style="list-style:none">
               {% for item in objectDict[12] %}
                 <li tabindex='0'> {{item}} </li>
               {% endfor %}
@@ -125,7 +125,7 @@
           </div>
           <div class="col-md-4">
             <h4 tabindex='0'>Bottom Right</h4>
-            <ul>
+            <ul style="list-style:none">
               {% for item in objectDict[13] %}
                 <li tabindex='0'> {{item}} </li>
               {% endfor %}
@@ -139,25 +139,25 @@
       <button onclick="function1()">Edit Contents</button>
         <div id='forms' style="display:none">
           <form action="/add" method='post' >
-            <input type='text' name="item" placeholder="item name">
-            <input type='text' name="new_location" placeholder="new location">
+            <input aria-required="true" type='text' name="item" placeholder="name of item to add">
+            <input aria-required="true" type='text' name="new_location" placeholder="location to add item">
             <input type='submit' value="Add Item" >
           </form>
           <form action="/move" method='post'>
-            <input type='text' name="item" placeholder="item name">
-            <input type='hidden' name="old_location" id="move_old">
+            <input aria-required="true" type='text' name="item" placeholder="name of item to move">
+            <input aria-required="true" type='hidden' name="old_location" id="current location of item">
             <select id="select_old_loc" onchange="move_button_able()">
               <option selected>Select the previous location</option>
               {% for id, name in locationDict.iteritems() %}
               <option value="{{ name }}">{{ name }}</option>
               {% endfor %}
             </select>
-            <input type='text' name="new_location" placeholder="new location">        
+            <input aria-required="true" type='text' name="new_location" placeholder="new location for item">        
             <input id='submit_move' type='submit' value="Move Item" disabled="true" >
           </form>
           <form action="/remove" method='post'>
-            <input type='text' name="item" placeholder="item name">
-            <input type='hidden' name="old_location" id="remove_old">
+            <input aria-required="true" type='text' name="item" placeholder="name of item to remove">
+            <input aria-required="true" type='hidden' name="old_location" id="location to remove item from">
             <select id="remove_old_loc" onchange="remove_button_able()">
               <option selected>Select the previous location</option>
               {% for id, name in locationDict.iteritems() %}
@@ -200,7 +200,7 @@
         {% if val|length > 0 %}
         {% if loop.index < 5 or loop.index > 13 %}
         <h4 tabindex='0'>{{ locationDict[loop.index] }}:</h4>
-        <ul>
+        <ul style="list-style:none">
           {% for v in val %}
             <li tabindex='0'> {{ v }} </li>
           {% endfor %}
