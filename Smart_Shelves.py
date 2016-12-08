@@ -121,23 +121,29 @@ def set_item(location):
     location_name = ""
     card_title = render_template('card_title')
     try:
+        req_type = session.attributes['type']
         item_name = session.attributes['item_name']
-        endId = session.attributes['dest']
-        print (endId)
         locationId = checkAndInsertLocation(location)
-        print (locationId)
-        for key in session.attributes['items']:
-           value = session.attributes['items'][key]
-           print(str(key)+" "+str(value))
-           if str(locationId) == str(key):
-                print ("found key")
-                cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (endId, value))
-                db.commit()
-                cur.execute("SELECT name FROM Locations WHERE LocationID=%s",(endId))
-                location_name = cur.fetchone()[0]
-        if location_name is "":
-            speech_text = render_template('move_conversation', item=item_name)
-            return question(speech_text).simple_card(card_title, speech_text)
+        if req_type == "move":
+            endId = session.attributes['dest']
+            print (endId)
+            print (locationId)
+            for key in session.attributes['items']:
+               value = session.attributes['items'][key]
+               print(str(key)+" "+str(value))
+               if str(locationId) == str(key):
+                    print ("found key")
+                    cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (endId, value))
+                    db.commit()
+                    cur.execute("SELECT name FROM Locations WHERE LocationID=%s",(endId))
+                    location_name = cur.fetchone()[0]
+            if location_name is "":
+                speech_text = render_template('move_conversation', item=item_name)
+                return question(speech_text).simple_card(card_title, speech_text)
+        elif req_type == "remove":
+            cur.execute("DELETE FROM Items WHERE name=%s and locationID=%s", (item, i))
+            speech_text = render_template('remove_response', item=item, location=location_name)    
+            return statement(speech_text).simple_card(card_title, speech_text)
     except:
         speech_text = render_template('bad_session')
         return statement(speech_text).simple_card(card_title, speech_text)
@@ -249,6 +255,7 @@ def remove_item(item, location):
         return statement(speech_text).simple_card(card_title, speech_text)
     else:
         session.attributes['item_name'] = item
+        session.attributes['type'] = "remove"
         speech_text = render_template('remove_conversation', item=item)
         return question(speech_text).simple_card(card_title, speech_text)
 
@@ -308,6 +315,7 @@ def checkAndInsertItem(item, location):
                     #locationId -> itemId
                     #session.attributes['items']
                     session.attributes['items'][row[1]] = row[0]
+                session.attributes["type"] = "move"
                 return "conversation_needed"
             print ("results = ")
             print(results)
