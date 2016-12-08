@@ -247,35 +247,11 @@ def remove_item(item, location):
         else:
             speech_text = render_template('remove_response', item=item, location=location_name)    
         return statement(speech_text).simple_card(card_title, speech_text)
-
-    cur.execute("SELECT name, led FROM Locations WHERE LocationID IN (SELECT locationID FROM Items WHERE name=%s) ORDER BY LocationId DESC", (item))
-    data = cur.fetchall()
-    location = ""
-    led = ""
-    speech_text = ""
-    counter = 0
-    if data:
-        for row in data:
-            ++counter
-            if row[0] == "unkown":
-                led += str(row[1])
-                break
-            location += row[0]
-            location += ", "
-            led += row[1]
-    if location == "":
-        led = "0"
-        speech_text = render_template('not_found', item=item)
-    elif counter > 1:
+    else:
         session.attributes['item_name'] = item
         speech_text = render_template('remove_conversation', item=item)
         return question(speech_text).simple_card(card_title, speech_text)
-    else:
-        cur.execute("DELETE FROM Items WHERE name=%s", (item))
-        db.commit()
-        speech_text = render_template('remove_response', item=item)
 
-    return statement(speech_text).simple_card(card_title, speech_text)
 
 @ask.intent('RemoveItemConversationIntent', mapping={'location':'Location_one'})
 def remove_item_conversation(location):
