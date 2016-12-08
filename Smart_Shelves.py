@@ -260,7 +260,7 @@ def remove_item(item, location):
         cur.execute("SELECT locationID FROM Items WHERE name=%s", (item))
         data = cur.fetchall()
         if cur.rowcount == 1:
-            cur.execute("DELETE FROM Items WHERE name=%s and locationID=%s", (item, i))
+            cur.execute("DELETE FROM Items WHERE name=%s", (item))
             db.commit()
             speech_text = render_template('remove_response', item=item) 
             return statement(speech_text).simple_card(card_title, speech_text)   
