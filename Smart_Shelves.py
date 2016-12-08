@@ -144,7 +144,7 @@ def set_item(location):
         elif req_type == "remove":
             cur.execute("DELETE FROM Items WHERE name=%s and locationID=%s", (item, locationId))
             db.commit()
-            speech_text = render_template('remove_response', item=item, location=location_name)    
+            speech_text = render_template('remove_response', item=item_name, location=location)    
             return statement(speech_text).simple_card(card_title, speech_text)
     except:
         speech_text = render_template('bad_session')
