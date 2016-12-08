@@ -145,7 +145,7 @@
           </form>
           <form action="/move" method='post'>
             <input aria-required="true" type='text' name="item" placeholder="name of item to move">
-            <input aria-required="true" type='text' name="old_location" id="current location of item">
+            <input aria-required="true" type='text' name="old_location" placeholder="previous location of item"">
 <!--             <select id="select_old_loc" onchange="move_button_able()">
               <option selected>Select the previous location</option>
               {% for id, name in locationDict.iteritems() %}
@@ -157,7 +157,7 @@
           </form>
           <form action="/remove" method='post'>
             <input aria-required="true" type='text' name="item" placeholder="name of item to remove">
-            <input aria-required="true" type='text' name="old_location" id="location to remove item from">
+            <input aria-required="true" type='text' name="old_location" placeholder="location to remove item from">
 <!--             <select id="remove_old_loc" onchange="remove_button_able()">
               <option selected>Select the previous location</option>
               {% for id, name in locationDict.iteritems() %}

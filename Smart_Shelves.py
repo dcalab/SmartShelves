@@ -91,7 +91,7 @@ def website_remove_item():
     if item != None and location != None:
         location = standardize_shelf_location(location)
         locationId = checkAndInsertLocation(location)
-        print("locationId = " + str(LocationId))
+        print("locationId = " + str(locationId))
 
         # cur.execute("SELECT itemID FROM Items WHERE name=%s AND locationID=%s", (item, locationId))
         # if len(cur.fetchall()) == 0:
