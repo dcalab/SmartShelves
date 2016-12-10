@@ -329,7 +329,7 @@ def whatsOnShelf(location):
         speech_text = render_template('whats_at_location_response', items=items)
     else:
         speech_text = render_template('no_items_response')
-    return statement(speech_text).simple_card(card_title, speech_text))
+    return statement(speech_text).simple_card(card_title, speech_text)
 
 def checkAndInsertItem(item, location):
     if location != "":
