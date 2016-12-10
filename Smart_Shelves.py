@@ -306,6 +306,7 @@ def whatsOnShelf(location):
     card_title = render_template('card_title')
     speech_text = ""
     if 'shelf' in location:
+        items = []
         if location == "top shelf":
             cur.execute("SELECT name FROM Items WHERE locationID=2 or locationID=5 or locationID=6 or locationID=7")
             items = cur.fetchall()
@@ -317,7 +318,7 @@ def whatsOnShelf(location):
             items = cur.fetchall()
         
         if len(items) > 0:
-            speech_text = render_template('whats_at_location_response', items=items)
+            speech_text = render_template('whats_at_location_response', location=location, items=items)
         else:
             speech_text = render_template('no_items_response')
         return statement(speech_text).simple_card(card_title, speech_text)
@@ -326,7 +327,7 @@ def whatsOnShelf(location):
     cur.execute("SELECT name FROM Items WHERE locationID=(SELECT locationID FROM Locations WHERE name=%s)", (location))
     items = cur.fetchall()
     if len(items) > 0:
-        speech_text = render_template('whats_at_location_response', items=items)
+        speech_text = render_template('whats_at_location_response', location=location, items=items)
     else:
         speech_text = render_template('no_items_response')
     return statement(speech_text).simple_card(card_title, speech_text)
