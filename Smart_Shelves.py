@@ -66,7 +66,7 @@ def website_move_item():
     print(item)
     print ("got request")
     print(start)
-    if item != "" and start != "" and end != "":
+    if item != None and start != None and end != None:
         start = standardize_shelf_location(start)
         end  = standardize_shelf_location(end)
         print("in move item intent, end != none")
@@ -86,17 +86,13 @@ def website_move_item():
 def website_remove_item():
     item = request.form['item']
     location = request.form['old_location']
-    print(item)
-    print(location)
-    if item != "" and item != "*" and location != "":
-        print("in remove item intent")
-        cur.execute("SELECT locationID FROM Locations WHERE name=%s", (location))
-        print("after first sql")
-        locationId = cur.fetchone()[0]
-        print(locationId)
-        if not locationId:
-            #TODO: print some sort of error message to website and return
-            return redirect(url_for('view'))
+    print(" item = "+item)
+    print("location = "+location)
+    if item != None and location != None:
+        location = standardize_shelf_location(location)
+        locationId = checkAndInsertLocation(location)
+        print("locationId = " + str(locationId))
+
         # cur.execute("SELECT itemID FROM Items WHERE name=%s AND locationID=%s", (item, locationId))
         # if len(cur.fetchall()) == 0:
         #     #no objects of that name at that location error:
@@ -107,6 +103,7 @@ def website_remove_item():
         db.commit()
         return redirect(url_for('view'))
     #TODO: print error item or location wasn't filled in
+    print("if did not have correct values")
     return redirect(url_for('view'))
 
 
@@ -124,23 +121,32 @@ def set_item(location):
     location_name = ""
     card_title = render_template('card_title')
     try:
+        req_type = session.attributes['type']
         item_name = session.attributes['item_name']
-        endId = session.attributes['dest']
-        print (endId)
         locationId = checkAndInsertLocation(location)
-        print (locationId)
-        for key in session.attributes['items']:
-           value = session.attributes['items'][key]
-           print(str(key)+" "+str(value))
-           if str(locationId) == str(key):
-                print ("found key")
-                cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (endId, value))
-                db.commit()
-                cur.execute("SELECT name FROM Locations WHERE LocationID=%s",(endId))
-                location_name = cur.fetchone()[0]
-        if location_name is "":
-            speech_text = render_template('move_conversation', item=item_name)
-            return question(speech_text).simple_card(card_title, speech_text)
+        print ("req_type = " +req_type)
+        if req_type == "move":
+            endId = session.attributes['dest']
+            print (endId)
+            print (locationId)
+            for key in session.attributes['items']:
+               value = session.attributes['items'][key]
+               print(str(key)+" "+str(value))
+               if str(locationId) == str(key):
+                    print ("found key")
+                    cur.execute("UPDATE Items SET locationID=%s WHERE ItemID=%s", (endId, value))
+                    db.commit()
+                    cur.execute("SELECT name FROM Locations WHERE LocationID=%s",(endId))
+                    location_name = cur.fetchone()[0]
+            if location_name is "":
+                speech_text = render_template('move_conversation', item=item_name)
+                return question(speech_text).simple_card(card_title, speech_text)
+        elif req_type == "remove":
+            print("in remove prev")
+            cur.execute("DELETE FROM Items WHERE name=%s and locationID=%s", (item_name, locationId))
+            db.commit()
+            speech_text = render_template('remove_response', item=item_name, location=location)    
+            return statement(speech_text).simple_card(card_title, speech_text)
     except:
         speech_text = render_template('bad_session')
         return statement(speech_text).simple_card(card_title, speech_text)
@@ -248,66 +254,52 @@ def remove_item(item, location):
         if location_name is "":
             speech_text = render_template('remove_not_found', item=item, location=location)
         else:
-            speech_text = render_template('remove_response', item=item, location=location_name)    
+            speech_text = render_template('remove_response', item=item)    
         return statement(speech_text).simple_card(card_title, speech_text)
-
-    cur.execute("SELECT name, led FROM Locations WHERE LocationID IN (SELECT locationID FROM Items WHERE name=%s) ORDER BY LocationId DESC", (item))
-    data = cur.fetchall()
-    location = ""
-    led = ""
-    speech_text = ""
-    counter = 0
-    if data:
-        for row in data:
-            ++counter
-            if row[0] == "unkown":
-                led += str(row[1])
-                break
-            location += row[0]
-            location += ", "
-            led += row[1]
-    if location == "":
-        led = "0"
-        speech_text = render_template('not_found', item=item)
-    elif counter > 1:
-        session.attributes['item_name'] = item
-        speech_text = render_template('remove_conversation', item=item)
-        return question(speech_text).simple_card(card_title, speech_text)
     else:
-        cur.execute("DELETE FROM Items WHERE name=%s", (item))
-        db.commit()
-        speech_text = render_template('remove_response', item=item)
-
-    return statement(speech_text).simple_card(card_title, speech_text)
-
-@ask.intent('RemoveItemConversationIntent', mapping={'location':'Location_one'})
-def remove_item_conversation(location):
-    print ('in RemoveItemLocationIntent')
-    item_name = ""
-    location_name = ""
-    card_title = render_template('card_title')
-    try:
-        item_name = session.attributes['item_name']
-        locationId = checkAndInsertLocation(location)
-        print (locationId)
         cur.execute("SELECT locationID FROM Items WHERE name=%s", (item))
         data = cur.fetchall()
-        for i in data:
-           if str(locationId) == str(i):
-                print ("found key")
-                cur.execute("DELETE FROM Items WHERE name=%s and locationID=%s", (item, i))
-                db.commit()
-                cur.execute("SELECT name FROM Locations WHERE LocationID=%s",(i))
-                location_name = cur.fetchone()[0]
-        if location_name is "":
-            speech_text = render_template('remove_conversation', item=item_name)
-            return question(speech_text).simple_card(card_title, speech_text)
-    except:
-        speech_text = render_template('bad_session')
-        return statement(speech_text).simple_card(card_title, speech_text)
+        if cur.rowcount == 1:
+            cur.execute("DELETE FROM Items WHERE name=%s", (item))
+            db.commit()
+            speech_text = render_template('remove_response', item=item) 
+            return statement(speech_text).simple_card(card_title, speech_text)   
+        else:
 
-    speech_text = render_template('remove_response', item=session.attributes['item_name'], location=location_name)    
-    return statement(speech_text).simple_card(card_title, speech_text)
+            session.attributes['item_name'] = item
+            session.attributes['type'] = "remove"
+            speech_text = render_template('remove_conversation', item=item)
+            return question(speech_text).simple_card(card_title, speech_text)
+
+
+# @ask.intent('RemoveItemConversationIntent', mapping={'location':'Location_one'})
+# def remove_item_conversation(location):
+#     print ('in RemoveItemLocationIntent')
+#     item_name = ""
+#     location_name = ""
+#     card_title = render_template('card_title')
+#     try:
+#         item_name = session.attributes['item_name']
+#         locationId = checkAndInsertLocation(location)
+#         print (locationId)
+#         cur.execute("SELECT locationID FROM Items WHERE name=%s", (item))
+#         data = cur.fetchall()
+#         for i in data:
+#            if str(locationId) == str(i):
+#                 print ("found key")
+#                 cur.execute("DELETE FROM Items WHERE name=%s and locationID=%s", (item, i))
+#                 db.commit()
+#                 cur.execute("SELECT name FROM Locations WHERE LocationID=%s",(i))
+#                 location_name = cur.fetchone()[0]
+#         if location_name is "":
+#             speech_text = render_template('remove_conversation', item=item_name)
+#             return question(speech_text).simple_card(card_title, speech_text)
+#     except:
+#         speech_text = render_template('bad_session')
+#         return statement(speech_text).simple_card(card_title, speech_text)
+
+#     speech_text = render_template('remove_response', item=session.attributes['item_name'], location=location_name)    
+#     return statement(speech_text).simple_card(card_title, speech_text)
 
 @ask.intent('WhatsOnShelf', mapping={'location':'Location'})
 def whatsOnShelf(location):
@@ -363,6 +355,7 @@ def checkAndInsertItem(item, location):
                     #locationId -> itemId
                     #session.attributes['items']
                     session.attributes['items'][row[1]] = row[0]
+                session.attributes["type"] = "move"
                 return "conversation_needed"
             print ("results = ")
             print(results)
@@ -468,4 +461,4 @@ def session_ended():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
