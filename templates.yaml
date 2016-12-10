@@ -30,7 +30,7 @@ move_conversation: There are multiple {{ item }}. Where did you get the {{ item 
 
 remove_conversation: There are multiple {{ item }}. Where is the {{ item }} you would like to remove?
 
-whats_at_location_response: {{ item }}
+whats_at_location_response: At {{location}}, there is {{ items }}
 
 no_items_response: There are no items at that location
 
