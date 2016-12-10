@@ -30,6 +30,10 @@ move_conversation: There are multiple {{ item }}. Where did you get the {{ item 
 
 remove_conversation: There are multiple {{ item }}. Where is the {{ item }} you would like to remove?
 
+whats_at_location_response: {{ item }}
+
+no_items_response: There are no items at that location
+
 bad_session: I'm sorry I couldn't complete the request.
 
 help: Welcome to Smart Shelves, you can ask where an item is or you can set or move an item. For example, Alexa, Ask SmartShelves, where is the paper towel? will prompt me to tell you the location of the paper towels.

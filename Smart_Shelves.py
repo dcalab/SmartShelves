@@ -309,6 +309,34 @@ def remove_item_conversation(location):
     speech_text = render_template('remove_response', item=session.attributes['item_name'], location=location_name)    
     return statement(speech_text).simple_card(card_title, speech_text)
 
+@ask.intent('WhatsOnShelf', mapping={'location':'Location'})
+def whatsOnShelf(location):
+    card_title = render_template('card_title')
+    speech_text = ""
+    if 'shelf' in location:
+        if location == "top shelf":
+            cur.execute("SELECT name FROM Items WHERE locationID=2 or locationID=5 or locationID=6 or locationID=7")
+            items = cur.fetchall()
+        if location == "middle shelf" or location == "center shelf":
+            cur.execute("SELECT name FROM Items WHERE locationID=3 or locationID=8 or locationID=9 or locationID=10")
+            items = cur.fetchall()
+        if location == "bottom shelf":
+            cur.execute("SELECT name FROM Items WHERE locationID=4 or locationID=11 or locationID=12 or locationID=13")
+            items = cur.fetchall()
+        if len(items) > 0:
+            speech_text = render_template('whats_at_location_response', items=items)
+        else:
+            speech_text = render_template('no_items_response')
+        return statement(speech_text.simple_card(card_title, speech_text))
+    
+    location = standardize_shelf_location(location)
+    cur.execute("SELECT name FROM Items WHERE locationID=(SELECT locationID FROM Locations WHERE name=%s)", (location))
+    items = cur.fetchall()
+    if len(items) > 0:
+        speech_text = render_template('whats_at_location_response', items=items)
+    else:
+        speech_text = render_template('no_items_response')
+    return statement(speech_text.simple_card(card_title, speech_text))
 def checkAndInsertItem(item, location):
     if location != "":
         locationId = checkAndInsertLocation(location)
