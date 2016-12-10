@@ -315,6 +315,7 @@ def whatsOnShelf(location):
         if location == "bottom shelf":
             cur.execute("SELECT name FROM Items WHERE locationID=4 or locationID=11 or locationID=12 or locationID=13")
             items = cur.fetchall()
+        
         if len(items) > 0:
             speech_text = render_template('whats_at_location_response', items=items)
         else:
