@@ -24,7 +24,7 @@ remove_not_found: I could not find {{ item }} on the {{ location }}.
 
 no_open_locations: I could not find any open locations in the system.
 
-open_locations: I found {{ location }} to be open.
+open_locations: I found {{ location }}to be open.
 
 move_conversation: There are multiple {{ item }}. Where did you get the {{ item }} from?
 
