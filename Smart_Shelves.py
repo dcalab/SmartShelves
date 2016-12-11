@@ -411,7 +411,7 @@ def check_grammar(item, location):
 @ask.intent('GetOpenLocations', mapping={'item': 'Item'})
 def get_item(item):
     card_title = render_template('card_title')
-    cur.execute("SELECT name, led FROM Locations WHERE locationID NOT IN (SELECT locationID FROM Items) ORDER BY LocationID DESC")
+    cur.execute("SELECT name, led FROM Locations WHERE locationID NOT IN (SELECT locationID FROM Items) AND locationID < 14 AND locationID > 4 ORDER BY LocationID DESC")
     data = cur.fetchall()
     speech_text = ""
     location = ""
