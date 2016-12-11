@@ -36,4 +36,4 @@ no_items_response: There are no items at that location
 
 bad_session: I'm sorry I couldn't complete the request.
 
-help: Welcome to Smart Shelves, you can ask where an item is or you can set or move an item. For example, Alexa, Ask SmartShelves, where is the paper towel? will prompt me to tell you the location of the paper towels.
+help: Welcome to Smart Shelves, you can ask where an item is or you can set or move an item. Here is a list of commands you can ask me, feel free to end this help message by saying Alexa, stop. 1. Find Location. Alexa, Ask SmartShelves, where is the paper towel? 2. Place an Object at a location. Alexa, Ask SmartShelves put the paper towels to the kitchen. 3. Move an object. Alexa, Ask SmartShelves move the paper towels from the kitchen to the top shelf. 4. Learn what's at a certain location. Alexa, Ask Smart Shelves what is in the kitchen? 5. Remove an object. Alexa, get rid of the paper towels. 6. Find free space on the shelf to put an object. Alexa, where can I put the paper towels.
