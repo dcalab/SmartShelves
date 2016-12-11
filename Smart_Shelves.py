@@ -305,27 +305,21 @@ def remove_item(item, location):
 def whatsOnShelf(location):
     card_title = render_template('card_title')
     speech_text = ""
-    if 'shelf' in location:
-        items = []
-        if location == "top shelf":
-            cur.execute("SELECT name FROM Items WHERE locationID=2 or locationID=5 or locationID=6 or locationID=7")
-            items = cur.fetchall()
-        if location == "middle shelf" or location == "center shelf":
-            cur.execute("SELECT name FROM Items WHERE locationID=3 or locationID=8 or locationID=9 or locationID=10")
-            items = cur.fetchall()
-        if location == "bottom shelf":
-            cur.execute("SELECT name FROM Items WHERE locationID=4 or locationID=11 or locationID=12 or locationID=13")
-            items = cur.fetchall()
+    items = []
+    if location == "top shelf":
+        cur.execute("SELECT name FROM Items WHERE locationID=2 or locationID=5 or locationID=6 or locationID=7")
+        items = cur.fetchall()
+    elif location == "middle shelf" or location == "center shelf":
+        cur.execute("SELECT name FROM Items WHERE locationID=3 or locationID=8 or locationID=9 or locationID=10")
+        items = cur.fetchall()
+    elif location == "bottom shelf":
+        cur.execute("SELECT name FROM Items WHERE locationID=4 or locationID=11 or locationID=12 or locationID=13")
+        items = cur.fetchall()
+    else:
+        location = standardize_shelf_location(location)
+        cur.execute("SELECT name FROM Items WHERE locationID=(SELECT locationID FROM Locations WHERE name=%s)", (location))
+        items = cur.fetchall()
         
-        if len(items) > 0:
-            speech_text = render_template('whats_at_location_response', location=location, items=items)
-        else:
-            speech_text = render_template('no_items_response')
-        return statement(speech_text).simple_card(card_title, speech_text)
-    
-    location = standardize_shelf_location(location)
-    cur.execute("SELECT name FROM Items WHERE locationID=(SELECT locationID FROM Locations WHERE name=%s)", (location))
-    items = cur.fetchall()
     if len(items) > 0:
         speech_text = render_template('whats_at_location_response', location=location, items=items)
     else:
